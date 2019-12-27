@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Motrix chrome integration
+    </title>
+    <style>
+      .form-inline {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+      }
+      .form-inline input {
+        vertical-align: middle;
+        margin: 5px 10px 5px 0;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+      }
+      .form-inline button {
+        padding: 10px 20px;
+        background-color: dodgerblue;
+        border: 1px solid #ddd;
+        color: white;
+      }
+      .form-inline button:hover {
+        background-color: royalblue;
+      }
+    </style>
+  <body style="width: 220px;">
+    <div class="form-inline">
+      <input type="text" placeholder="Motrix API Key" id="motrixapikey">
+      <button id="setbtn">Set Key</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
