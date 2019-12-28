@@ -3,7 +3,7 @@
   "version": "1.0",
   "description": "Chrome extension for Motrix download manager",
   "manifest_version": 2,
-  "permissions": ["storage", "declarativeContent"],
+  "permissions": ["storage", "downloads"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
