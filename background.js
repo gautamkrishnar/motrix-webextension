@@ -1,6 +1,6 @@
 'use strict';
 
-chrome.runtime.onInstalled.addListener(function () {
+function downloadAgent() {
     chrome.downloads.onCreated.addListener(function (downloadItem) {
         // Triggered whenever a new download event fires
         chrome.storage.sync.get(['motrixapikey'], function (result) {
@@ -20,16 +20,16 @@ chrome.runtime.onInstalled.addListener(function () {
                 };
 
                 // If the download have a specified path, ie user selected via file manager
-                if (downloadItem.filename){
+                if (downloadItem.filename) {
                     var directory = '', filename = '';
-                    if (downloadItem.filename.indexOf('/')){
+                    if (downloadItem.filename.indexOf('/')) {
                         // Mac or linux
-                        filename = downloadItem.filename.split('/')[downloadItem.filename.split('/').length-1];
-                        directory = downloadItem.filename.split('/').slice(0,downloadItem.filename.split('/').length-1).join("/");
+                        filename = downloadItem.filename.split('/')[downloadItem.filename.split('/').length - 1];
+                        directory = downloadItem.filename.split('/').slice(0, downloadItem.filename.split('/').length - 1).join("/");
                     } else {
                         // Windows
-                        filename = downloadItem.filename.split('\\')[downloadItem.filename.split('\\').length-1];
-                        directory = downloadItem.filename.split('\\').slice(0,downloadItem.filename.split('\\').length-1).join("\\");
+                        filename = downloadItem.filename.split('\\')[downloadItem.filename.split('\\').length - 1];
+                        directory = downloadItem.filename.split('\\').slice(0, downloadItem.filename.split('\\').length - 1).join("\\");
                     }
 
                     // Appends path to the options
@@ -62,4 +62,13 @@ chrome.runtime.onInstalled.addListener(function () {
             }
         });
     });
+}
+
+chrome.runtime.onStartup.addListener(function () {
+    downloadAgent();
+});
+
+
+chrome.runtime.onInstalled.addListener(function () {
+    downloadAgent();
 });
