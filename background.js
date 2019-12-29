@@ -3,7 +3,6 @@
 chrome.runtime.onInstalled.addListener(function () {
     chrome.downloads.onCreated.addListener(function (downloadItem) {
         // Triggered whenever a new download event fires
-        console.log(downloadItem);
         chrome.storage.sync.get(['motrixapikey'], function (result) {
             if (!result.motrixapikey) {
                 // API KEY is not set, triggers an alert to the user
