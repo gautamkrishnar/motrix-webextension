@@ -28,8 +28,8 @@ chrome.runtime.onInstalled.addListener(function () {
                         directory = downloadItem.filename.split('/').slice(0,downloadItem.filename.split('/').length-1).join("/");
                     } else {
                         // Windows
-                        filename = downloadItem.filename.split('/')[downloadItem.filename.split('/').length-1];
-                        directory = downloadItem.filename.split('/').slice(0,downloadItem.filename.split('/').length-1).join("/");
+                        filename = downloadItem.filename.split('\\')[downloadItem.filename.split('\\').length-1];
+                        directory = downloadItem.filename.split('\\').slice(0,downloadItem.filename.split('\\').length-1).join("\\");
                     }
 
                     // Appends path to the options
