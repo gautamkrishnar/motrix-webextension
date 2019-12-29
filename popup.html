@@ -5,13 +5,17 @@
       Motrix chrome integration
     </title>
     <style>
+      /* Credits: https://www.w3schools.com/howto/howto_css_inline_form.asp*/
       body{
-        width: 220px;
+        width: 303px;
       }
       .form-inline {
         display: flex;
         flex-flow: row wrap;
         align-items: center;
+      }
+      .form-inline label {
+        margin: 5px 10px 5px 5px;
       }
       .form-inline input {
         vertical-align: middle;
@@ -34,6 +38,8 @@
     <div class="form-inline">
       <input type="text" placeholder="Motrix API Key" id="motrixapikey">
       <button id="setbtn">Set Key</button>
+      <label for="extensionstatus">Enabled:</label>
+      <input type="checkbox" id="extensionstatus">
     </div>
     <script src="popup.js"></script>
   </body>

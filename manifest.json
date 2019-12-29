@@ -1,6 +1,6 @@
 {
   "name": "Motrix chrome integration",
-  "version": "1.0",
+  "version": "1.0.2",
   "description": "Chrome extension for Motrix download manager",
   "manifest_version": 2,
   "permissions": ["storage", "downloads"],

@@ -28,7 +28,6 @@ any suggestions are always welcome.
 
 ##### Todo
 - [ ] Show a toast on the currently active page to let users know that download has started.
-- [ ] Add option to disable plugin via the popup.html 
 
 ### Releases
 Please see the [releases](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) page.

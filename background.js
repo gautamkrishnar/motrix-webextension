@@ -6,7 +6,11 @@ function downloadAgent() {
             return;
         }
         // Triggered whenever a new download event fires
-        chrome.storage.sync.get(['motrixapikey'], function (result) {
+        chrome.storage.sync.get(['motrixapikey', 'extensionstatus'], function (result) {
+            if (!result.extensionstatus){
+                // Extension is disabled
+                return;
+            }
             if (!result.motrixapikey) {
                 // API KEY is not set, triggers an alert to the user
                 alert('API key not set, please set a random API key by clicking on the extension icon. Open Motrix ' +
