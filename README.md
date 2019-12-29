@@ -1,6 +1,5 @@
 # Motrix Chrome Extension
-Chrome integration for [Motrix download manager](https://motrix.app/) will automatically downloads all files via Motrix download 
-manager instead of chrome's native download manager.
+This Chrome Extension allows you to automatically download all the files via [Motrix Download Manager](https://motrix.app/) instead of chrome's native download manager.
 
 You must download and install the Motrix download manager first to use this extension: [Releases](https://github.com/agalwood/Motrix/releases/latest)
 
