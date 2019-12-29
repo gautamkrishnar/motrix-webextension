@@ -2,6 +2,9 @@
 
 function downloadAgent() {
     chrome.downloads.onCreated.addListener(function (downloadItem) {
+        if (downloadItem.state !== "in_progress"){
+            return;
+        }
         // Triggered whenever a new download event fires
         chrome.storage.sync.get(['motrixapikey'], function (result) {
             if (!result.motrixapikey) {
