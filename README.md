@@ -8,9 +8,10 @@ You must download and install the Motrix download manager first to use this exte
 ### Setup
 * Open `chrome://extensions` in chrome
 * Toggle the developer mode by clicking on the toggle button on the top right corner
-* Clone the repository locally using `git clone https://github.com/gautamkrishnar/motrix-chrome-extension.git`
-* Load extension in the browser using **Load Unpacked** button
-* Set an API Key by clicking on the extension icon set any value you like
+* Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
+* Extract the release file
+* Load extension in the browser using the **Load Unpacked** button. Point to the extracted release folder.
+* Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
 * Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
 * Click **Save & Apply**
 
