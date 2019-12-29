@@ -23,12 +23,15 @@ Motrix download manager. It will trigger a new download. For this extension to f
 be running in the background.
 
 ### Contributing
-Please not that this extension is still in the initial version of its release. There may be bugs, please open an issue 
+Please note that this extension is still in the initial version of its release. There may be bugs, please open an issue 
 if you encounter any. Feel free to modify the code and open a PR. This is my first chrome extension :smile:
 any suggestions are always welcome.
 
 ##### Todo
 - [ ] Show a toast on the currently active page to let users know that download has started.
+
+### Why its not available in the chrome web store?
+Will publish it once it is stable. Requires a lots of testing.
 
 ### Releases
 Please see the [releases](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) page.
