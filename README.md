@@ -18,11 +18,13 @@ For more info see the video: https://youtu.be/L0cEu-2LpOE
 
 ### How it works
 This extension intercepts all the downloads triggered by chrome and do the RPC call to the aria2c daemon provided by the
-Motrix download manager. It will trigger a new download. For this extension to function the Motrix download manager
-should be running in the background.
+Motrix download manager. It will trigger a new download. For this extension to function the Motrix download manager should 
+be running in the background.
 
 ### Contributing
-Feel free to modify the code and open a PR.
+Please not that this extension is still in the initial version of its release. There may be bugs, please open an issue 
+if you encounter any. Feel free to modify the code and open a PR. This is my first chrome extension :smile:
+any suggestions are always welcome.
 
 ##### Todo
 - [ ] Show a toast on the currently active page to let users know that download has started.
