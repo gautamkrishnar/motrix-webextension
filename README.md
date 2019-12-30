@@ -30,7 +30,7 @@ any suggestions are always welcome.
 ##### Todo
 - [ ] Show a toast on the currently active page to let users know that download has started.
 
-### Why its not available in the chrome web store?
+### Why it is not available in the chrome web store?
 Will publish it once it is stable. Requires a lots of testing.
 
 ### Releases
