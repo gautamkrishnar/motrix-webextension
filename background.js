@@ -69,7 +69,7 @@ function downloadAgent() {
                     body: JSON.stringify(PARAMS)
                 }).then(() => {
                     // Added successfully: Cancels and removes the download from chrome download manager
-                    chrome.downloads.erase({query: [downloadUrl]});
+                    chrome.downloads.erase({id: downloadItem.id});
                 }).catch(() => {
                     // Failed: Show alert, Allows download to continue in chrome
                     alert("Motrix not installed or configured properly, Open Motrix set a API Key by visiting Preferences" +
