@@ -37,7 +37,7 @@ function downloadAgent() {
 
                 // If the download have a specified path, ie user selected via file manager
                 if (downloadItem.filename) {
-                    var directory = '', filename = '';
+                    var directory, filename;
                     if (downloadItem.filename.indexOf('/')) {
                         // Mac or linux
                         filename = downloadItem.filename.split('/')[downloadItem.filename.split('/').length - 1];
@@ -70,6 +70,19 @@ function downloadAgent() {
                 }).then(() => {
                     // Added successfully: Cancels and removes the download from chrome download manager
                     chrome.downloads.erase({id: downloadItem.id});
+                    // Shows notification
+                    const notificationOptions = {
+                        type: "basic",
+                        iconUrl: "assets/images/icon-large.png",
+                        title: "Motrix Chrome Extension",
+                        message: "Download started on motrix download manger",
+                        buttons: [
+                            {
+                                title: "Ok"
+                            }
+                        ]
+                    };
+                    chrome.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
                 }).catch(() => {
                     // Failed: Show alert, Allows download to continue in chrome
                     alert("Motrix not installed or configured properly, Open Motrix set a API Key by visiting Preferences" +
