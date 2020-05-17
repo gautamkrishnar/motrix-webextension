@@ -32,7 +32,7 @@ function downloadAgent() {
                     jsonrpc: '2.0',
                     id: downloadItem.id + 'extensionChrome',
                     method: 'aria2.addUri',
-                    params: [[downloadUrl], {}] // To support js download
+                    params: [['token:' + result.motrixapikey, downloadUrl], {}] // To support js download
                 };
 
                 // If the download have a specified path, ie user selected via file manager
