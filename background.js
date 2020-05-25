@@ -72,7 +72,6 @@ function downloadAgent() {
                         ]
                     };
                     chrome.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
-                    await aria2.close();
                 }).catch((err) => {
                     console.log(err);
                     // Failed: Show alert, Allows download to continue in chrome
