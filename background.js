@@ -36,7 +36,7 @@ function downloadAgent() {
                     return;
                 }
 
-                let params = {}
+                let params = {};
                 // If the download have a specified path, ie user selected via file manager
                 if (downloadItem.filename) {
                     var directory, filename;
@@ -56,34 +56,30 @@ function downloadAgent() {
                         out: filename
                     };
                 }
-
-                await aria2
-                    .open()
-                    .then(async () => {
-                        await aria2.call("addUri", [downloadUrl], params);
-                        // Added successfully: Cancels and removes the download from chrome download manager
-                        chrome.downloads.erase({id: downloadItem.id});
-                        // Shows notification
-                        const notificationOptions = {
-                            type: "basic",
-                            iconUrl: "assets/images/icon-large.png",
-                            title: "Motrix Chrome Extension",
-                            message: "Download started on motrix download manger",
-                            buttons: [
-                                {
-                                    title: "Ok"
-                                }
-                            ]
-                        };
-                        chrome.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
-                        await aria2.close();
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        // Failed: Show alert, Allows download to continue in chrome
-                        alert("Motrix not installed or configured properly, Open Motrix set a API Key by visiting Preferences" +
-                            " > Advanced > RPC Secret");
-                    });
+                await aria2.open(); // Try websocket
+                await aria2.call("addUri", [downloadUrl], params).then(async ()=> {
+                    // Added successfully: Cancels and removes the download from chrome download manager
+                    chrome.downloads.erase({id: downloadItem.id});
+                    // Shows notification
+                    const notificationOptions = {
+                        type: "basic",
+                        iconUrl: "assets/images/icon-large.png",
+                        title: "Motrix Chrome Extension",
+                        message: "Download started on motrix download manger",
+                        buttons: [
+                            {
+                                title: "Ok"
+                            }
+                        ]
+                    };
+                    chrome.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
+                    await aria2.close();
+                }).catch((err) => {
+                    console.log(err);
+                    // Failed: Show alert, Allows download to continue in chrome
+                    alert("Motrix not installed or configured properly, Open Motrix set a API Key by visiting Preferences" +
+                        " > Advanced > RPC Secret");
+                });
             }
         });
     });
