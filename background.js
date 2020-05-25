@@ -56,7 +56,6 @@ function downloadAgent() {
                         out: filename
                     };
                 }
-                await aria2.open(); // Try websocket
                 await aria2.call("addUri", [downloadUrl], params).then(async ()=> {
                     // Added successfully: Cancels and removes the download from chrome download manager
                     chrome.downloads.erase({id: downloadItem.id});
