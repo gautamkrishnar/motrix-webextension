@@ -5,7 +5,7 @@
   "manifest_version": 2,
   "permissions": ["storage", "downloads", "notifications"],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["Aria2.js","background.js"],
     "persistent": false
   },
   "browser_action": {
