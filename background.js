@@ -72,6 +72,7 @@ function downloadAgent() {
                         ]
                     };
                     chrome.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
+                    console.log(setTimeout(() => chrome.runtime.reload(), 1000));
                 }).catch((err) => {
                     console.log(err);
                     // Failed: Show alert, Allows download to continue in chrome
