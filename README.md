@@ -73,7 +73,7 @@ any suggestions are always welcome.
 
 ## Authors
 
-* **Gautam Krishnar** - *Initial work* - [gautamkrishnar](https://github.com/gautamkrishnar)
+* **Gautam Krishna R** - *Initial work* - [gautamkrishnar](https://github.com/gautamkrishnar)
 
 * **149segolte** - *WebExtensions Migration* - [149segolte](https://github.com/149segolte)
 
