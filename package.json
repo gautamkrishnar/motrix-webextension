@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gautumkrishnar/motrix-chrome-extension.git"
+    "url": "git+https://github.com/gautamkrishnar/motrix-chrome-extension.git"
   },
   "author": "gautumkrishnar",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/gautumkrishnar/motrix-chrome-extension/issues"
+    "url": "https://github.com/gautamkrishnar/motrix-chrome-extension/issues"
   },
-  "homepage": "https://github.com/gautumkrishnar/motrix-chrome-extension#readme",
+  "homepage": "https://github.com/gautamkrishnar/motrix-chrome-extension#readme",
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@babel/preset-env": "^7.10.3",

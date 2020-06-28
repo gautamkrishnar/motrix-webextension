@@ -26,7 +26,7 @@ A step by step series of examples that tell you how to get a development env run
 Clone the Repo
 
 ```
-git clone https://github.com/gautumkrishnar/motrix-chrome-extension.git
+git clone https://github.com/gautamkrishnar/motrix-chrome-extension.git
 cd motrix-chrome-extension
 ```
 
@@ -73,7 +73,7 @@ any suggestions are always welcome.
 
 ## Authors
 
-* **Gautum Krishnar** - *Initial work* - [gautumkrishnar](https://github.com/gautumkrishnar)
+* **Gautam Krishnar** - *Initial work* - [gautamkrishnar](https://github.com/gautamkrishnar)
 
 * **149segolte** - *WebExtensions Migration* - [149segolte](https://github.com/149segolte)
 
