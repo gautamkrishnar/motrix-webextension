@@ -70,12 +70,7 @@ function downloadAgent() {
                         type: "basic",
                         iconUrl: "assets/images/icon-large.png",
                         title: "Motrix WebExtension",
-                        message: "Download started on motrix download manger",
-                        buttons: [
-                            {
-                                title: "Ok"
-                            }
-                        ]
+                        message: "Download started in Motrix download manger"
                     };
                     browser.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
                     setTimeout(() => browser.runtime.reload(), 1000);
