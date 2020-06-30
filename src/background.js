@@ -1,4 +1,4 @@
-import Aria2 from './Aria2';
+import Aria2 from 'aria2';
 
 function downloadAgent() {
     browser.downloads.onCreated.addListener(function (downloadItem) {
