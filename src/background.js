@@ -40,16 +40,8 @@ function downloadAgent() {
                 // If the download have a specified path, ie user selected via file manager
                 if (downloadItem.filename) {
                     var directory, filename;
-                    if (downloadItem.filename.indexOf('/')) {
-                        // Mac or linux
-                        filename = downloadItem.filename.split('/')[downloadItem.filename.split('/').length - 1];
-                        directory = downloadItem.filename.split('/').slice(0, downloadItem.filename.split('/').length - 1).join("/");
-                    } else {
-                        // Windows
-                        filename = downloadItem.filename.split('\\')[downloadItem.filename.split('\\').length - 1];
-                        directory = downloadItem.filename.split('\\').slice(0, downloadItem.filename.split('\\').length - 1).join("\\");
-                    }
-
+                    filename = downloadItem.filename.replace(/^.*[\\\/]/, '');
+                    directory = downloadItem.filename.match(/(.*)[\/\\]/)[1]||'';
                     // Appends path to the options
                     params = {
                         dir: directory,
