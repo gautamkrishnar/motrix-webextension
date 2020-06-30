@@ -1,0 +1,141 @@
+body {
+    width: 325px;
+    margin: 0px;
+    padding: 5px;
+    color: white;
+    background-color: #494949;
+    font-family: monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+input {
+    width: 100%;
+    height: 36px;
+    color: #ccc;
+    background-color: #494949;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.status {
+    font-size: 17px;
+    padding: 6px 12px 6px 2px;
+    display: inline-block;
+}
+
+.container {
+    padding: 5px;
+    overflow: hidden;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+}
+
+.row {
+    padding: 5px 0px 5px 0px;
+}
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+button {
+    padding: 7px 7px;
+    background-color: #7670e1;
+    border: 1px solid #ddd;
+    color: white;
+    height: 36px;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #7670e1;
+}
+
+.status {
+    height: 36px;
+}
+
+/* The switch - the box around the slider */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+    width: 80%;
+    height: 36px;
+}
+
+/* Hide default HTML checkbox */
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 5px;
+    bottom: 5px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #7670e1;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #7670e1;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

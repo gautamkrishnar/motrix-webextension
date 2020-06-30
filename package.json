@@ -31,6 +31,8 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "aria2": "^4.1.0"
+    "aria2": "^4.1.0",
+    "css-loader": "^3.6.0",
+    "style-loader": "^1.2.1"
   }
 }
