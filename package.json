@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config=webpack.config.js --mode=production",
-    "start:firefox": "npm run build && web-ext run --firefox=firefoxdeveloperedition --source-dir ./dist/"
+    "start:firefox": "npm run build && web-ext run --firefox=firefoxdeveloperedition --source-dir ./dist/",
+    "package": "npm run build && node package.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,8 @@
     "web-ext": "^4.3.0",
     "webextension-polyfill": "^0.6.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "zip-a-folder": "0.0.12"
   },
   "dependencies": {
     "aria2": "^4.1.0",
