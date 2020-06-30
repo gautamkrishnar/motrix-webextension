@@ -51,6 +51,21 @@ function downloadAgent() {
                 await aria2.call("addUri", [downloadUrl], params).then(async () => {
                     // Added successfully: Cancels and removes the download from browser download manager
                     browser.downloads.erase({ id: downloadItem.id });
+                    function onFinished(task) {
+                        console.log(task + 'item.');
+                    }
+
+                    function onError(error) {
+                        console.log(`Error: ${error}`);
+                    }
+
+                    var removing = browser.downloads.removeFile(downloadItem.id);
+                    removing.then(onFinished('Removed')).catch(onError);
+                    var canceling = browser.downloads.cancel(downloadItem.id);
+                    canceling.then(onFinished('Canceled')).catch(onError);
+                    var erasing = browser.downloads.erase({ id: downloadItem.id });
+                    erasing.then(onFinished('Erased')).catch(onError);
+
                     // Shows notification
                     const notificationOptions = {
                         type: "basic",
