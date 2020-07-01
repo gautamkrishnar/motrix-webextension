@@ -4,7 +4,6 @@ const keyInput = document.getElementById('motrixapikey');
 const extensionStatus = document.getElementById('extensionstatus');
 
 function onGot(result) {
-    console.log(result);
     if (!result.motrixapikey) {
         browser.storage.sync.set({ motrixapikey: null });
         keyInput.value = '';
@@ -20,7 +19,7 @@ function onGot(result) {
 }
 
 function onError(error) {
-    console.log(`Error: ${error}`);
+    console.error(`Error: ${error}`);
 }
 // Sets API key to null if it is not found else gets value of key and sets it to input box
 // Gets extension status and sets default value: true

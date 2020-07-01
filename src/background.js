@@ -50,20 +50,18 @@ function downloadAgent() {
                 }
                 await aria2.call("addUri", [downloadUrl], params).then(async () => {
                     // Added successfully: Cancels and removes the download from browser download manager
-                    function onFinished(task) {
-                        console.log(task + 'item.');
-                    }
+                    function onFinished() {}
 
                     function onError(error) {
-                        console.log(`Error: ${error}`);
+                        console.error(`Error: ${error}`);
                     }
 
                     var removing = browser.downloads.removeFile(downloadItem.id);
-                    removing.then(onFinished('Removed')).catch(onError);
+                    removing.then(onFinished).catch(onError);
                     var canceling = browser.downloads.cancel(downloadItem.id);
-                    canceling.then(onFinished('Canceled')).catch(onError);
+                    canceling.then(onFinished).catch(onError);
                     var erasing = browser.downloads.erase({ id: downloadItem.id });
-                    erasing.then(onFinished('Erased')).catch(onError);
+                    erasing.then(onFinished).catch(onError);
 
                     // Shows notification
                     const notificationOptions = {
@@ -75,7 +73,7 @@ function downloadAgent() {
                     browser.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
                     setTimeout(() => browser.runtime.reload(), 1000);
                 }).catch((err) => {
-                    console.log(err);
+                    console.error(err);
                     // Failed: Show alert, Allows download to continue in browser
                     alert("Motrix not installed or configured properly, Open Motrix set a API Key by visiting Preferences" +
                         " > Advanced > RPC Secret");
@@ -84,7 +82,7 @@ function downloadAgent() {
         }
 
         async function onError(error) {
-            console.log(`Error: ${error}`);
+            console.error(`Error: ${error}`);
         }
 
         // Triggered whenever a new download event fires
