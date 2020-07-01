@@ -7,24 +7,24 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config=webpack.config.js --mode=production",
     "start:firefox": "npm run build && web-ext run --firefox=firefoxdeveloperedition --source-dir ./dist/",
-    "package": "npm run build && node package.js"
+    "package": "npm run build && node package.js chrome firefox"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gautamkrishnar/motrix-chrome-extension.git"
   },
-  "author": "gautumkrishnar",
+  "author": "gautamkrishnar",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/gautamkrishnar/motrix-chrome-extension/issues"
   },
   "homepage": "https://github.com/gautamkrishnar/motrix-chrome-extension#readme",
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^6.0.2",
+    "copy-webpack-plugin": "^6.0.3",
     "cz-conventional-changelog": "^3.2.0",
     "html-webpack-plugin": "^4.3.0",
     "web-ext": "^4.3.0",
