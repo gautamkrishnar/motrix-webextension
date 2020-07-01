@@ -1,6 +1,6 @@
 body {
     width: 325px;
-    margin: 0px;
+    margin: 0;
     padding: 5px;
     color: white;
     background-color: #494949;
@@ -26,6 +26,7 @@ input {
     font-size: 17px;
     padding: 6px 12px 6px 2px;
     display: inline-block;
+    height: 36px;
 }
 
 .container {
@@ -44,7 +45,7 @@ input {
 }
 
 .row {
-    padding: 5px 0px 5px 0px;
+    padding: 5px 0 5px 0;
 }
 
 /* Clear floats after the columns */
@@ -66,10 +67,6 @@ button {
 
 button:hover {
     background-color: #7670e1;
-}
-
-.status {
-    height: 36px;
 }
 
 /* The switch - the box around the slider */
@@ -100,8 +97,8 @@ button:hover {
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 .slider:before {
@@ -112,19 +109,19 @@ button:hover {
     left: 5px;
     bottom: 5px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
-input:checked+.slider {
+input:checked + .slider {
     background-color: #7670e1;
 }
 
-input:focus+.slider {
+input:focus + .slider {
     box-shadow: 0 0 1px #7670e1;
 }
 
-input:checked+.slider:before {
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);

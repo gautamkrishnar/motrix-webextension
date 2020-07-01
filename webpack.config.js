@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: buildPath,
-        filename: "[name].js",
+        filename: '[name].js',
     },
     module: {
         rules: [
@@ -23,8 +23,8 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [
-                    "style-loader",
-                    "css-loader"
+                    'style-loader',
+                    'css-loader'
                 ]
             }
         ]

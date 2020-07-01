@@ -41,14 +41,14 @@ Check [package.json](package.json) for browser dependent scripts.
 
 ### Chrome
 
-*  Open `chrome://extensions` in chrome
-*  Toggle the developer mode by clicking on the toggle button on the top right corner
-*  Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
-*  Extract the release file
-*  Load extension in the browser using the **Load Unpacked** button. Point to the extracted release folder.
-*  Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
-*  Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
-*  Click **Save & Apply**
+*   Open `chrome://extensions` in chrome
+*   Toggle the developer mode by clicking on the toggle button on the top right corner
+*   Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
+*   Extract the release file
+*   Load extension in the browser using the **Load Unpacked** button. Point to the extracted release folder.
+*   Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
+*   Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
+*   Click **Save & Apply**
 
 For more info see the video: [Motrix Download Manager chrome extension demo](https://youtu.be/L0cEu-2LpOE)
 
@@ -57,10 +57,10 @@ Will publish it once it is stable. Requires a lots of testing.
 
 ## Built With
 
-*  [Webpack](http://www.webpack.js.org/) - The Bundler used
-*  [Babel.js](https://babeljs.io/) - Javascript Compiler
-*  [Web-Ext](https://github.com/mozilla/web-ext) - Used to test the extension
-*  [WebExtension-Polyfill](https://github.com/mozilla/webextension-polyfill) - Used to make extension cross-browser
+*   [Webpack](http://www.webpack.js.org/) - The Bundler used
+*   [Babel.js](https://babeljs.io/) - Javascript Compiler
+*   [Web-Ext](https://github.com/mozilla/web-ext) - Used to test the extension
+*   [WebExtension-Polyfill](https://github.com/mozilla/webextension-polyfill) - Used to make extension cross-browser
 
 ## Contributing
 
@@ -70,8 +70,8 @@ any suggestions are always welcome.
 
 ## Authors
 
-*  **Gautam Krishna R** - *Initial work* - [gautamkrishnar](https://github.com/gautamkrishnar)
-*  **149segolte** - *WebExtensions Migration* - [149segolte](https://github.com/149segolte)
+*   **Gautam Krishna R** - *Initial work* - [gautamkrishnar](https://github.com/gautamkrishnar)
+*   **149segolte** - *WebExtensions Migration* - [149segolte](https://github.com/149segolte)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 

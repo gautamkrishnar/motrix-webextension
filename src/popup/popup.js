@@ -10,7 +10,7 @@ function onGot(result) {
     } else {
         keyInput.value = result.motrixapikey;
     }
-    if (result.extensionstatus === undefined) {
+    if (typeof result.extensionstatus === 'undefined') {
         browser.storage.sync.set({ extensionstatus: true });
         extensionStatus.checked = true;
     } else {
@@ -32,6 +32,6 @@ setButton.addEventListener('click', () => {
     window.close();
 });
 
-extensionstatus.addEventListener('click', function (e) {
+extensionStatus.addEventListener('click', function (e) {
     browser.storage.sync.set({ extensionstatus: e.target.checked });
 });
