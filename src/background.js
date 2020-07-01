@@ -41,7 +41,7 @@ function downloadAgent() {
                 if (downloadItem.filename) {
                     var directory, filename;
                     filename = downloadItem.filename.replace(/^.*[\\\/]/, '');
-                    directory = downloadItem.filename.match(/(.*)[\/\\]/)[1]||'';
+                    directory = downloadItem.filename.match(/(.*)[\/\\]/)[1] || '';
                     // Appends path to the options
                     params = {
                         dir: directory,
@@ -50,7 +50,7 @@ function downloadAgent() {
                 }
                 await aria2.call("addUri", [downloadUrl], params).then(async () => {
                     // Added successfully: Cancels and removes the download from browser download manager
-                    function onFinished() {}
+                    function onFinished() { }
 
                     function onError(error) {
                         console.error(`Error: ${error}`);
@@ -70,7 +70,7 @@ function downloadAgent() {
                         title: "Motrix WebExtension",
                         message: "Download started in Motrix download manger"
                     };
-                    browser.notifications.create( Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
+                    browser.notifications.create(Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
                     setTimeout(() => browser.runtime.reload(), 1000);
                 }).catch((err) => {
                     console.error(err);
