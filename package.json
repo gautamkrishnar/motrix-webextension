@@ -33,7 +33,7 @@
     "webextension-polyfill": "^0.6.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
-    "zip-a-folder": "^0.0.12"
+    "archiver": "^4.0.1"
   },
   "dependencies": {
     "aria2": "^4.1.0"
