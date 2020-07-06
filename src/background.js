@@ -74,7 +74,13 @@ function downloadAgent() {
                         title: 'Motrix WebExtension',
                         message: 'Download started in Motrix download manger'
                     };
-                    browser.notifications.create(Math.round((new Date()).getTime() / 1000).toString(), notificationOptions);
+                    var notificationId = Math.round((new Date()).getTime() / 1000).toString();
+                    browser.notifications.create(notificationId, notificationOptions);
+                    browser.notifications.onClicked.addListener((id) => {
+                        if (id == notificationId) {
+                            browser.tabs.create({url:'motrix://'});
+                        }
+                    });
                     setTimeout(() => browser.runtime.reload(), 1000);
                 }).catch((err) => {
                     console.error(err);
