@@ -1,35 +1,31 @@
 const path = require('path');
 const fs = require('fs');
 const archiver = require('archiver');
-const filePath = path.resolve(__dirname, 'dist', 'manifest.json');
+const distDir = path.resolve(__dirname, 'dist');
+const filePath = path.resolve(distDir, 'manifest.json');
 const packagePath = path.resolve(__dirname, 'packaged');
 const file = require(filePath);
 let args = process.argv.slice(2);
 let settings = file['browser_specific_settings'];
 
-function archive(folder) {
-    let output = fs.createWriteStream(folder);
-    let archived = archiver('zip');
-    output.on('close', function () {
-        console.log(archived.pointer() + ' total bytes');
-        console.log('archiver has been finalized and the output file descriptor has closed.');
+/**
+ * Promisified implementation of Archiver
+ * @param {string} source - directory to zip
+ * @param {string} out - output zip file path
+ * @returns {Promise<string>}
+ */
+function zipUtil(source, out) {
+    const archive = archiver("zip", { zlib: { level: 9 } });
+    const stream = fs.createWriteStream(out);
+
+    return new Promise((resolve, reject) => {
+        archive
+            .directory(source, false, {})
+            .on("error", (err) => reject(err))
+            .pipe(stream);
+        stream.on("close", () => resolve(out));
+        archive.finalize();
     });
-    output.on('end', function () {
-        console.log('Data has been drained');
-    });
-    archived.on('warning', function (err) {
-        if (err.code === 'ENOENT') {
-            console.log(err);
-        } else {
-            throw err;
-        }
-    });
-    archived.on('error', function (err) {
-        throw err;
-    });
-    archived.pipe(output);
-    archived.directory('dist/', false, null);
-    archived.finalize();
 }
 
 args.forEach(function (val) {
@@ -52,16 +48,18 @@ args.forEach(function (val) {
             }
         });
         console.log('Creating ' + zip + ' ...');
-        archive(zipPath);
-        console.log('Restoring Browser Specific Settings in the manifest ...');
-        file['browser_specific_settings'] = settings;
-        fs.writeFileSync(filePath, JSON.stringify(file), function writeJSON(err) {
-            if (err) {
-                return console.error(err);
-            }
-        })
+        zipUtil(distDir,zipPath).then(()=> {
+            console.log('Created ', zipPath);
+            console.log('Restoring Browser Specific Settings in the manifest ...');
+            file['browser_specific_settings'] = settings;
+            fs.writeFileSync(filePath, JSON.stringify(file), function writeJSON(err) {
+                if (err) {
+                    return console.error(err);
+                }
+            });
+        }).catch((err)=> console.log(err));
     } else {
         console.log('Creating ' + zip + ' ...');
-        archive(zipPath);
+        zipUtil(distDir, zipPath).then(() => console.log('Created ', zipPath));
     }
 });
