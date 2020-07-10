@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <title>
+        Motrix WebExtension
+    </title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-75">
+                <input type="text" id="motrixapikey" placeholder="Motrix API Key">
+            </div>
+            <div class="col-25">
+                <button id="setbtn">Set Key</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-75">
+                <label for="status" class="status">Extension Status:</label>
+            </div>
+            <div class="col-25">
+                <label class="switch">
+                    <input type="checkbox" id="extensionstatus">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <script src="./browser-polyfill.min.js"></script>
+</body>
+
+</html>

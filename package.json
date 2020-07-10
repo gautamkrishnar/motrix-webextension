@@ -1,0 +1,46 @@
+{
+  "name": "motrix-webextension",
+  "version": "2.0.0-beta.0",
+  "description": "WebExtension for Motrix download manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config=webpack.config.js --mode=production",
+    "start:firefox": "npm run build && web-ext run --firefox=firefoxdeveloperedition --source-dir ./dist/",
+    "package": "npm run build && node package.js chrome && node package.js firefox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gautamkrishnar/motrix-chrome-extension.git"
+  },
+  "author": "gautamkrishnar",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/gautamkrishnar/motrix-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/gautamkrishnar/motrix-chrome-extension#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "^3.6.0",
+    "cz-conventional-changelog": "^3.2.0",
+    "html-webpack-plugin": "^4.3.0",
+    "style-loader": "^1.2.1",
+    "web-ext": "^4.3.0",
+    "webextension-polyfill": "^0.6.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "archiver": "^4.0.1"
+  },
+  "dependencies": {
+    "aria2": "^4.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
