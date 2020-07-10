@@ -13,6 +13,7 @@ script:
 deploy:
   provider: releases
   token: $GITHUB_KEY
+  skip_cleanup: true
   file:
     - ./packaged/chrome-${TRAVIS_TAG}.zip
     - ./packaged/firefox-${TRAVIS_TAG}.zip
