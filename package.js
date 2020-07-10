@@ -35,8 +35,12 @@ function archive(folder) {
 args.forEach(function (val) {
     let zip = val + '.zip';
     let zipPath = path.resolve(packagePath, zip);
-    if (fs.existsSync(zipPath)) {
-        fs.unlinkSync(zipPath);
+    if (fs.existsSync(packagePath)) {
+        if (fs.existsSync(zipPath)) {
+            fs.unlinkSync(zipPath);
+        }
+    } else {
+        fs.mkdirSync(packagePath);
     }
     console.log('\n\'' + val + '\' target detected ...');
     if (val === 'chrome') {
