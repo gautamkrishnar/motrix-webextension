@@ -2,7 +2,7 @@ language: node_js
 os: linux
 dist: bionic
 node_js:
-  - lts
+  - 12
 cache:
   npm: true
 script:
@@ -11,10 +11,9 @@ script:
   - 'if [ "TRAVIS_TAG" != "" ]; mv ./packaged/firefox.zip ./packaged/firefox-${TRAVIS_TAG}.zip; fi'
 deploy:
   provider: releases
-  api_key: $GITHUB_KEY
+  token: $GITHUB_KEY
   file:
     - ./packaged/chrome-${TRAVIS_TAG}.zip
     - ./packaged/firefox-${TRAVIS_TAG}.zip
-  skip_cleanup: true
   on:
     tags: true
