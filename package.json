@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config=webpack.config.js --mode=production",
     "start:firefox": "npm run build && web-ext run --firefox=firefoxdeveloperedition --source-dir ./dist/",
-    "package": "npm run build && node package.js chrome firefox"
+    "package": "npm run build && node package.js chrome && node package.js firefox"
   },
   "repository": {
     "type": "git",
