@@ -8,8 +8,8 @@ cache:
 script:
   - npm install
   - npm run package
-  - 'if [ "TRAVIS_TAG" != "" ]; mv ./packaged/chrome.zip ./packaged/chrome-${TRAVIS_TAG}.zip; fi'
-  - 'if [ "TRAVIS_TAG" != "" ]; mv ./packaged/firefox.zip ./packaged/firefox-${TRAVIS_TAG}.zip; fi'
+  - 'if [ "$TRAVIS_TAG" == "false" ]; then mv ./packaged/chrome.zip ./packaged/chrome-${TRAVIS_TAG}.zip; fi'
+  - 'if [ "$TRAVIS_TAG" == "false" ]; then mv ./packaged/firefox.zip ./packaged/firefox-${TRAVIS_TAG}.zip; fi'
 deploy:
   provider: releases
   token: $GITHUB_KEY
