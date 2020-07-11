@@ -6,9 +6,37 @@ You must download and install the Motrix download manager first to use this exte
 
 ![motrix-extension](https://user-images.githubusercontent.com/8397274/71557256-bed84a80-2a69-11ea-98d9-f2f20d2a0065.gif)
 
-## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Setup
+
+### Chrome
+
+* Open `chrome://extensions` in chrome
+* Toggle the developer mode by clicking on the toggle button on the top right corner
+* Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
+* Extract the release file
+* Load extension in the browser using the **Load Unpacked** button. Point to the extracted release folder.
+* Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
+* Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
+* Click **Save & Apply**
+
+For more info see the video: [Motrix Download Manager chrome extension demo](https://youtu.be/L0cEu-2LpOE)
+
+### Firefox
+* Open `about:debugging` in firefox
+* Click on This firefox option on left
+* Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
+* Click on **Load Temporary add-on...** button
+* Select the downloaded zip file
+* Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
+* Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
+* Click **Save & Apply**
+
+For more info see the video: [Motrix Download Manager firefox extension demo](https://www.youtube.com/watch?v=SjpE840wms4)
+
+## Getting started with the development
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -35,22 +63,8 @@ Install dependecies
 npm install
 ```
 
-Check [package.json](package.json) for browser dependent scripts.
+Check [package.json](package.json) for build scripts.
 
-## Deployment
-
-### Chrome
-
-*   Open `chrome://extensions` in chrome
-*   Toggle the developer mode by clicking on the toggle button on the top right corner
-*   Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
-*   Extract the release file
-*   Load extension in the browser using the **Load Unpacked** button. Point to the extracted release folder.
-*   Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
-*   Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
-*   Click **Save & Apply**
-
-For more info see the video: [Motrix Download Manager chrome extension demo](https://youtu.be/L0cEu-2LpOE)
 
 #### Why it is not available in the chrome web store
 Will publish it once it is stable. Requires a lots of testing.
