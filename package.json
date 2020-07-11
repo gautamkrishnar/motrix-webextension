@@ -1,6 +1,6 @@
 {
   "name": "motrix-webextension",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0",
   "description": "WebExtension for Motrix download manager",
   "main": "index.js",
   "scripts": {
