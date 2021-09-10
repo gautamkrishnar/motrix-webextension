@@ -52,6 +52,12 @@ function downloadAgent() {
                         out: filename
                     };
                 }
+                if (downloadItem.referrer) {
+                    params = {
+                        ...params,
+                        referer: downloadItem.referrer,
+                    }
+                }
                 await aria2.call("addUri", [downloadUrl], params).then(async () => {
                     // Added successfully: Cancels and removes the download from browser download manager
                     function onFinished() { }
