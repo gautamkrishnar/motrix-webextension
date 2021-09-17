@@ -74,19 +74,21 @@ function downloadAgent() {
                     erasing.then(onFinished).catch(onError);
 
                     // Shows notification
-                    const notificationOptions = {
-                        type: 'basic',
-                        iconUrl: 'assets/images/icon-large.png',
-                        title: 'Motrix WebExtension',
-                        message: 'Download started in Motrix download manger'
-                    };
-                    var notificationId = Math.round((new Date()).getTime() / 1000).toString();
-                    browser.notifications.create(notificationId, notificationOptions);
-                    browser.notifications.onClicked.addListener((id) => {
-                        if (id == notificationId) {
-                            browser.tabs.create({url:'motrix://'});
-                        }
-                    });
+                    if (result.enablenotifications) {
+                            const notificationOptions = {
+                            type: 'basic',
+                            iconUrl: 'assets/images/icon-large.png',
+                            title: 'Motrix WebExtension',
+                            message: 'Download started in Motrix download manger'
+                        };
+                        var notificationId = Math.round((new Date()).getTime() / 1000).toString();
+                        browser.notifications.create(notificationId, notificationOptions);
+                        browser.notifications.onClicked.addListener((id) => {
+                            if (id == notificationId) {
+                                browser.tabs.create({url:'motrix://'});
+                            }
+                        });
+                    }
                     setTimeout(() => browser.runtime.reload(), 1000);
                 }).catch((err) => {
                     console.error(err);
@@ -102,7 +104,7 @@ function downloadAgent() {
         }
 
         // Triggered whenever a new download event fires
-        let getResult = browser.storage.sync.get(['motrixapikey', 'extensionstatus']);
+        let getResult = browser.storage.sync.get(['motrixapikey', 'extensionstatus', 'enablenotifications']);
         getResult.then(onGot, onError);
 
     });
