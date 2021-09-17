@@ -6,92 +6,58 @@ You must download and install the Motrix download manager first to use this exte
 
 ![motrix-extension](https://user-images.githubusercontent.com/8397274/71557256-bed84a80-2a69-11ea-98d9-f2f20d2a0065.gif)
 
+## Installing
 
-## Setup
+### Chrome / Opera / Edge
+[link-chrome]: https://chrome.google.com/webstore/detail/motrix-webextension/djlkbfdlljbachafjmfomhaciglnmkgj 'Version published on Chrome Web Store'
 
-### Chrome
-
-* Open `chrome://extensions` in chrome
-* Toggle the developer mode by clicking on the toggle button on the top right corner
-* Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
-* Extract the release file
-* Load extension in the browser using the **Load Unpacked** button. Point to the extracted release folder.
-* Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
-* Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
-* Click **Save & Apply**
-
-For more info see the video: [Motrix Download Manager chrome extension demo](https://youtu.be/L0cEu-2LpOE)
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/djlkbfdlljbachafjmfomhaciglnmkgj.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/edge/edge.svg" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/opera/opera.svg" width="24" alt="Opera" valign="middle">][link-chrome]
 
 ### Firefox
-* Open `about:debugging` in firefox
-* Click on This firefox option on left
-* Download the latest release from the [releases page](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) 
-* Click on **Load Temporary add-on...** button
-* Select the downloaded zip file
-* Once the extension is loaded you can see its icon in the toolbar, Set an API Key by clicking on the extension icon set any value you like
-* Open Motrix app, select **Preferences** > **Advanced**. Type in the same key you used previously on the **RPC Secret** field.
-* Click **Save & Apply**
+[link-firefox]: https://addons.mozilla.org/en-US/firefox/addon/motrixwebextension/ 'Version published on Mozilla Add-ons'
 
-For more info see the video: [Motrix Download Manager firefox extension demo](https://www.youtube.com/watch?v=SjpE840wms4)
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/motrixwebextension.svg?label=%20">][link-firefox]
 
-## Getting started with the development
+### Building from sources
+More info [here](installing-via-releases.md)
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
 
-```
-Node.js >= 12
-Firefox Developer Edition ( Optional for Firefox development ) 
-Chromium-based Browser ( Optional for Chromium development )
-```
+## Development
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Clone the Repo
-
-```
-git clone https://github.com/gautamkrishnar/motrix-chrome-extension.git
-cd motrix-chrome-extension
-```
-
-Install dependecies
-
-```
+### Install
+```shell
 npm install
 ```
 
-Check [package.json](package.json) for build scripts.
+### Starting the development server
+```shell
+npm run dev chrome
+npm run dev firefox
+npm run dev opera
+npm run dev edge
+```
 
+### Build
+```shell
+npm run build chrome
+npm run build firefox
+npm run build opera
+npm run build edge
+```
 
-#### Why it is not available in the chrome web store
-Will publish it once it is stable. Requires a lots of testing.
+### Environment
 
-## Built With
+The build tool also defines a variable named `process.env.NODE_ENV` in your scripts.
 
-*   [Webpack](http://www.webpack.js.org/) - The Bundler used
-*   [Babel.js](https://babeljs.io/) - Javascript Compiler
-*   [Web-Ext](https://github.com/mozilla/web-ext) - Used to test the extension
-*   [WebExtension-Polyfill](https://github.com/mozilla/webextension-polyfill) - Used to make extension cross-browser
+### Toolkit Docs
+* [webextension-toolbox](https://github.com/HaNdTriX/webextension-toolbox)
 
-## Contributing
-
-Please note that this extension is still in the initial version of its release. There may be bugs, please open an issue 
-if you encounter any. Feel free to modify the code and open a PR. This is my first chrome extension :smile:
-any suggestions are always welcome.
-
-## Authors
-
-*   **Gautam Krishna R** - *Initial work* - [gautamkrishnar](https://github.com/gautamkrishnar)
-*   **149segolte** - *WebExtensions Migration* - [149segolte](https://github.com/149segolte)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
+### License
 This project is licensed under the GPL License - see the [LICENSE](LICENSE) file for details
 
-## Releases
-Please see the [releases](https://github.com/gautamkrishnar/motrix-chrome-extension/releases/latest) page.
+### Bugs
+If you are experiencing any bugs, don’t forget to open a [new issue](https://github.com/gautamkrishnar/motrix-webextension/issues/new).
+
+### Liked it?
+Hope you liked this project, don't forget to give it a star ⭐

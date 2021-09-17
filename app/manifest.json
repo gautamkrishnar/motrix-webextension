@@ -1,0 +1,37 @@
+{
+  "name": "__MSG_appName__",
+  "short_name": "__MSG_appShortName__",
+  "description": "__MSG_appDescription__",
+  "version": "2.0.0",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "homepage_url": "https://github.com/gautamkrishnar/motrix-webextension",
+  "icons": {
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "background": {
+    "scripts": [
+      "scripts/background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": {
+      "16": "images/16.png",
+      "32": "images/32.png",
+      "48": "images/48.png",
+      "128": "images/128.png"
+    },
+    "default_title": "__MSG_browserActionTitle__",
+    "default_popup": "pages/popup.html"
+  },
+  "permissions": [
+    "downloads",
+    "notifications",
+    "storage"
+  ]
+}

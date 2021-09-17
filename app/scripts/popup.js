@@ -1,4 +1,3 @@
-require('./popup.css');
 const setButton = document.getElementById('setbtn');
 const keyInput = document.getElementById('motrixapikey');
 const extensionStatus = document.getElementById('extensionstatus');
