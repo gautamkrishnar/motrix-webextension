@@ -27,23 +27,23 @@ More info [here](installing-via-releases.md)
 
 ### Install
 ```shell
-npm install
+yarn install
 ```
 
 ### Starting the development server
 ```shell
-npm run dev chrome
-npm run dev firefox
-npm run dev opera
-npm run dev edge
+yarn run dev chrome
+yarn run dev firefox
+yarn run dev opera
+yarn run dev edge
 ```
 
 ### Build
 ```shell
-npm run build chrome
-npm run build firefox
-npm run build opera
-npm run build edge
+yarn run build chrome
+yarn run build firefox
+yarn run build opera
+yarn run build edge
 ```
 
 ### Environment
