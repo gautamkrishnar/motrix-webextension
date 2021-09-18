@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 20
       - name: install
-        run: npm ci || npm install
+        run: yarn ci || yarn install
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
         id: daily-version
@@ -39,8 +39,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install
-        run: npm ci || npm install
-      - run: npm run build ${{ matrix.command }}
+        run: yarn ci || yarn install
+      - run: yarn run build ${{ matrix.command }}
       - name: Update extension’s meta
         run: >-
           npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{
