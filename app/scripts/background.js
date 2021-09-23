@@ -77,7 +77,7 @@ function downloadAgent() {
           if (result.enablenotifications) {
             const notificationOptions = {
               type: 'basic',
-              iconUrl: 'assets/images/icon-large.png',
+              iconUrl: 'images/icon-large.png',
               title: 'Motrix WebExtension',
               message: 'Download started in Motrix download manger'
             };
