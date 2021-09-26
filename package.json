@@ -4,14 +4,20 @@
   "description": "WebExtension for Motrix download manager",
   "scripts": {
     "dev": "webextension-toolbox dev",
-    "build": "webextension-toolbox build"
+    "build": "webextension-toolbox build",
+    "lint": "eslint --fix app"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gautamkrishnar/motrix-webextension.git"
   },
   "devDependencies": {
-    "webextension-toolbox": "latest"
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
+    "webextension-polyfill": "0.8.0",
+    "webextension-toolbox": "4.0.3"
   },
   "dependencies": {
     "aria2": "^4.1.2"
