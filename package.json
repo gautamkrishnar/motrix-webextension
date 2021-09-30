@@ -20,6 +20,7 @@
     "webextension-toolbox": "4.0.3"
   },
   "dependencies": {
-    "aria2": "^4.1.2"
+    "aria2": "^4.1.2",
+    "rxjs": "^7.3.0"
   }
 }
