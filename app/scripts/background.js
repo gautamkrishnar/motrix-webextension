@@ -16,6 +16,16 @@ async function removeFromHistory(id) {
   await browser.downloads.erase({ id }).then(pass).catch(handleError);
 }
 
+function parsePath(path) {
+  const filename = path.replace(/^.*[\\/]/, '');
+  const directory = path.match(/(.*)[/\\]/)?.[1] ?? '';
+
+  return {
+    dir: directory,
+    out: filename,
+  };
+}
+
 function downloadAgent() {
   const subscribers = [];
   const observable = new Observable((s) => subscribers.push(s));
@@ -53,13 +63,9 @@ function downloadAgent() {
       let params = {};
       // If the download have a specified path, ie user selected via file manager
       if (downloadItem.filename) {
-        let directory, filename;
-        filename = downloadItem.filename.replace(/^.*[\\/]/, '');
-        directory = downloadItem.filename.match(/(.*)[/\\]/)?.[1] ?? '';
         // Appends path to the options
         params = {
-          dir: directory,
-          out: filename,
+          ...parsePath(downloadItem.filename),
         };
       }
       if (downloadItem.referrer) {
@@ -69,14 +75,17 @@ function downloadAgent() {
         };
       }
       if (result.enabledownloadprompt) {
-        const newName = prompt(`Do you want to download:'`, params.out);
-        if (newName == null) {
+        const newPath = prompt(
+          `Do you want to download:'`,
+          downloadItem.filename
+        );
+        if (newPath == null) {
           return;
         }
 
         params = {
           ...params,
-          out: newName,
+          ...parsePath(newPath),
         };
       }
 
