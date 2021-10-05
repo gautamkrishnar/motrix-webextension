@@ -76,7 +76,7 @@ function downloadAgent() {
       }
       if (result.enabledownloadprompt) {
         const newPath = prompt(
-          `Do you want to download:'`,
+          `Do you want to download:`,
           downloadItem.filename
         );
         if (newPath == null) {
