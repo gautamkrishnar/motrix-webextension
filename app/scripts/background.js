@@ -30,11 +30,11 @@ function downloadAgent() {
   const subscribers = [];
   const observable = new Observable((s) => subscribers.push(s));
 
-  chrome.downloads.onChanged.addListener((delta) => {
+  browser.downloads.onChanged.addListener((delta) => {
     subscribers.forEach((s) => s.next(delta));
   });
 
-  chrome.downloads.onCreated.addListener(function (downloadItem) {
+  browser.downloads.onCreated.addListener(function (downloadItem) {
     if (downloadItem.state !== 'in_progress') {
       return;
     }
