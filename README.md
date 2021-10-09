@@ -62,5 +62,12 @@ This project is licensed under the GPL License - see the [LICENSE](LICENSE) file
 ### Bugs
 If you are experiencing any bugs, don’t forget to open a [new issue](https://github.com/gautamkrishnar/motrix-webextension/issues/new).
 
+### Contributors
+Special thanks to these amazing people
+
+<a href="https://github.com/gautamkrishnar/motrix-webextension/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=gautamkrishnar/motrix-webextension" />
+</a>
+
 ### Liked it?
 Hope you liked this project, don't forget to give it a star ⭐
