@@ -3,27 +3,27 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-  <meta content="utf-8" http-equiv="encoding">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>
     Motrix WebExtension
   </title>
   <link rel="stylesheet" type="text/css" href="../styles/popup.css">
+  <script src="../scripts/l10n.js"></script>
 </head>
 
 <body>
 <div class="container">
   <div class="row">
     <div class="col-75">
-      <input type="text" id="motrixAPIkey" placeholder="Motrix API Key">
+      <input type="text" id="motrixAPIkey" placeholder="__MSG_keyInputPlaceholder__">
     </div>
     <div class="col-25">
-      <button id="setBtn">Set Key</button>
+      <button id="setBtn">__MSG_setKey__</button>
     </div>
   </div>
   <div class="row">
     <div class="col-75">
-      <label for="extensionStatus" class="status">Extension Status:</label>
+      <label for="extensionStatus" class="status">__MSG_extensionStatus__</label>
     </div>
     <div class="col-25">
       <label class="switch">
@@ -34,7 +34,7 @@
   </div>
   <div class="row">
     <div class="col-75">
-      <label for="enableNotifications" id="enableNotificationsLabel" class="status">Enable notifications:</label>
+      <label for="enableNotifications" id="enableNotificationsLabel" class="status">__MSG_enableNotifications__</label>
     </div>
     <div class="col-25">
       <label class="switch">
@@ -45,7 +45,7 @@
   </div>
   <div class="row">
     <div class="col-75">
-      <label for="enableDownloadPrompt" id="enableDownloadPromptLabel" class="status">Prompt before download:</label>
+      <label for="enableDownloadPrompt" id="enableDownloadPromptLabel" class="status">__MSG_promptBeforeDownload__</label>
     </div>
     <div class="col-25">
       <label class="switch">

@@ -136,3 +136,11 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+/* Translation blur styles */
+:root > * {
+    transition: opacity 0.25s ease-out;
+}
+:root:not(.initialized) > * {
+    opacity: 0;
+}

@@ -67,3 +67,12 @@ enableNotifications.addEventListener('click', function (e) {
 enableDownloadPrompt.addEventListener('click', function (e) {
   browser.storage.sync.set({ enableDownloadPrompt: e.target.checked });
 });
+
+// Re-enabling the UI
+window.addEventListener(
+  'DOMContentLoaded',
+  () => {
+    document.documentElement.classList.add('initialized');
+  },
+  { once: true }
+);

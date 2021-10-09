@@ -14,5 +14,25 @@
   "browserActionTitle": {
     "message": "Motrix WebExtension",
     "description": "The title of the browser action button"
+  },
+  "extensionStatus": {
+    "message": "Extension status:",
+    "description": "Extension status"
+  },
+  "enableNotifications": {
+    "message": "Enable notifications:",
+    "description": "Enable Notifications"
+  },
+  "promptBeforeDownload": {
+    "message": "Prompt before download:",
+    "description": "Prompt before download"
+  },
+  "setKey": {
+    "message": "Set Key",
+    "description": "Set Key"
+  },
+  "keyInputPlaceholder": {
+    "message": "Motrix API Key",
+    "description": "Motrix API Key"
   }
 }
