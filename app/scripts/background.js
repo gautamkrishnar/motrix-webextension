@@ -165,6 +165,59 @@ function downloadAgent() {
   });
 }
 
+browser.runtime.onInstalled.addListener(() => {
+  // Migration script to migrate user data from old version
+  browser.storage.sync
+    .get([
+      'motrixapikey',
+      'extensionstatus',
+      'enablenotifications',
+      'enabledownloadprompt',
+      'migrationDone',
+    ])
+    .then((result) => {
+      if (typeof result.migrationDone === 'undefined') {
+        if (typeof result.motrixapikey !== 'undefined' && result.motrixapikey) {
+          browser.storage.sync.set({ motrixAPIkey: result.motrixapikey });
+        }
+        if (
+          typeof result.extensionstatus !== 'undefined' &&
+          result.extensionstatus
+        ) {
+          browser.storage.sync.set({ extensionStatus: result.extensionstatus });
+        }
+        if (
+          typeof result.enablenotifications !== 'undefined' &&
+          result.enablenotifications
+        ) {
+          browser.storage.sync.set({
+            enableNotifications: result.enablenotifications,
+          });
+        }
+        if (
+          typeof result.enabledownloadprompt !== 'undefined' &&
+          result.enabledownloadprompt
+        ) {
+          browser.storage.sync.set({
+            enableDownloadPrompt: result.enabledownloadprompt,
+          });
+        }
+        browser.storage.sync
+          .remove([
+            'motrixapikey',
+            'extensionstatus',
+            'enablenotifications',
+            'enabledownloadprompt',
+          ])
+          .then(() => {
+            browser.storage.sync.set({ migrationDone: 'v1' });
+          })
+          .catch(console.log);
+      }
+    })
+    .catch(console.log);
+});
+
 browser.runtime.onStartup.addListener(function () {
   downloadAgent();
 });
