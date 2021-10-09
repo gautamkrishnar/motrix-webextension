@@ -1,46 +1,46 @@
-const setButton = document.getElementById('setbtn');
-const keyInput = document.getElementById('motrixapikey');
-const extensionStatus = document.getElementById('extensionstatus');
-const enablenotifications = document.getElementById('enablenotifications');
-const enabledownloadprompt = document.getElementById('enabledownloadprompt');
+const setButton = document.getElementById('setBtn');
+const keyInput = document.getElementById('motrixAPIkey');
+const extensionStatus = document.getElementById('extensionStatus');
+const enableNotifications = document.getElementById('enableNotifications');
+const enableDownloadPrompt = document.getElementById('enableDownloadPrompt');
 
 // Sets API key to null if it is not found else gets value of key and sets it to input box
 // Gets extension status and sets default value: true
 browser.storage.sync
   .get([
-    'motrixapikey',
-    'extensionstatus',
-    'enablenotifications',
-    'enabledownloadprompt',
+    'motrixAPIkey',
+    'extensionStatus',
+    'enableNotifications',
+    'enableDownloadPrompt',
   ])
   .then(
     (result) => {
-      if (!result.motrixapikey) {
-        browser.storage.sync.set({ motrixapikey: null });
+      if (!result.motrixAPIkey) {
+        browser.storage.sync.set({ motrixAPIkey: null });
         keyInput.value = '';
       } else {
-        keyInput.value = result.motrixapikey;
+        keyInput.value = result.motrixAPIkey;
       }
 
-      if (typeof result.extensionstatus === 'undefined') {
-        browser.storage.sync.set({ extensionstatus: true });
+      if (typeof result.extensionStatus === 'undefined') {
+        browser.storage.sync.set({ extensionStatus: true });
         extensionStatus.checked = true;
       } else {
-        extensionStatus.checked = result.extensionstatus;
+        extensionStatus.checked = result.extensionStatus;
       }
 
-      if (typeof result.enablenotifications === 'undefined') {
-        browser.storage.sync.set({ enablenotifications: true });
-        enablenotifications.checked = true;
+      if (typeof result.enableNotifications === 'undefined') {
+        browser.storage.sync.set({ enableNotifications: true });
+        enableNotifications.checked = true;
       } else {
-        enablenotifications.checked = result.enablenotifications;
+        enableNotifications.checked = result.enableNotifications;
       }
 
-      if (typeof result.enabledownloadprompt === 'undefined') {
-        browser.storage.sync.set({ enabledownloadprompt: false });
-        enabledownloadprompt.checked = false;
+      if (typeof result.enableDownloadPrompt === 'undefined') {
+        browser.storage.sync.set({ enableDownloadPrompt: false });
+        enableDownloadPrompt.checked = false;
       } else {
-        enabledownloadprompt.checked = result.enabledownloadprompt;
+        enableDownloadPrompt.checked = result.enableDownloadPrompt;
       }
     },
     (error) => {
@@ -51,19 +51,19 @@ browser.storage.sync
 // Saves the key to the storage
 setButton.addEventListener('click', () => {
   browser.storage.sync.set({
-    motrixapikey: keyInput.value ? keyInput.value : null,
+    motrixAPIkey: keyInput.value ? keyInput.value : null,
   });
   window.close();
 });
 
 extensionStatus.addEventListener('click', function (e) {
-  browser.storage.sync.set({ extensionstatus: e.target.checked });
+  browser.storage.sync.set({ extensionStatus: e.target.checked });
 });
 
-enablenotifications.addEventListener('click', function (e) {
-  browser.storage.sync.set({ enablenotifications: e.target.checked });
+enableNotifications.addEventListener('click', function (e) {
+  browser.storage.sync.set({ enableNotifications: e.target.checked });
 });
 
-enabledownloadprompt.addEventListener('click', function (e) {
-  browser.storage.sync.set({ enabledownloadprompt: e.target.checked });
+enableDownloadPrompt.addEventListener('click', function (e) {
+  browser.storage.sync.set({ enableDownloadPrompt: e.target.checked });
 });

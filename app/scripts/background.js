@@ -45,7 +45,7 @@ function downloadAgent() {
         host: '127.0.0.1',
         port: 16800,
         secure: false,
-        secret: result.motrixapikey,
+        secret: result.motrixAPIkey,
         path: '/jsonrpc',
       };
       const aria2 = new Aria2(options);
@@ -74,7 +74,7 @@ function downloadAgent() {
           referer: downloadItem.referrer,
         };
       }
-      if (result.enabledownloadprompt) {
+      if (result.extensionStatus) {
         const newPath = prompt(
           `Do you want to download:`,
           downloadItem.filename
@@ -93,7 +93,7 @@ function downloadAgent() {
         .call('addUri', [downloadUrl], params)
         .then(async () => {
           // Shows notification
-          if (result.enablenotifications) {
+          if (result.enableNotifications) {
             const notificationOptions = {
               type: 'basic',
               iconUrl: 'images/icon-large.png',
@@ -127,18 +127,18 @@ function downloadAgent() {
 
     // Triggered whenever a new download event fires
     let getResult = browser.storage.sync.get([
-      'motrixapikey',
-      'extensionstatus',
-      'enablenotifications',
-      'enabledownloadprompt',
+      'motrixAPIkey',
+      'extensionStatus',
+      'enableNotifications',
+      'enableDownloadPrompt',
     ]);
 
     getResult.then(async (result) => {
-      if (!result.extensionstatus) {
+      if (!result.extensionStatus) {
         // Extension is disabled
         return;
       }
-      if (!result.motrixapikey) {
+      if (!result.motrixAPIkey) {
         // API KEY is not set, triggers an alert to the user
         alert(
           'API key not set, please set a random API key by clicking on the extension icon. Open Motrix ' +
