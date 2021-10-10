@@ -24,7 +24,15 @@ For more info see the video: [Motrix Download Manager chrome extension demo](htt
 * Run `yarn run build firefox` in the extension's source code directory
 * Zip the contents of `dist/firefox` by running `cd dist/firefox && zip -r ../firefox.zip *` command
 * Click on **Load Temporary add-on...** button
-* Select the `dist/firefox.zip` zip file
+* Add the following code to `dist/firefox/manifest.json`
+  ```yaml
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon@example.com"
+    }
+  }
+  ```
+* Select the `dist/firefox/manifest.json` file
 * Once the extension is loaded you can see its icon in the toolbar
 * Click on the extension icon and use it
 
