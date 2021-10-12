@@ -31,6 +31,14 @@
     "message": "Set Key",
     "description": "Set Key"
   },
+  "setMinSize": {
+    "message": "Set minimum file size (mb)",
+    "description": "Set minimum file size"
+  },
+  "setSize": {
+    "message": "Set size",
+    "description": "Set size"
+  },
   "keyInputPlaceholder": {
     "message": "Motrix API Key",
     "description": "Motrix API Key"

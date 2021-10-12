@@ -144,3 +144,31 @@ input:checked + .slider:before {
 :root:not(.initialized) > * {
     opacity: 0;
 }
+
+#minSize {
+    width: 90%;
+    padding: 12px;
+    height: 100%;
+    margin: 0px;
+    border: none !important;
+    background-color: transparent;
+    outline: none;
+}
+
+#minSizeContainer {
+    width: 100%;
+    height: 36px;
+    color: #ccc;
+    background-color: #494949;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    /* outline: 2px solid black; */
+}
+
+#minSizeContainer:focus-within {
+    outline-color: black;
+    outline-offset: 0px;
+    outline-style: auto;
+    outline-width: 2px;
+}

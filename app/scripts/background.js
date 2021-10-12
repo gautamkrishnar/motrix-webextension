@@ -131,11 +131,16 @@ function downloadAgent() {
       'extensionStatus',
       'enableNotifications',
       'enableDownloadPrompt',
+      'minFileSize',
     ]);
 
     getResult.then(async (result) => {
       if (!result.extensionStatus) {
         // Extension is disabled
+        return;
+      }
+      if (downloadItem.fileSize > 0 && downloadItem.fileSize < result.minFileSize * 1024 * 1024) {
+        // File size is known and it is smaller than the minimum file size (in mb)
         return;
       }
       if (!result.motrixAPIkey) {

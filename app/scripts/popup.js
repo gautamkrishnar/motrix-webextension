@@ -1,5 +1,7 @@
 const setButton = document.getElementById('setBtn');
 const keyInput = document.getElementById('motrixAPIkey');
+const minSizeButton = document.getElementById('setSize');
+const sizeInput = document.getElementById('minSize');
 const extensionStatus = document.getElementById('extensionStatus');
 const enableNotifications = document.getElementById('enableNotifications');
 const enableDownloadPrompt = document.getElementById('enableDownloadPrompt');
@@ -12,6 +14,7 @@ browser.storage.sync
     'extensionStatus',
     'enableNotifications',
     'enableDownloadPrompt',
+    'minFileSize',
   ])
   .then(
     (result) => {
@@ -20,6 +23,13 @@ browser.storage.sync
         keyInput.value = '';
       } else {
         keyInput.value = result.motrixAPIkey;
+      }
+
+      if (typeof result.minFileSize === 'undefined') {
+        browser.storage.sync.set({ minFileSize: 0 });
+        sizeInput.value = '';
+      } else {
+        sizeInput.value = result.minFileSize === 0 ? '' : result.minFileSize.toString();
       }
 
       if (typeof result.extensionStatus === 'undefined') {
@@ -53,7 +63,12 @@ setButton.addEventListener('click', () => {
   browser.storage.sync.set({
     motrixAPIkey: keyInput.value ? keyInput.value : null,
   });
-  window.close();
+});
+
+minSizeButton.addEventListener('click', () => {
+  browser.storage.sync.set({
+    minFileSize: sizeInput.value ? parseInt(sizeInput.value) : null,
+  });
 });
 
 extensionStatus.addEventListener('click', function (e) {
