@@ -74,7 +74,7 @@ function downloadAgent() {
           referer: downloadItem.referrer,
         };
       }
-      if (result.extensionStatus) {
+      if (result.enableDownloadPrompt) {
         const newPath = prompt(
           `Do you want to download:`,
           downloadItem.filename
