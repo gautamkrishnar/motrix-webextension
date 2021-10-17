@@ -9,6 +9,7 @@ import {
   Switch,
   TextField,
 } from '@mui/material';
+import { Box } from '@mui/system';
 
 function ConfigView() {
   const [motrixAPIkey, setMotrixAPIkey] = useState('');
@@ -124,7 +125,7 @@ function ConfigView() {
           <FormLabel>__MSG_extensionStatus__</FormLabel>
         </Grid>
         <Grid item xs={2}>
-          <Container>
+          <Box display="flex" justifyContent="center">
             <Switch
               checked={extensionStatus}
               onClick={() => {
@@ -132,7 +133,7 @@ function ConfigView() {
                 setExtensionStatus((x) => !x);
               }}
             />
-          </Container>
+          </Box>
         </Grid>
 
         {/* Notifications status switch */}
@@ -140,7 +141,7 @@ function ConfigView() {
           <FormLabel>__MSG_enableNotifications__</FormLabel>
         </Grid>
         <Grid item xs={2}>
-          <Container>
+          <Box display="flex" justifyContent="center">
             <Switch
               checked={enableNotifications}
               onClick={() => {
@@ -150,7 +151,7 @@ function ConfigView() {
                 setEnableNotifications((x) => !x);
               }}
             />
-          </Container>
+          </Box>
         </Grid>
 
         {/* Prompt status switch */}
@@ -158,7 +159,7 @@ function ConfigView() {
           <FormLabel>__MSG_promptBeforeDownload__</FormLabel>
         </Grid>
         <Grid item xs={2}>
-          <Container>
+          <Box display="flex" justifyContent="center">
             <Switch
               checked={enableDownloadPrompt}
               onClick={() => {
@@ -168,7 +169,7 @@ function ConfigView() {
                 setEnableDownloadPrompt((x) => !x);
               }}
             />
-          </Container>
+          </Box>
         </Grid>
       </Grid>
     </Container>
