@@ -1,5 +1,7 @@
 import Aria2 from 'aria2';
 import { filter, Observable, take } from 'rxjs';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { getIconPath } from './getIconPath';
 
 function validateUrl(value) {
   return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
@@ -26,9 +28,33 @@ function parsePath(path) {
   };
 }
 
+// Function to save history as a string
+// Sorts by date from the latest and trunctates to 100 elements
+function historyToArray(historyMap) {
+  return JSON.stringify(
+    [...historyMap.values()]
+      .sort((a, b) => b.startTime.localeCompare(a.startTime))
+      .slice(0, 100)
+  );
+}
+
 function downloadAgent() {
   const subscribers = [];
   const observable = new Observable((s) => subscribers.push(s));
+  const history = new Map();
+
+  // Hide bottom bar
+  browser.downloads?.setShelfEnabled(false);
+
+  // Setup history
+  const oldHistory = JSON.parse(localStorage.getItem('history'));
+  (oldHistory ?? []).forEach((x) => {
+    if (x.status !== 'completed') {
+      x.status = 'unknown';
+    }
+    history.set(x.gid, x);
+  });
+  localStorage.setItem('history', historyToArray(history));
 
   browser.downloads.onChanged.addListener((delta) => {
     subscribers.forEach((s) => s.next(delta));
@@ -49,6 +75,8 @@ function downloadAgent() {
         path: '/jsonrpc',
       };
       const aria2 = new Aria2(options);
+      await aria2.open();
+
       let downloadUrl = '';
       // To support JS Downloads
       if (validateUrl(downloadItem.finalUrl)) {
@@ -86,12 +114,83 @@ function downloadAgent() {
         params = {
           ...params,
           ...parsePath(newPath),
+          'summary-interval': 1,
         };
       }
+      let inter = null;
 
       await aria2
         .call('addUri', [downloadUrl], params)
-        .then(async () => {
+        .then(async (gid) => {
+          inter = setInterval(async () => {
+            const status = await aria2.call('tellStatus', gid);
+            history.set(gid, {
+              gid: gid,
+              startTime: downloadItem.startTime,
+              icon: downloadItem.icon,
+              name: params.out ?? null,
+              path: params.dir ?? null,
+              status: 'downloading',
+              size: downloadItem.totalBytes,
+              downloaded: parseInt(status.completedLength),
+            });
+            // browser.storage.sync.set({ history: historyToArray(history) });
+            localStorage.setItem('history', historyToArray(history));
+          }, 1000);
+
+          aria2.on('onDownloadStart', ([guid]) => {
+            browser.browserAction.setIcon({
+              path: 'images/baseline_file_download_black_24dp.png',
+            });
+            history.set(guid.gid, {
+              gid: guid.gid,
+              startTime: downloadItem.startTime,
+              icon: downloadItem.icon,
+              name: params.out ?? null,
+              path: params.dir ?? null,
+              status: 'downloading',
+              size: downloadItem.totalBytes,
+              downloaded: 0,
+            });
+            // browser.storage.sync.set({ history: historyToArray(history) });
+            localStorage.setItem('history', historyToArray(history));
+          });
+
+          aria2.on('onDownloadComplete', ([guid]) => {
+            history.set(guid.gid, {
+              gid: guid.gid,
+              startTime: downloadItem.startTime,
+              icon: downloadItem.icon,
+              name: params.out ?? null,
+              path: params.dir ?? null,
+              status: 'completed',
+              size: downloadItem.totalBytes,
+              downloaded: downloadItem.totalBytes,
+            });
+            // browser.storage.sync.set({ history: historyToArray(history) });
+            localStorage.setItem('history', historyToArray(history));
+            clearInterval(inter);
+
+            // If no other file is being downloaded then change icon back
+            if (
+              [...history.values()].filter((x) => x.status === 'downloading')
+                .length === 0
+            ) {
+              // Show downloading icon for minimum 1 second
+              setTimeout(() => {
+                if (
+                  [...history.values()].filter(
+                    (x) => x.status === 'downloading'
+                  ).length === 0
+                ) {
+                  browser.browserAction.setIcon({
+                    path: 'images/32.png',
+                  });
+                }
+              }, 1000);
+            }
+          });
+
           // Shows notification
           if (result.enableNotifications) {
             const notificationOptions = {
@@ -139,7 +238,10 @@ function downloadAgent() {
         // Extension is disabled
         return;
       }
-      if (downloadItem.fileSize > 0 && downloadItem.fileSize < result.minFileSize * 1024 * 1024) {
+      if (
+        downloadItem.fileSize > 0 &&
+        downloadItem.fileSize < result.minFileSize * 1024 * 1024
+      ) {
         // File size is known and it is smaller than the minimum file size (in mb)
         return;
       }
@@ -159,6 +261,9 @@ function downloadAgent() {
           take(1)
         )
         .subscribe(async (delta) => {
+          // get icon of the file
+          const icon = await browser.downloads.getFileIcon(downloadItem.id);
+          downloadItem.icon = icon;
           // remove file from browsers history
           await removeFromHistory(downloadItem.id);
           // update file name and path
