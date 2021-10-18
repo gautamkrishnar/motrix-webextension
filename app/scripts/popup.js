@@ -1,93 +1,106 @@
-const setButton = document.getElementById('setBtn');
-const keyInput = document.getElementById('motrixAPIkey');
-const minSizeButton = document.getElementById('setSize');
-const sizeInput = document.getElementById('minSize');
-const extensionStatus = document.getElementById('extensionStatus');
-const enableNotifications = document.getElementById('enableNotifications');
-const enableDownloadPrompt = document.getElementById('enableDownloadPrompt');
+'use strict';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { Button, Grid, Paper, IconButton, LinearProgress } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import FolderIcon from '@mui/icons-material/Folder';
 
-// Sets API key to null if it is not found else gets value of key and sets it to input box
-// Gets extension status and sets default value: true
-browser.storage.sync
-  .get([
-    'motrixAPIkey',
-    'extensionStatus',
-    'enableNotifications',
-    'enableDownloadPrompt',
-    'minFileSize',
-  ])
-  .then(
-    (result) => {
-      if (!result.motrixAPIkey) {
-        browser.storage.sync.set({ motrixAPIkey: null });
-        keyInput.value = '';
-      } else {
-        keyInput.value = result.motrixAPIkey;
-      }
+function PopupView() {
+  const [downloadHistory, setDownloadHistory] = useState([]);
+  useEffect(() => {
+    const updateHistory = () => {
+      const history = JSON.parse(localStorage.getItem('history'));
+      setDownloadHistory(history ?? []);
+    };
+    const inter = setInterval(updateHistory, 1000);
+    updateHistory();
 
-      if (typeof result.minFileSize === 'undefined') {
-        browser.storage.sync.set({ minFileSize: 0 });
-        sizeInput.value = '';
-      } else {
-        sizeInput.value = result.minFileSize === 0 ? '' : result.minFileSize.toString();
-      }
+    return () => {
+      clearInterval(inter);
+    };
+  }, [setDownloadHistory]);
 
-      if (typeof result.extensionStatus === 'undefined') {
-        browser.storage.sync.set({ extensionStatus: true });
-        extensionStatus.checked = true;
-      } else {
-        extensionStatus.checked = result.extensionStatus;
-      }
+  const parseName = (name) => {
+    if (name == null) return 'unknown';
+    if (name.length < 52) return name;
 
-      if (typeof result.enableNotifications === 'undefined') {
-        browser.storage.sync.set({ enableNotifications: true });
-        enableNotifications.checked = true;
-      } else {
-        enableNotifications.checked = result.enableNotifications;
-      }
+    return `${name.slice(0, 52)}...`;
+  };
 
-      if (typeof result.enableDownloadPrompt === 'undefined') {
-        browser.storage.sync.set({ enableDownloadPrompt: false });
-        enableDownloadPrompt.checked = false;
-      } else {
-        enableDownloadPrompt.checked = result.enableDownloadPrompt;
-      }
-    },
-    (error) => {
-      console.error(`Error: ${error}`);
-    }
+  return (
+    <Grid container justifyContent="center" spacing={2}>
+      <Grid item xs={11}>
+        {downloadHistory.slice(0, 4).map((el) => (
+          <Paper key={el.gid} style={{ display: 'flex', marginBottom: '8px' }}>
+            <div
+              style={{
+                padding: '8px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              <img src={el.icon ?? ''} />
+            </div>
+            <div
+              style={{
+                padding: '8px',
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              <div>{parseName(el.name)}</div>
+              {el.status === 'downloading' ? (
+                <LinearProgress
+                  style={{ margin: '4px' }}
+                  variant="determinate"
+                  value={Math.min((el.downloaded * 100) / el.size, 100)}
+                />
+              ) : null}
+            </div>
+            <div
+              style={{
+                padding: '4px',
+                minWidth: '50px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              {el.status === 'completed' ? (
+                <IconButton
+                  variant="outlined"
+                  // onClick={() => browser.tabs.create({ url: el.path })}
+                  onClick={() => browser.tabs.create({ url: 'motrix://' })}
+                >
+                  <FolderIcon />
+                </IconButton>
+              ) : null}
+            </div>
+          </Paper>
+        ))}
+      </Grid>
+
+      <Grid item xs={2}>
+        <IconButton variant="outlined" onClick={() => open('./config.html')}>
+          <SettingsIcon />
+        </IconButton>
+      </Grid>
+
+      <Grid item xs={9}>
+        <Button
+          variant="outlined"
+          onClick={() => open('./history.html')}
+          style={{ width: '100%', height: '100%' }}
+        >
+          See entire history
+        </Button>
+      </Grid>
+    </Grid>
   );
+}
 
-// Saves the key to the storage
-setButton.addEventListener('click', () => {
-  browser.storage.sync.set({
-    motrixAPIkey: keyInput.value ? keyInput.value : null,
-  });
-});
-
-minSizeButton.addEventListener('click', () => {
-  browser.storage.sync.set({
-    minFileSize: sizeInput.value ? parseInt(sizeInput.value) : null,
-  });
-});
-
-extensionStatus.addEventListener('click', function (e) {
-  browser.storage.sync.set({ extensionStatus: e.target.checked });
-});
-
-enableNotifications.addEventListener('click', function (e) {
-  browser.storage.sync.set({ enableNotifications: e.target.checked });
-});
-
-enableDownloadPrompt.addEventListener('click', function (e) {
-  browser.storage.sync.set({ enableDownloadPrompt: e.target.checked });
-});
-
-// Re-enabling the UI
-window.addEventListener(
-  'DOMContentLoaded',
-  () => {
-    document.documentElement.classList.add('initialized');
-  },
-  { once: true }
-);
+const domContainer = document.querySelector('#react-root');
+ReactDOM.render(React.createElement(PopupView), domContainer);

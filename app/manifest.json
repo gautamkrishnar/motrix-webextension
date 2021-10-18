@@ -18,6 +18,7 @@
     ],
     "persistent": true
   },
+  "content_security_policy":"script-src 'self' https://unpkg.com; object-src 'self'",
   "browser_action": {
     "browser_style": true,
     "default_icon": {
@@ -31,6 +32,7 @@
   },
   "permissions": [
     "downloads",
+    "downloads.shelf",
     "notifications",
     "storage"
   ]
