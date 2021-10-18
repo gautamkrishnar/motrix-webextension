@@ -35,5 +35,11 @@
     "downloads.shelf",
     "notifications",
     "storage"
-  ]
+  ],
+  "applications": {
+    "gecko": {
+      "id": "motrix-webextension@gautamkrishnar.com",
+      "strict_min_version": "53.0"
+    }
+  }
 }
