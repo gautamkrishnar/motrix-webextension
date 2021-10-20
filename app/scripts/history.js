@@ -9,7 +9,6 @@ import {
   LinearProgress,
   Container,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
 
 function HistoryView() {
