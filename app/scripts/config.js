@@ -103,7 +103,6 @@ function ConfigView() {
             label="__MSG_setMinSize__"
             variant="outlined"
             type="number"
-            id="minSize"
             max="1000000"
             fullWidth
             value={minFileSize}

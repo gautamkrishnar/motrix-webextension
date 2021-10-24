@@ -15,6 +15,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
     "prettier": "^2.4.1",
     "webextension-polyfill": "0.8.0",
     "webextension-toolbox": "4.0.3"
