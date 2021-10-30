@@ -42,5 +42,13 @@
   "keyInputPlaceholder": {
     "message": "Motrix API Key",
     "description": "Motrix API Key"
+  },
+  "blacklist": {
+    "message": "Blacklist",
+    "description": "Blacklist"
+  },
+  "saveBlacklist": {
+    "message": "Save blacklist",
+    "description": "Save blacklist"
   }
 }

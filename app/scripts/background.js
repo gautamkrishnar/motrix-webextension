@@ -229,6 +229,7 @@ function downloadAgent() {
       'enableNotifications',
       'enableDownloadPrompt',
       'minFileSize',
+      'blacklist',
     ]);
 
     getResult.then(async (result) => {
@@ -236,11 +237,21 @@ function downloadAgent() {
         // Extension is disabled
         return;
       }
+
       if (
         downloadItem.fileSize > 0 &&
         downloadItem.fileSize < result.minFileSize * 1024 * 1024
       ) {
         // File size is known and it is smaller than the minimum file size (in mb)
+        return;
+      }
+
+      // If url is on the blacklist then skip
+      if (
+        result.blacklist
+          .map((x) => downloadItem.url.includes(x))
+          .reduce((prev, curr) => prev || curr, false)
+      ) {
         return;
       }
       if (!result.motrixAPIkey) {

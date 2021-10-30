@@ -17,6 +17,7 @@ function ConfigView() {
   const [enableNotifications, setEnableNotifications] = useState(false);
   const [enableDownloadPrompt, setEnableDownloadPrompt] = useState(false);
   const [minFileSize, setMinFileSize] = useState('');
+  const [blacklist, setBlacklist] = useState([]);
 
   useEffect(() => {
     browser.storage.sync
@@ -26,6 +27,7 @@ function ConfigView() {
         'enableNotifications',
         'enableDownloadPrompt',
         'minFileSize',
+        'blacklist',
       ])
       .then(
         (result) => {
@@ -64,6 +66,13 @@ function ConfigView() {
             setEnableDownloadPrompt(false);
           } else {
             setEnableDownloadPrompt(result.enableDownloadPrompt);
+          }
+
+          if (typeof result.blacklist === 'undefined') {
+            browser.storage.sync.set({ blacklist: [] });
+            setBlacklist([]);
+          } else {
+            setBlacklist(result.blacklist);
           }
         },
         (error) => {
@@ -169,6 +178,33 @@ function ConfigView() {
               }}
             />
           </Box>
+        </Grid>
+
+        {/* Blacklist */}
+        <Grid item xs={8}>
+          <TextField
+            label="__MSG_blacklist__"
+            multiline
+            fullWidth
+            rows={4}
+            value={blacklist.join('\n')}
+            onChange={(e) => setBlacklist(e.target.value.split('\n'))}
+          />
+        </Grid>
+        {/* Save blacklist button */}
+        <Grid item xs={6} />
+        <Grid item xs={2}>
+          <Button
+            variant="outlined"
+            style={{ width: '100%', height: '56px' }}
+            onClick={() =>
+              browser.storage.sync.set({
+                blacklist: blacklist.filter((x) => x !== ''),
+              })
+            }
+          >
+            __MSG_saveBlacklist__
+          </Button>
         </Grid>
       </Grid>
     </Container>
