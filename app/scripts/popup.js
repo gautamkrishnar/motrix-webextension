@@ -53,11 +53,15 @@ function PopupView() {
             >
               <div>{parseName(el.name)}</div>
               {el.status === 'downloading' ? (
-                <LinearProgress
-                  style={{ margin: '4px' }}
-                  variant="determinate"
-                  value={Math.min((el.downloaded * 100) / el.size, 100)}
-                />
+                el.size ? (
+                  <LinearProgress
+                    style={{ margin: '4px' }}
+                    variant="determinate"
+                    value={Math.min((el.downloaded * 100) / el.size, 100)}
+                  />
+                ) : (
+                  <LinearProgress style={{ margin: '4px' }} />
+                )
               ) : null}
             </div>
             <div
@@ -89,14 +93,44 @@ function PopupView() {
         </IconButton>
       </Grid>
 
-      <Grid item xs={9}>
+      <Grid item xs={9} style={{ alignItems: 'flex-end' }}>
         <Button
           variant="outlined"
           onClick={() => open('./history.html')}
-          style={{ width: '100%', height: '100%' }}
+          style={{
+            width: downloadHistory.length ? '50%' : '100%',
+            height: '100%',
+            margin: 'auto',
+            fontSize: '12px',
+            padding: '4px',
+          }}
         >
           See entire history
         </Button>
+        {downloadHistory.length ? (
+          <Button
+            variant="outlined"
+            onClick={() => {
+              if (
+                confirm(
+                  'Are you sure want to remove all of your download history?'
+                )
+              ) {
+                setDownloadHistory([]);
+                localStorage.removeItem('history');
+              }
+            }}
+            style={{
+              width: '50%',
+              height: '100%',
+              margin: 'auto',
+              fontSize: '12px',
+              padding: '4px',
+            }}
+          >
+            Remove History
+          </Button>
+        ) : null}
       </Grid>
     </Grid>
   );
