@@ -9,6 +9,11 @@ body {
   box-sizing: border-box;
 }
 
+.text {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
 @keyframes slideInFromLeft {
   0% {
     transform: translateY(-100%);

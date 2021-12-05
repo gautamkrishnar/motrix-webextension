@@ -1,9 +1,11 @@
 'use strict';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Button, Grid, Paper, IconButton, LinearProgress } from '@mui/material';
+import { Grid, Paper, IconButton, LinearProgress } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
+import HistoryIcon from '@mui/icons-material/History';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 function PopupView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
@@ -29,6 +31,42 @@ function PopupView() {
 
   return (
     <Grid container justifyContent="center" spacing={2}>
+      <Grid item xs={2}>
+        <IconButton variant="outlined" onClick={() => open('./config.html')}>
+          <SettingsIcon />
+        </IconButton>
+      </Grid>
+      <Grid item xs={3} />
+      <Grid item xs={2}>
+        <IconButton variant="outlined" onClick={() => open('./history.html')}>
+          <HistoryIcon />
+        </IconButton>
+      </Grid>
+      <Grid item xs={2}>
+        <IconButton
+          variant="outlined"
+          onClick={() => {
+            if (
+              confirm(
+                'Are you sure want to remove all of your download history?'
+              )
+            ) {
+              setDownloadHistory([]);
+              localStorage.removeItem('history');
+            }
+          }}
+        >
+          <ClearAllIcon />
+        </IconButton>
+      </Grid>
+      <Grid item xs={2}>
+        <IconButton
+          variant="outlined"
+          onClick={() => browser.downloads.showDefaultFolder()}
+        >
+          <FolderIcon />
+        </IconButton>
+      </Grid>
       <Grid item xs={11}>
         {downloadHistory.slice(0, 4).map((el) => (
           <Paper key={el.gid} style={{ display: 'flex', marginBottom: '8px' }}>
@@ -51,7 +89,7 @@ function PopupView() {
                 justifyContent: 'center',
               }}
             >
-              <div>{parseName(el.name)}</div>
+              <div className="text">{parseName(el.name)}</div>
               {el.status === 'downloading' ? (
                 el.size ? (
                   <LinearProgress
@@ -85,52 +123,6 @@ function PopupView() {
             </div>
           </Paper>
         ))}
-      </Grid>
-
-      <Grid item xs={2}>
-        <IconButton variant="outlined" onClick={() => open('./config.html')}>
-          <SettingsIcon />
-        </IconButton>
-      </Grid>
-
-      <Grid item xs={9} style={{ alignItems: 'flex-end' }}>
-        <Button
-          variant="outlined"
-          onClick={() => open('./history.html')}
-          style={{
-            width: downloadHistory.length ? '50%' : '100%',
-            height: '100%',
-            margin: 'auto',
-            fontSize: '12px',
-            padding: '4px',
-          }}
-        >
-          See entire history
-        </Button>
-        {downloadHistory.length ? (
-          <Button
-            variant="outlined"
-            onClick={() => {
-              if (
-                confirm(
-                  'Are you sure want to remove all of your download history?'
-                )
-              ) {
-                setDownloadHistory([]);
-                localStorage.removeItem('history');
-              }
-            }}
-            style={{
-              width: '50%',
-              height: '100%',
-              margin: 'auto',
-              fontSize: '12px',
-              padding: '4px',
-            }}
-          >
-            Remove History
-          </Button>
-        ) : null}
       </Grid>
     </Grid>
   );
