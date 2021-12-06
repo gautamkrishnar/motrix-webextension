@@ -6,9 +6,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
 import HistoryIcon from '@mui/icons-material/History';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 function PopupView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
+  const [extensionStatus, setExtensionStatus] = useState(false);
+
   useEffect(() => {
     const updateHistory = () => {
       const history = JSON.parse(localStorage.getItem('history'));
@@ -22,6 +25,25 @@ function PopupView() {
     };
   }, [setDownloadHistory]);
 
+  useEffect(() => {
+    const updateStatus = () => {
+      browser.storage.sync
+        .get(['extensionStatus'])
+        .then((r) => setExtensionStatus(r.extensionStatus));
+    };
+    const inter = setInterval(updateStatus, 1000);
+    updateStatus();
+
+    return () => {
+      clearInterval(inter);
+    };
+  }, [setDownloadHistory]);
+
+  const onExtensionStatusChange = (status) => {
+    browser.storage.sync.set({ extensionStatus: status });
+    setExtensionStatus(status);
+  };
+
   const parseName = (name) => {
     if (name == null) return 'unknown';
     if (name.length < 52) return name;
@@ -32,11 +54,19 @@ function PopupView() {
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={2}>
+        <IconButton
+          variant="outlined"
+          onClick={() => onExtensionStatusChange(!extensionStatus)}
+        >
+          <PowerSettingsNewIcon color={extensionStatus ? 'success' : 'error'} />
+        </IconButton>
+      </Grid>
+      <Grid item xs={2}>
         <IconButton variant="outlined" onClick={() => open('./config.html')}>
           <SettingsIcon />
         </IconButton>
       </Grid>
-      <Grid item xs={3} />
+      <Grid item xs={1} />
       <Grid item xs={2}>
         <IconButton variant="outlined" onClick={() => open('./history.html')}>
           <HistoryIcon />
