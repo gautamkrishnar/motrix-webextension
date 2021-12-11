@@ -1,7 +1,7 @@
 body {
   width: 360px;
   margin: 0;
-  padding: 16px;
+  padding: 0px;
   transition: height 2s;
 }
 

@@ -9,6 +9,7 @@ import {
   Container,
 } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
+import createThemed from './createThemed';
 
 function HistoryView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
@@ -26,7 +27,7 @@ function HistoryView() {
   }, [setDownloadHistory]);
 
   return (
-    <Container>
+    <Container style={{ marginTop: '8px', minHeight: '100vh' }}>
       <Grid container justifyContent="center" spacing={2}>
         <Grid item xs={11}>
           {downloadHistory.map((el) => (
@@ -89,4 +90,4 @@ function HistoryView() {
 }
 
 const domContainer = document.querySelector('#react-root');
-ReactDOM.render(React.createElement(HistoryView), domContainer);
+ReactDOM.render(React.createElement(createThemed(HistoryView)), domContainer);

@@ -10,6 +10,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import createThemed from './createThemed';
 
 function ConfigView() {
   const [motrixAPIkey, setMotrixAPIkey] = useState('');
@@ -18,6 +19,7 @@ function ConfigView() {
   const [enableDownloadPrompt, setEnableDownloadPrompt] = useState(false);
   const [minFileSize, setMinFileSize] = useState('');
   const [blacklist, setBlacklist] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     browser.storage.sync
@@ -28,6 +30,7 @@ function ConfigView() {
         'enableDownloadPrompt',
         'minFileSize',
         'blacklist',
+        'darkMode',
       ])
       .then(
         (result) => {
@@ -74,6 +77,13 @@ function ConfigView() {
           } else {
             setBlacklist(result.blacklist);
           }
+
+          if (typeof result.darkMode === 'undefined') {
+            browser.storage.sync.set({ darkMode: false });
+            setDarkMode(false);
+          } else {
+            setDarkMode(result.darkMode);
+          }
         },
         (error) => {
           console.error(`Error: ${error}`);
@@ -82,7 +92,7 @@ function ConfigView() {
   }, []);
 
   return (
-    <Container>
+    <Container style={{ minHeight: '100vh' }}>
       <Grid container justifyContent="center" spacing={2} padding={2}>
         {/* Motrix key input */}
         <Grid item xs={6}>
@@ -180,6 +190,25 @@ function ConfigView() {
           </Box>
         </Grid>
 
+        {/* Dark mode switch */}
+        <Grid item xs={6}>
+          <FormLabel>__MSG_darkMode__</FormLabel>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
+            <Switch
+              checked={darkMode}
+              onClick={() => {
+                browser.storage.sync.set({
+                  darkMode: !darkMode,
+                });
+                setDarkMode((x) => !x);
+                window.location.reload(false);
+              }}
+            />
+          </Box>
+        </Grid>
+
         {/* Blacklist */}
         <Grid item xs={8}>
           <TextField
@@ -206,10 +235,12 @@ function ConfigView() {
             __MSG_saveBlacklist__
           </Button>
         </Grid>
+
+        {/* End of grid */}
       </Grid>
     </Container>
   );
 }
 
 const domContainer = document.querySelector('#react-root');
-ReactDOM.render(React.createElement(ConfigView), domContainer);
+ReactDOM.render(React.createElement(createThemed(ConfigView)), domContainer);
