@@ -50,5 +50,9 @@
   "saveBlacklist": {
     "message": "Save blacklist",
     "description": "Save blacklist"
+  },
+  "darkMode": {
+    "message": "Dark mode",
+    "description": "Dark mode"
   }
 }

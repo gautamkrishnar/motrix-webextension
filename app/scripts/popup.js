@@ -7,6 +7,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import HistoryIcon from '@mui/icons-material/History';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import createThemed from './createThemed';
 
 function PopupView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
@@ -159,4 +160,4 @@ function PopupView() {
 }
 
 const domContainer = document.querySelector('#react-root');
-ReactDOM.render(React.createElement(PopupView), domContainer);
+ReactDOM.render(React.createElement(createThemed(PopupView)), domContainer);
