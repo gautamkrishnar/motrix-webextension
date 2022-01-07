@@ -8,6 +8,59 @@ import HistoryIcon from '@mui/icons-material/History';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import createThemed from './createThemed';
+import PropTypes from 'prop-types';
+
+function OptProgress({ status, downloaded, size }) {
+  console.log(status, downloaded, size);
+  if (status !== 'downloading') return null;
+  if (downloaded != null && size != null && size > 0) {
+    return (
+      <LinearProgress
+        style={{ margin: '4px' }}
+        variant="determinate"
+        value={Math.min((downloaded * 100) / size, 100)}
+      />
+    );
+  }
+  return <LinearProgress style={{ margin: '4px' }} />;
+}
+
+OptProgress.propTypes = {
+  status: PropTypes.string,
+  downloaded: PropTypes.number,
+  size: PropTypes.number,
+};
+
+function FolderButton({ element }) {
+  console.log(element);
+  if (element.status !== 'completed') return null;
+
+  let onClick;
+
+  if (element.manager === 'browser') {
+    onClick = () => {
+      browser.downloads.show(element.gid);
+    };
+  } else {
+    onClick = () => {
+      browser.tabs.create({ url: 'motrix://' });
+    };
+  }
+
+  return (
+    <IconButton
+      variant="outlined"
+      // onClick={() => browser.tabs.create({ url: el.path })}
+      onClick={onClick}
+    >
+      <FolderIcon />
+    </IconButton>
+  );
+}
+
+FolderButton.propTypes = {
+  element: PropTypes.object,
+};
 
 function PopupView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
@@ -121,17 +174,12 @@ function PopupView() {
               }}
             >
               <div className="text">{parseName(el.name)}</div>
-              {el.status === 'downloading' ? (
-                el.size ? (
-                  <LinearProgress
-                    style={{ margin: '4px' }}
-                    variant="determinate"
-                    value={Math.min((el.downloaded * 100) / el.size, 100)}
-                  />
-                ) : (
-                  <LinearProgress style={{ margin: '4px' }} />
-                )
-              ) : null}
+
+              <OptProgress
+                status={el.status}
+                downloaded={el.downloaded}
+                size={el.size}
+              />
             </div>
             <div
               style={{
@@ -142,15 +190,7 @@ function PopupView() {
                 justifyContent: 'center',
               }}
             >
-              {el.status === 'completed' ? (
-                <IconButton
-                  variant="outlined"
-                  // onClick={() => browser.tabs.create({ url: el.path })}
-                  onClick={() => browser.tabs.create({ url: 'motrix://' })}
-                >
-                  <FolderIcon />
-                </IconButton>
-              ) : null}
+              <FolderButton element={el} />
             </div>
           </Paper>
         ))}
