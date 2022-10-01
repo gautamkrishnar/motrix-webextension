@@ -54,5 +54,21 @@
   "darkMode": {
     "message": "Dark mode",
     "description": "Dark mode"
+  },
+  "showOnlyAria": {
+    "message": "Show only Motrix downloads in the popup",
+    "description": "Show only Motrix downloads in the popup"
+  },
+  "hideChromeBar": {
+    "message": "Hide chrome download bar",
+    "description": "Hide chrome download bar"
+  },
+  "showContextOption": {
+    "message": "Show \"Download with Motrix\" context option",
+    "description": "Show \"Download with Motrix\" context option"
+  },
+  "downloadWithMotrix": {
+    "message": "Download with Motrix",
+    "description": "Download with Motrix"
   }
 }

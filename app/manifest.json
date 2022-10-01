@@ -13,12 +13,10 @@
     "128": "images/128.png"
   },
   "background": {
-    "scripts": [
-      "scripts/background.js"
-    ],
+    "scripts": ["scripts/background.js"],
     "persistent": true
   },
-  "content_security_policy":"script-src 'self' https://unpkg.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'",
   "browser_action": {
     "browser_style": true,
     "default_icon": {
@@ -34,6 +32,7 @@
     "downloads",
     "downloads.shelf",
     "notifications",
-    "storage"
+    "storage",
+    "contextMenus"
   ]
 }
