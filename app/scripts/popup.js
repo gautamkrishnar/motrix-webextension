@@ -65,6 +65,7 @@ FolderButton.propTypes = {
 function PopupView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
   const [extensionStatus, setExtensionStatus] = useState(false);
+  const [showOnlyAriaDownloads, setShowOnlyAriaDownloads] = useState(true);
 
   useEffect(() => {
     const updateHistory = () => {
@@ -82,8 +83,11 @@ function PopupView() {
   useEffect(() => {
     const updateStatus = () => {
       browser.storage.sync
-        .get(['extensionStatus'])
-        .then((r) => setExtensionStatus(r.extensionStatus));
+        .get(['extensionStatus', 'showOnlyAria'])
+        .then((r) => {
+          setExtensionStatus(r.extensionStatus);
+          setShowOnlyAriaDownloads(r.showOnlyAria ?? false);
+        });
     };
     const inter = setInterval(updateStatus, 1000);
     updateStatus();
@@ -152,48 +156,54 @@ function PopupView() {
         </IconButton>
       </Grid>
       <Grid item xs={11}>
-        {downloadHistory.slice(0, 4).map((el) => (
-          <Paper key={el.gid} style={{ display: 'flex', marginBottom: '8px' }}>
-            <div
-              style={{
-                padding: '8px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}
+        {downloadHistory
+          .filter((el) => !showOnlyAriaDownloads || el.downloader === 'aria')
+          .slice(0, 4)
+          .map((el) => (
+            <Paper
+              key={el.gid}
+              style={{ display: 'flex', marginBottom: '8px' }}
             >
-              <img src={el.icon ?? ''} />
-            </div>
-            <div
-              style={{
-                padding: '8px',
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}
-            >
-              <div className="text">{parseName(el.name)}</div>
+              <div
+                style={{
+                  padding: '8px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <img src={el.icon ?? ''} />
+              </div>
+              <div
+                style={{
+                  padding: '8px',
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <div className="text">{parseName(el.name)}</div>
 
-              <OptProgress
-                status={el.status}
-                downloaded={el.downloaded}
-                size={el.size}
-              />
-            </div>
-            <div
-              style={{
-                padding: '4px',
-                minWidth: '50px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}
-            >
-              <FolderButton element={el} />
-            </div>
-          </Paper>
-        ))}
+                <OptProgress
+                  status={el.status}
+                  downloaded={el.downloaded}
+                  size={el.size}
+                />
+              </div>
+              <div
+                style={{
+                  padding: '4px',
+                  minWidth: '50px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <FolderButton element={el} />
+              </div>
+            </Paper>
+          ))}
       </Grid>
     </Grid>
   );

@@ -74,6 +74,7 @@ async function onGot(result, downloadItem, history) {
         const status = await aria2.call('tellStatus', gid);
         history.set(gid, {
           gid: gid,
+          downloader: 'aria',
           startTime: downloadItem.startTime,
           icon: downloadItem.icon,
           name: params.out ?? null,
@@ -93,6 +94,7 @@ async function onGot(result, downloadItem, history) {
         });
         history.set(guid.gid, {
           gid: guid.gid,
+          downloader: 'aria',
           startTime: downloadItem.startTime,
           icon: downloadItem.icon,
           name: params.out ?? null,
@@ -108,6 +110,7 @@ async function onGot(result, downloadItem, history) {
       aria2.on('onDownloadComplete', ([guid]) => {
         history.set(guid.gid, {
           gid: guid.gid,
+          downloader: 'aria',
           startTime: downloadItem.startTime,
           icon: downloadItem.icon,
           name: params.out ?? null,

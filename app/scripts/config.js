@@ -20,6 +20,9 @@ function ConfigView() {
   const [minFileSize, setMinFileSize] = useState('');
   const [blacklist, setBlacklist] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
+  const [showOnlyAriaDownloads, setShowOnlyAriaDownloads] = useState(false);
+  const [hideChromeBar, setHideChromeBar] = useState(true);
+  const [showContextOption, setShowContextOption] = useState(true);
 
   useEffect(() => {
     browser.storage.sync
@@ -31,6 +34,9 @@ function ConfigView() {
         'minFileSize',
         'blacklist',
         'darkMode',
+        'showOnlyAria',
+        'hideChromeBar',
+        'showContextOption',
       ])
       .then(
         (result) => {
@@ -83,6 +89,27 @@ function ConfigView() {
             setDarkMode(false);
           } else {
             setDarkMode(result.darkMode);
+          }
+
+          if (typeof result.showOnlyAria === 'undefined') {
+            browser.storage.sync.set({ showOnlyAria: false });
+            setShowOnlyAriaDownloads(false);
+          } else {
+            setShowOnlyAriaDownloads(result.showOnlyAria);
+          }
+
+          if (typeof result.hideChromeBar === 'undefined') {
+            browser.storage.sync.set({ hideChromeBar: true });
+            setHideChromeBar(true);
+          } else {
+            setHideChromeBar(result.hideChromeBar);
+          }
+
+          if (typeof result.showContextOption === 'undefined') {
+            browser.storage.sync.set({ showContextOption: true });
+            setShowContextOption(true);
+          } else {
+            setShowContextOption(result.showContextOption);
           }
         },
         (error) => {
@@ -204,6 +231,69 @@ function ConfigView() {
                 });
                 setDarkMode((x) => !x);
                 window.location.reload(false);
+              }}
+            />
+          </Box>
+        </Grid>
+
+        {/* Show only aria switch */}
+        <Grid item xs={6}>
+          <FormLabel>__MSG_showOnlyAria__</FormLabel>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
+            <Switch
+              checked={showOnlyAriaDownloads}
+              onClick={() => {
+                browser.storage.sync.set({
+                  showOnlyAria: !showOnlyAriaDownloads,
+                });
+                setShowOnlyAriaDownloads((x) => !x);
+              }}
+            />
+          </Box>
+        </Grid>
+
+        {/* Show hide chrome bar switch */}
+        <Grid item xs={6}>
+          <FormLabel>__MSG_hideChromeBar__</FormLabel>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
+            <Switch
+              checked={hideChromeBar}
+              onClick={() => {
+                if (browser.downloads.setShelfEnabled) {
+                  browser.downloads.setShelfEnabled(!!hideChromeBar);
+                }
+                browser.storage.sync.set({
+                  hideChromeBar: !hideChromeBar,
+                });
+                setHideChromeBar((x) => !x);
+              }}
+            />
+          </Box>
+        </Grid>
+
+        {/* Show context option switch */}
+        <Grid item xs={6}>
+          <FormLabel>__MSG_showContextOption__</FormLabel>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
+            <Switch
+              checked={showContextOption}
+              onClick={() => {
+                browser.contextMenus.update(
+                  'motrix-webextension-download-context-menu-option',
+                  {
+                    visible: !showContextOption,
+                  }
+                );
+                browser.storage.sync.set({
+                  showContextOption: !showContextOption,
+                });
+                setShowContextOption((x) => !x);
               }}
             />
           </Box>

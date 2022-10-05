@@ -9,7 +9,9 @@ function downloadAgent() {
   const history = new Map();
 
   // Hide bottom bar
-  browser.downloads.setShelfEnabled?.(false);
+  browser.storage.sync.get('hideChromeBar').then(({ hideChromeBar }) => {
+    browser.downloads.setShelfEnabled?.(!hideChromeBar);
+  });
 
   // Setup history
   const oldHistory = JSON.parse(localStorage.getItem('history'));
@@ -44,21 +46,28 @@ function downloadAgent() {
       'blacklist',
     ]);
 
-    const getAriaDownloader = (options) => {
+    const getAriaDownloader = async (options) => {
       const result = options;
-      console.log(result);
-      console.log(downloadItem);
+      // this will find item with by extension name set
+      const statuses = await browser.downloads.search({
+        id: downloadItem.id,
+      });
+
+      const shouldCheck =
+        statuses[0]?.byExtensionName !== 'Motrix WebExtension';
 
       // Extension is disabled
-      if (!result.extensionStatus) return;
+      if (shouldCheck && !result.extensionStatus) return;
       // File size is known and it is smaller than the minimum file size (in mb)
       if (
+        shouldCheck &&
         downloadItem.fileSize > 0 &&
         downloadItem.fileSize < result.minFileSize * 1024 * 1024
       )
         return;
       // If url is on the blacklist then skip
       if (
+        shouldCheck &&
         result.blacklist
           .map((x) => downloadItem.url.includes(x))
           .reduce((prev, curr) => prev || curr, false)
@@ -77,12 +86,12 @@ function downloadAgent() {
       return new AriaDownloader();
     };
 
-    const getDownloader = (options) => {
-      return getAriaDownloader(options) ?? new BrowserDownloader();
+    const getDownloader = async (options) => {
+      return (await getAriaDownloader(options)) ?? new BrowserDownloader();
     };
 
     getResult.then(async (result) => {
-      const downloader = getDownloader(result);
+      const downloader = await getDownloader(result);
       console.log(downloader);
 
       // wait for filename to be set
@@ -105,10 +114,29 @@ function downloadAgent() {
   });
 }
 
+function createMenuItem() {
+  browser.storage.sync
+    .get('showContextOption')
+    .then(({ showContextOption }) => {
+      console.log(showContextOption);
+      browser.contextMenus.create({
+        id: 'motrix-webextension-download-context-menu-option',
+        title: browser.i18n.getMessage('downloadWithMotrix'),
+        visible: showContextOption,
+        contexts: ['link'],
+        onclick: async (link) => {
+          browser.downloads.download({ url: link.linkUrl });
+        },
+      });
+    });
+}
+
 browser.runtime.onStartup.addListener(function () {
   downloadAgent();
+  createMenuItem();
 });
 
 browser.runtime.onInstalled.addListener(function () {
   downloadAgent();
+  createMenuItem();
 });
