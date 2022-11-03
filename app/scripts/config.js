@@ -303,7 +303,7 @@ function ConfigView() {
         <Grid item xs={8}>
           <TextField
             label="__MSG_blacklist__"
-            helperText="Both URLS and extensions are valid. For file extensions, only include the text of the extension itself (e.g. "pdf"). Entries should be their own lines."
+            helperText="Both URLS and extensions are valid. For file extensions, only include the text of the extension itself (e.g. \x22pdf\x22). Entries should be their own lines."
             multiline
             fullWidth
             rows={4}
