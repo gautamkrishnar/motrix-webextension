@@ -16,7 +16,7 @@ export default function createThemed(Child) {
     );
 
     React.useEffect(() => {
-      browser.storage.sync.get('darkMode').then(({ darkMode }) => {
+      browser.storage.sync.get(['darkMode']).then(({ darkMode }) => {
         setMode(darkMode ? 'dark' : 'light');
       });
     }, []);

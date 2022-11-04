@@ -9,7 +9,7 @@ function downloadAgent() {
   const history = new Map();
 
   // Hide bottom bar
-  browser.storage.sync.get('hideChromeBar').then(({ hideChromeBar }) => {
+  browser.storage.sync.get(['hideChromeBar']).then(({ hideChromeBar }) => {
     browser.downloads.setShelfEnabled?.(!hideChromeBar);
   });
 
