@@ -6,8 +6,18 @@ You must download and install the Motrix download manager first to use this exte
 
 ![motrix-extension](https://user-images.githubusercontent.com/8397274/71557256-bed84a80-2a69-11ea-98d9-f2f20d2a0065.gif)
 
-## How to use (Demo Video)
+## How to use (
+### Demo video:
 - [Chrome](https://youtu.be/L0cEu-2LpOE)
+
+### Text introduction:
+First of all, open your Motrix installed on your computer, and go to `Preferences > Advanced > Security > RPC secret` and make a random secret key and copy it.
+
+<img src="./how_to_use_motrix_step_1.png" alt="how to use motrix step 1" valign="middle">
+
+Then, go to chrome extentions, go to motrix extention settings, paste the key (and only the key) and click on "SET KEY" button in front of it.
+You are ready to go!
+<img src="./how_to_use_motrix_step_2.png"  alt="how to use motrix step 2" valign="middle">
 
 ## Installing
 
