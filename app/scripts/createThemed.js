@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+import * as browser from 'webextension-polyfill';
 export default function createThemed(Child) {
   return function ThemedView() {
     const [mode, setMode] = React.useState('dark');

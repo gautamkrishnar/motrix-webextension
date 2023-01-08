@@ -1,5 +1,6 @@
 import Aria2 from 'aria2';
 import { historyToArray, parsePath } from './utils';
+import * as browser from 'webextension-polyfill';
 
 function validateUrl(value) {
   return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
@@ -83,14 +84,12 @@ async function onGot(result, downloadItem, history) {
           size: downloadItem.totalBytes,
           downloaded: parseInt(status.completedLength),
         });
-        console.log(status);
-
-        localStorage.setItem('history', historyToArray(history));
+        browser.storage.local.set({ history: historyToArray(history) });
       }, 1000);
 
       aria2.on('onDownloadStart', ([guid]) => {
-        browser.browserAction.setIcon({
-          path: 'images/baseline_file_download_black_24dp.png',
+        browser.action.setIcon({
+          path: '../images/dwld.png',
         });
         history.set(guid.gid, {
           gid: guid.gid,
@@ -103,8 +102,7 @@ async function onGot(result, downloadItem, history) {
           size: downloadItem.totalBytes,
           downloaded: 0,
         });
-
-        localStorage.setItem('history', historyToArray(history));
+        browser.storage.local.set({ history: historyToArray(history) });
       });
 
       aria2.on('onDownloadComplete', ([guid]) => {
@@ -119,8 +117,7 @@ async function onGot(result, downloadItem, history) {
           size: downloadItem.totalBytes,
           downloaded: downloadItem.totalBytes,
         });
-
-        localStorage.setItem('history', historyToArray(history));
+        browser.storage.local.set({ history: historyToArray(history) });
         clearInterval(inter);
 
         // If no other file is being downloaded then change icon back
@@ -134,8 +131,8 @@ async function onGot(result, downloadItem, history) {
               [...history.values()].filter((x) => x.status === 'downloading')
                 .length === 0
             ) {
-              browser.browserAction.setIcon({
-                path: 'images/32.png',
+              browser.action.setIcon({
+                path: '../images/32.png',
               });
             }
           }, 1000);
@@ -146,7 +143,7 @@ async function onGot(result, downloadItem, history) {
       if (result.enableNotifications) {
         const notificationOptions = {
           type: 'basic',
-          iconUrl: 'images/icon-large.png',
+          iconUrl: '../images/icon-large.png',
           title: 'Motrix WebExtension',
           message: 'Download started in Motrix download manger',
         };

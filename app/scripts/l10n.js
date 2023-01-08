@@ -1,3 +1,4 @@
+import * as browser from 'webextension-polyfill';
 /*
  license: The MIT License, Copyright (c) 2016-2019 YUKI "Piro" Hiroshi
  original:
@@ -47,6 +48,7 @@ document.addEventListener(
   'DOMContentLoaded',
   () => {
     l10n.updateDocument();
+    document.getElementById('react-root').classList.remove('hidden');
   },
   { once: true }
 );

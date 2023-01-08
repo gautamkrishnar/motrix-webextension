@@ -1,4 +1,5 @@
 import { historyToArray, parsePath } from './utils';
+import * as browser from 'webextension-polyfill';
 
 export default class BrowserDownloader {
   constructor() {
@@ -41,7 +42,7 @@ export default class BrowserDownloader {
           downloaded: status.bytesReceived,
         });
 
-        localStorage.setItem('history', historyToArray(history));
+        browser.storage.local.set({ history: historyToArray(history) });
       } else {
         history.set(downloadItem.id, {
           manager: 'browser',
@@ -54,8 +55,7 @@ export default class BrowserDownloader {
           size: downloadItem.totalBytes,
           downloaded: status.bytesReceived,
         });
-
-        localStorage.setItem('history', historyToArray(history));
+        browser.storage.local.set({ history: historyToArray(history) });
       }
     }, 1000);
 
@@ -70,7 +70,6 @@ export default class BrowserDownloader {
       size: downloadItem.totalBytes,
       downloaded: 0,
     });
-
-    localStorage.setItem('history', historyToArray(history));
+    browser.storage.local.set({ history: historyToArray(history) });
   }
 }

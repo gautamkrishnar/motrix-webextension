@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import createThemed from './createThemed';
+import * as browser from 'webextension-polyfill';
 
 function ConfigView() {
   const [motrixAPIkey, setMotrixAPIkey] = useState('');

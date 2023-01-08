@@ -10,12 +10,13 @@ import {
 } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import createThemed from './createThemed';
+import * as browser from 'webextension-polyfill';
 
 function HistoryView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
   useEffect(() => {
-    const updateHistory = () => {
-      const history = JSON.parse(localStorage.getItem('history'));
+    const updateHistory = async () => {
+      const { history = [] } = await browser.storage.local.get(['history']);
       setDownloadHistory(history ?? []);
     };
     const inter = setInterval(updateHistory, 1000);

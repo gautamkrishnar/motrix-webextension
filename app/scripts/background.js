@@ -2,26 +2,25 @@ import { filter, lastValueFrom, Observable, take } from 'rxjs';
 import AriaDownloader from './AriaDownloader';
 import BrowserDownloader from './BrowserDownloader';
 import { historyToArray } from './utils';
+import * as browser from 'webextension-polyfill';
 
-function downloadAgent() {
+async function downloadAgent() {
   const subscribers = [];
   const observable = new Observable((s) => subscribers.push(s));
   const history = new Map();
-
   // Hide bottom bar
   browser.storage.sync.get(['hideChromeBar']).then(({ hideChromeBar }) => {
     browser.downloads.setShelfEnabled?.(!hideChromeBar);
   });
-
   // Setup history
-  const oldHistory = JSON.parse(localStorage.getItem('history'));
-  (oldHistory ?? []).forEach((x) => {
+  const { oldHistory = [] } = await browser.storage.local.get(['history']);
+  oldHistory.forEach((x) => {
     if (x.status !== 'completed') {
       x.status = 'unknown';
     }
     history.set(x.gid, x);
   });
-  localStorage.setItem('history', historyToArray(history));
+  browser.storage.local.set({ history: historyToArray(history) });
 
   browser.downloads.onChanged.addListener((delta) => {
     subscribers.forEach((s) => s.next(delta));
@@ -92,7 +91,6 @@ function downloadAgent() {
 
     getResult.then(async (result) => {
       const downloader = await getDownloader(result);
-      console.log(downloader);
 
       // wait for filename to be set
       if (!downloadItem.filename) {
@@ -114,23 +112,30 @@ function downloadAgent() {
   });
 }
 
-function createMenuItem() {
+export function createMenuItem() {
   browser.storage.sync
     .get('showContextOption')
     .then(({ showContextOption }) => {
-      console.log(showContextOption);
-      browser.contextMenus.create({
-        id: 'motrix-webextension-download-context-menu-option',
-        title: browser.i18n.getMessage('downloadWithMotrix'),
-        visible: showContextOption,
-        contexts: ['link'],
-        onclick: async (link) => {
-          browser.downloads.download({ url: link.linkUrl });
-        },
-      });
+      const menuId = 'motrix-webextension-download-context-menu-option';
+      const clickHandler = async (data) => {
+        browser.downloads.download({ url: data.linkUrl });
+      };
+      if (showContextOption) {
+        browser.contextMenus.removeAll();
+        browser.contextMenus.onClicked.removeListener(clickHandler);
+        browser.contextMenus.create({
+          id: menuId,
+          title: browser.i18n.getMessage('downloadWithMotrix'),
+          visible: showContextOption,
+          contexts: ['link'],
+        });
+        browser.contextMenus.onClicked.addListener(clickHandler);
+      } else {
+        browser.contextMenus.onClicked.removeListener(clickHandler);
+        browser.contextMenus.removeAll();
+      }
     });
 }
-
 browser.runtime.onStartup.addListener(function () {
   downloadAgent();
   createMenuItem();

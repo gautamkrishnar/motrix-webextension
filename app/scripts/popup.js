@@ -9,6 +9,7 @@ import ClearAllIcon from '@mui/icons-material/ClearAll';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import createThemed from './createThemed';
 import PropTypes from 'prop-types';
+import * as browser from 'webextension-polyfill';
 
 function OptProgress({ status, downloaded, size }) {
   console.log(status, downloaded, size);
@@ -68,8 +69,9 @@ function PopupView() {
   const [showOnlyAriaDownloads, setShowOnlyAriaDownloads] = useState(true);
 
   useEffect(() => {
-    const updateHistory = () => {
-      const history = JSON.parse(localStorage.getItem('history'));
+    const updateHistory = async () => {
+      const { history = [] } = await browser.storage.local.get(['history']);
+      debugger;
       setDownloadHistory(history ?? []);
     };
     const inter = setInterval(updateHistory, 1000);
@@ -140,7 +142,7 @@ function PopupView() {
               )
             ) {
               setDownloadHistory([]);
-              localStorage.removeItem('history');
+              browser.storage.local.set({ history: [] });
             }
           }}
         >
@@ -156,54 +158,55 @@ function PopupView() {
         </IconButton>
       </Grid>
       <Grid item xs={11}>
-        {downloadHistory
-          .filter((el) => !showOnlyAriaDownloads || el.downloader === 'aria')
-          .slice(0, 4)
-          .map((el) => (
-            <Paper
-              key={el.gid}
-              style={{ display: 'flex', marginBottom: '8px' }}
-            >
-              <div
-                style={{
-                  padding: '8px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                }}
+        {downloadHistory &&
+          downloadHistory
+            .filter((el) => !showOnlyAriaDownloads || el.downloader === 'aria')
+            .slice(0, 4)
+            .map((el) => (
+              <Paper
+                key={el.gid}
+                style={{ display: 'flex', marginBottom: '8px' }}
               >
-                <img src={el.icon ?? ''} />
-              </div>
-              <div
-                style={{
-                  padding: '8px',
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                }}
-              >
-                <div className="text">{parseName(el.name)}</div>
+                <div
+                  style={{
+                    padding: '8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img src={el.icon ?? ''} />
+                </div>
+                <div
+                  style={{
+                    padding: '8px',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div className="text">{parseName(el.name)}</div>
 
-                <OptProgress
-                  status={el.status}
-                  downloaded={el.downloaded}
-                  size={el.size}
-                />
-              </div>
-              <div
-                style={{
-                  padding: '4px',
-                  minWidth: '50px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                }}
-              >
-                <FolderButton element={el} />
-              </div>
-            </Paper>
-          ))}
+                  <OptProgress
+                    status={el.status}
+                    downloaded={el.downloaded}
+                    size={el.size}
+                  />
+                </div>
+                <div
+                  style={{
+                    padding: '4px',
+                    minWidth: '50px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FolderButton element={el} />
+                </div>
+              </Paper>
+            ))}
       </Grid>
     </Grid>
   );

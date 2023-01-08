@@ -3,7 +3,7 @@
   "short_name": "__MSG_appShortName__",
   "description": "__MSG_appDescription__",
   "version": "2.0.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "default_locale": "en",
   "homepage_url": "https://github.com/gautamkrishnar/motrix-webextension",
   "icons": {
@@ -13,11 +13,12 @@
     "128": "images/128.png"
   },
   "background": {
-    "scripts": ["scripts/background.js"],
-    "persistent": true
+    "service_worker": "scripts/background.js"
   },
-  "content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'",
-  "browser_action": {
+  "content_security_policy": {
+    "extension_pages": "default-src: 'self'; script-src 'self'; object-src 'self'"
+  },
+  "action": {
     "browser_style": true,
     "default_icon": {
       "16": "images/16.png",
@@ -28,11 +29,16 @@
     "default_title": "__MSG_browserActionTitle__",
     "default_popup": "pages/popup.html"
   },
+  "web_accessible_resources": [{
+    "resources": ["images/*", "scripts/*",  "styles/*"],
+    "matches": ["<all_urls>"]
+  }],
   "permissions": [
     "downloads",
     "downloads.shelf",
     "notifications",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "action"
   ]
 }

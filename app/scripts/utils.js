@@ -1,11 +1,9 @@
 // Function to save history as a string
 // Sorts by date from the latest and trunctates to 100 elements
 export function historyToArray(historyMap) {
-  return JSON.stringify(
-    [...historyMap.values()]
-      .sort((a, b) => b.startTime.localeCompare(a.startTime))
-      .slice(0, 100)
-  );
+  return [...historyMap.values()]
+    .sort((a, b) => b.startTime.localeCompare(a.startTime))
+    .slice(0, 100);
 }
 
 export function parsePath(path) {
