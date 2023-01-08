@@ -75,10 +75,22 @@ async function downloadAgent() {
       }
       // If API KEY is not set, triggers an alert to the user
       if (!result.motrixAPIkey) {
-        alert(
-          'API key not set, please set a random API key by clicking on the extension icon. Open Motrix ' +
-            'set the same API Key by visiting Preferences > Advanced > RPC Secret'
-        );
+        const notificationOptions = {
+          type: 'basic',
+          iconUrl: '../images/icon-large.png',
+          title: 'API key not set',
+          message:
+            'Please set a random API key by clicking on the extension icon. Open Motrix set the same API Key by visiting Preferences > Advanced > RPC Secret',
+        };
+        const notificationId = Math.round(
+          new Date().getTime() / 1000
+        ).toString();
+        browser.notifications.create(notificationId, notificationOptions);
+        browser.notifications.onClicked.addListener((id) => {
+          if (id === notificationId) {
+            browser.tabs.create({ url: 'motrix://' });
+          }
+        });
         return;
       }
 

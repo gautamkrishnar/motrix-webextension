@@ -161,10 +161,20 @@ async function onGot(result, downloadItem, history) {
     .catch((err) => {
       console.error(err);
       // Failed: Show alert
-      alert(
-        'Motrix not installed or configured properly, Open Motrix set a API Key by visiting Preferences' +
-          ' > Advanced > RPC Secret'
-      );
+      const notificationOptions = {
+        type: 'basic',
+        iconUrl: '../images/icon-large.png',
+        title: 'Motrix not installed or configured properly',
+        message:
+          'Open Motrix set a API Key by visiting Preferences > Advanced > RPC Secret',
+      };
+      const notificationId = Math.round(new Date().getTime() / 1000).toString();
+      browser.notifications.create(notificationId, notificationOptions);
+      browser.notifications.onClicked.addListener((id) => {
+        if (id === notificationId) {
+          browser.tabs.create({ url: 'motrix://' });
+        }
+      });
     });
 }
 
