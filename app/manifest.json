@@ -38,6 +38,10 @@
     "downloads.shelf",
     "notifications",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "cookies"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ]
 }

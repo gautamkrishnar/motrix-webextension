@@ -54,6 +54,12 @@ async function onGot(result, downloadItem, history) {
       referer: downloadItem.referrer,
     };
   }
+  if (downloadItem.cookies) {
+    params = {
+      ...params,
+      header: `Cookie: ${downloadItem.cookies}`,
+    };
+  }
   if (result.enableDownloadPrompt) {
     const newPath = prompt(`Do you want to download:`, downloadItem.filename);
     if (newPath == null) {
