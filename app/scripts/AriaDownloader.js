@@ -119,7 +119,7 @@ async function onGot(result, downloadItem, history) {
       aria2.on('onDownloadStop', async ([guid]) => {
         const status = null;
         try {
-          status = await aria2.call('tellStatus', gid);
+          status = await aria2.call('tellStatus', guid.gid);
         } catch {
           
         }
@@ -141,7 +141,7 @@ async function onGot(result, downloadItem, history) {
       aria2.on('onDownloadError', async ([guid]) => {
         const status = null;
         try {
-          status = await aria2.call('tellStatus', gid);
+          status = await aria2.call('tellStatus', guid.gid);
         } catch {
           
         }
