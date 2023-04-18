@@ -6,6 +6,9 @@ You must download and install the Motrix download manager first to use this exte
 
 ![motrix-extension](https://user-images.githubusercontent.com/8397274/71557256-bed84a80-2a69-11ea-98d9-f2f20d2a0065.gif)
 
+![motrix-webextension-googledrive-demo](https://user-images.githubusercontent.com/76680670/232788367-f8386aa9-eaa6-45f7-8caa-a44dfdd3ec71.gif)
+
+
 ## How to use
 ### Demo video:
 - [Chrome](https://youtu.be/L0cEu-2LpOE)
