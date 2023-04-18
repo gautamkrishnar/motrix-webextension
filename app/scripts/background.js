@@ -102,7 +102,7 @@ async function downloadAgent() {
     };
 
     getResult.then(async (result) => {
-      const downloader = await getDownloader(result);
+      let downloader = await getDownloader(result);
 
       // wait for filename to be set
       if (!downloadItem.filename) {
@@ -119,7 +119,15 @@ async function downloadAgent() {
       const icon = await browser.downloads.getFileIcon(downloadItem.id);
       downloadItem.icon = icon;
 
-      await downloader.handleStart(result, downloadItem, history);
+      try {
+        await downloader.handleStart(result, downloadItem, history);
+      } catch {
+        if (downloader instanceof AriaDownloader) {
+          await browser.downloads.resume(downloadItem.id);
+          downloader = new BrowserDownloader();
+          downloader.handleStart(result, downloadItem, history);
+        }
+      }
     }, onError);
   });
 }
