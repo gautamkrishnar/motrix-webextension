@@ -151,9 +151,25 @@ export function createMenuItem() {
 browser.runtime.onStartup.addListener(function () {
   downloadAgent();
   createMenuItem();
+  createOffscreen();
 });
 
 browser.runtime.onInstalled.addListener(function () {
   downloadAgent();
   createMenuItem();
+  createOffscreen();
+});
+
+// create the offscreen document if it doesn't already exist
+async function createOffscreen() {
+  if (await chrome.offscreen.hasDocument?.()) return;
+  await chrome.offscreen.createDocument({
+    url: 'offscreen.html',
+    reasons: ['BLOBS'],
+    justification: 'keep service worker running',
+  });
+}
+// a message from an offscreen document every 20 second resets the inactivity timer
+chrome.runtime.onMessage.addListener(msg => {
+  if (msg.keepAlive) console.log('keepAlive');
 });

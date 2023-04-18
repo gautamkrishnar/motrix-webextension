@@ -38,6 +38,7 @@
     "downloads.shelf",
     "notifications",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "offscreen"
   ]
 }
