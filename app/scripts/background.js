@@ -125,7 +125,7 @@ async function downloadAgent() {
         if (downloader instanceof AriaDownloader) {
           await browser.downloads.resume(downloadItem.id);
           downloader = new BrowserDownloader();
-          downloader.handleStart(result, downloadItem, history);
+          await downloader.handleStart(result, downloadItem, history);
         }
       }
     }, onError);
