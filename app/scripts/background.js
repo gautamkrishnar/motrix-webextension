@@ -164,7 +164,7 @@ browser.runtime.onInstalled.addListener(function () {
 async function createOffscreen() {
   if (await chrome.offscreen.hasDocument?.()) return;
   await chrome.offscreen.createDocument({
-    url: 'offscreen.html',
+    url: 'pages/offscreen.html',
     reasons: ['BLOBS'],
     justification: 'keep service worker running',
   });
