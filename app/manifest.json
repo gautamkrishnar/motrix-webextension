@@ -40,5 +40,9 @@
     "storage",
     "contextMenus",
     "offscreen"
+    "cookies"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ]
 }

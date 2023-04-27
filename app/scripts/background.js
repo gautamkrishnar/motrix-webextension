@@ -26,7 +26,11 @@ async function downloadAgent() {
     subscribers.forEach((s) => s.next(delta));
   });
 
-  browser.downloads.onCreated.addListener(function (downloadItem) {
+  browser.downloads.onCreated.addListener(async function (downloadItem) {
+    const cookies = await browser.cookies.getAll({url: downloadItem.url});
+    const cookiesString = cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; ');
+    downloadItem.cookies = cookiesString;
+    
     if (downloadItem.state !== 'in_progress') {
       return;
     }

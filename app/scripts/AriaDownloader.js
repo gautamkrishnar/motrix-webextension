@@ -54,6 +54,12 @@ async function onGot(result, downloadItem, history) {
       referer: downloadItem.referrer,
     };
   }
+  if (downloadItem.cookies) {
+    params = {
+      ...params,
+      header: `Cookie: ${downloadItem.cookies}`,
+    };
+  }
   if (result.enableDownloadPrompt) {
     const newPath = prompt(`Do you want to download:`, downloadItem.filename);
     if (newPath == null) {
@@ -72,7 +78,12 @@ async function onGot(result, downloadItem, history) {
     .call('addUri', [downloadUrl], params)
     .then(async (gid) => {
       inter = setInterval(async () => {
-        const status = await aria2.call('tellStatus', gid);
+        const status = null;
+        try {
+          status = await aria2.call('tellStatus', gid);
+        } catch {
+          return;
+        }
         history.set(gid, {
           gid: gid,
           downloader: 'aria',
@@ -103,6 +114,50 @@ async function onGot(result, downloadItem, history) {
           downloaded: 0,
         });
         browser.storage.local.set({ history: historyToArray(history) });
+      });
+
+      aria2.on('onDownloadStop', async ([guid]) => {
+        const status = null;
+        try {
+          status = await aria2.call('tellStatus', guid.gid);
+        } catch {
+          
+        }
+        history.set(guid.gid, {
+          gid: guid.gid,
+          downloader: 'aria',
+          startTime: downloadItem.startTime,
+          icon: downloadItem.icon,
+          name: params.out ?? null,
+          path: params.dir ?? null,
+          status: 'stop',
+          size: downloadItem.totalBytes,
+          downloaded: status ? parseInt(status.completedLength) : 0,
+        });
+        browser.storage.local.set({ history: historyToArray(history) });
+        clearInterval(inter);
+      });
+
+      aria2.on('onDownloadError', async ([guid]) => {
+        const status = null;
+        try {
+          status = await aria2.call('tellStatus', guid.gid);
+        } catch {
+          
+        }
+        history.set(guid.gid, {
+          gid: guid.gid,
+          downloader: 'aria',
+          startTime: downloadItem.startTime,
+          icon: downloadItem.icon,
+          name: params.out ?? null,
+          path: params.dir ?? null,
+          status: 'error',
+          size: downloadItem.totalBytes,
+          downloaded: status ? parseInt(status.completedLength) : 0,
+        });
+        browser.storage.local.set({ history: historyToArray(history) });
+        clearInterval(inter);
       });
 
       aria2.on('onDownloadComplete', ([guid]) => {
