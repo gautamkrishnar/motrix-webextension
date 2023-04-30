@@ -27,10 +27,11 @@ async function downloadAgent() {
   });
 
   browser.downloads.onCreated.addListener(async function (downloadItem) {
-    const cookies = await browser.cookies.getAll({url: downloadItem.url});
-    const cookiesString = cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; ');
-    downloadItem.cookies = cookiesString;
-    
+    const cookies = await browser.cookies.getAll({ url: downloadItem.url });
+    downloadItem.cookies = cookies
+      .map((cookie) => `${cookie.name}=${cookie.value}`)
+      .join('; ');
+
     if (downloadItem.state !== 'in_progress') {
       return;
     }
@@ -120,8 +121,7 @@ async function downloadAgent() {
       }
 
       // get icon of the file
-      const icon = await browser.downloads.getFileIcon(downloadItem.id);
-      downloadItem.icon = icon;
+      downloadItem.icon = await browser.downloads.getFileIcon(downloadItem.id);
 
       try {
         await downloader.handleStart(result, downloadItem, history);
@@ -182,6 +182,6 @@ async function createOffscreen() {
   });
 }
 // a message from an offscreen document every 20 second resets the inactivity timer
-chrome.runtime.onMessage.addListener(msg => {
+chrome.runtime.onMessage.addListener((msg) => {
   if (msg.keepAlive) console.log('keepAlive');
 });

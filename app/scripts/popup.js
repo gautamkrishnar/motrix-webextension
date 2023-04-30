@@ -71,7 +71,6 @@ function PopupView() {
   useEffect(() => {
     const updateHistory = async () => {
       const { history = [] } = await browser.storage.local.get(['history']);
-      debugger;
       setDownloadHistory(history ?? []);
     };
     const inter = setInterval(updateHistory, 1000);
@@ -175,7 +174,7 @@ function PopupView() {
                     justifyContent: 'center',
                   }}
                 >
-                  <img src={el.icon ?? ''} />
+                  <img src={el.icon ?? ''} alt="icon" />
                 </div>
                 <div
                   style={{

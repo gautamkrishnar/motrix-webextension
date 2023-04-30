@@ -25,5 +25,8 @@
   },
   "rules": {
     "linebreak-style": ["error", "unix"]
-  }
+  },
+  "ignorePatterns": [
+    "**/scripts/AriaDownloader.js"
+  ]
 }
