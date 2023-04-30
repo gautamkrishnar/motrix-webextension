@@ -39,6 +39,7 @@
     "notifications",
     "storage",
     "contextMenus",
+    "offscreen"
     "cookies"
   ],
   "host_permissions": [
