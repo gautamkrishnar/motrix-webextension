@@ -231,6 +231,7 @@ async function onGot(result, downloadItem, history) {
         }
       });
     });
+  await removeFromHistory(downloadItem.id);
 }
 
 export default class AriaDownloader {
@@ -241,7 +242,7 @@ export default class AriaDownloader {
   async handleStart(options, downloadItem, history) {
     const result = options;
     // remove file from browsers history
-    await removeFromHistory(downloadItem.id);
+    await browser.downloads.pause(downloadItem.id);
     await onGot(result, downloadItem, history);
   }
 }

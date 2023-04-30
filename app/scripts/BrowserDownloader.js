@@ -41,7 +41,20 @@ export default class BrowserDownloader {
           size: downloadItem.totalBytes,
           downloaded: status.bytesReceived,
         });
-
+        browser.storage.local.set({ history: historyToArray(history) });
+      } else if (status.state !== 'in_progress') {
+        clearInterval(inter);
+        history.set(downloadItem.id, {
+          manager: 'browser',
+          gid: downloadItem.id,
+          startTime: downloadItem.startTime,
+          icon: downloadItem.icon,
+          name: path.out ?? null,
+          path: path.dir ?? null,
+          status: 'stop',
+          size: downloadItem.totalBytes,
+          downloaded: status.bytesReceived,
+        });
         browser.storage.local.set({ history: historyToArray(history) });
       } else {
         history.set(downloadItem.id, {
