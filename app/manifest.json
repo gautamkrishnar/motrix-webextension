@@ -3,6 +3,11 @@
   "short_name": "__MSG_appShortName__",
   "description": "__MSG_appDescription__",
   "version": "2.0.0",
+  "__firefox__browser_specific_settings": {
+    "gecko": {
+      "id": "{551faf76-9f63-4a86-b3b6-0178749d8f29}"
+    }
+  },
   "manifest_version": 3,
   "default_locale": "en",
   "homepage_url": "https://github.com/gautamkrishnar/motrix-webextension",
@@ -14,6 +19,9 @@
   },
   "background": {
     "service_worker": "scripts/background.js"
+  },
+  "__firefox__background":{
+    "scripts": ["scripts/background.js"]
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
