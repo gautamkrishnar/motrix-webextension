@@ -21,7 +21,7 @@ async function onGot(result, downloadItem, history) {
   // API Key is set, Proceed with download
   const options = {
     host: '127.0.0.1',
-    port: 16800,
+    port: result.motrixPort,
     secure: false,
     secret: result.motrixAPIkey,
     path: '/jsonrpc',
@@ -120,9 +120,7 @@ async function onGot(result, downloadItem, history) {
         const status = null;
         try {
           status = await aria2.call('tellStatus', guid.gid);
-        } catch {
-          
-        }
+        } catch {}
         history.set(guid.gid, {
           gid: guid.gid,
           downloader: 'aria',
@@ -142,9 +140,7 @@ async function onGot(result, downloadItem, history) {
         const status = null;
         try {
           status = await aria2.call('tellStatus', guid.gid);
-        } catch {
-          
-        }
+        } catch {}
         history.set(guid.gid, {
           gid: guid.gid,
           downloader: 'aria',

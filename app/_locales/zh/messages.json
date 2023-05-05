@@ -54,5 +54,9 @@
   "darkMode": {
     "message": "深色模式",
     "description": "深色模式"
+  },
+  "setPort": {
+    "message": "设定埠",
+    "description": "设定埠"
   }
 }

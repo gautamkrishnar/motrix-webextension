@@ -70,5 +70,9 @@
   "downloadWithMotrix": {
     "message": "Download with Motrix",
     "description": "Download with Motrix"
+  },
+  "setPort": {
+    "message": "Set Port",
+    "description": "Set Port"
   }
 }

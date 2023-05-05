@@ -8,6 +8,7 @@ You must download and install the Motrix download manager first to use this exte
 
 ## How to use
 1. Open the Motrix download manager installed on your computer, and go to `Preferences > Advanced > Security > RPC secret` and create a random secret key and copy it.
+There is also an option to update the RPC Listen Port, you dont have to do it. If you are updating it please make sure that you set it to the extension  using the set port option in the extension.
 
 <img src="https://user-images.githubusercontent.com/8397274/211193332-bc815b60-60a3-445c-bb0b-7547d1974de8.png" alt="how to use motrix step 1" valign="middle">
 

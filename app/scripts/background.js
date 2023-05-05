@@ -48,6 +48,7 @@ async function downloadAgent() {
       'enableDownloadPrompt',
       'minFileSize',
       'blacklist',
+      'motrixPort',
     ]);
 
     const getAriaDownloader = async (options) => {

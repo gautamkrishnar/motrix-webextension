@@ -24,6 +24,7 @@ function ConfigView() {
   const [showOnlyAriaDownloads, setShowOnlyAriaDownloads] = useState(false);
   const [hideChromeBar, setHideChromeBar] = useState(true);
   const [showContextOption, setShowContextOption] = useState(true);
+  const [motrixPort, setMotrixPort] = useState(16800);
 
   useEffect(() => {
     browser.storage.sync
@@ -38,6 +39,7 @@ function ConfigView() {
         'showOnlyAria',
         'hideChromeBar',
         'showContextOption',
+        'motrixPort',
       ])
       .then(
         (result) => {
@@ -105,12 +107,17 @@ function ConfigView() {
           } else {
             setHideChromeBar(result.hideChromeBar);
           }
-
           if (typeof result.showContextOption === 'undefined') {
             browser.storage.sync.set({ showContextOption: true });
             setShowContextOption(true);
           } else {
             setShowContextOption(result.showContextOption);
+          }
+          if (typeof result.motrixPort === 'undefined') {
+            browser.storage.sync.set({ motrixPort: 16800 });
+            setMotrixPort(16800);
+          } else {
+            setMotrixPort(result.motrixPort);
           }
         },
         (error) => {
@@ -142,7 +149,27 @@ function ConfigView() {
             __MSG_setKey__
           </Button>
         </Grid>
-
+        {/* Motrix port input */}
+        <Grid item xs={6}>
+          <TextField
+            id="motrix-port"
+            label="__MSG_setPort__"
+            variant="outlined"
+            type="number"
+            fullWidth
+            value={motrixPort}
+            onChange={(e) => setMotrixPort(Number(e.target.value))}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            variant="outlined"
+            style={{ width: '100%', height: '100%' }}
+            onClick={() => browser.storage.sync.set({ motrixPort })}
+          >
+            __MSG_setPort__
+          </Button>
+        </Grid>
         {/* Minimum file size input */}
         <Grid item xs={6}>
           <TextField
