@@ -9,7 +9,7 @@ function validateUrl(value) {
 }
 
 const pass = () => null;
-const handleError = (error) => console.error(`Error: ${error}`);
+const handleError = (error) => console.log(`Error: ${error}`);
 
 async function removeFromHistory(id) {
   await browser.downloads.removeFile(id).then(pass).catch(pass);
@@ -210,7 +210,7 @@ async function onGot(result, downloadItem, history) {
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.log(`Error: ${err}`);
       // Failed: Show alert
       const notificationOptions = {
         type: 'basic',

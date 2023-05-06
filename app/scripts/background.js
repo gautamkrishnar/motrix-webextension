@@ -37,7 +37,7 @@ async function downloadAgent() {
     }
 
     async function onError(error) {
-      console.error(`Error: ${error}`);
+      console.log(`Error: ${error}`);
     }
 
     // Triggered whenever a new download event fires
