@@ -74,5 +74,9 @@
   "setPort": {
     "message": "Set Port",
     "description": "Set Port"
+  },
+  "downloadFallback": {
+    "message": "If launching in Motrix fails, use the browser's default download manager",
+    "description": "If launching in Motrix fails, use the browser's default download manager"
   }
 }

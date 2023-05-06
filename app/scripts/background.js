@@ -49,6 +49,7 @@ async function downloadAgent() {
       'minFileSize',
       'blacklist',
       'motrixPort',
+      'downloadFallback',
     ]);
 
     const getAriaDownloader = async (options) => {
@@ -59,7 +60,7 @@ async function downloadAgent() {
       });
 
       const shouldCheck =
-        statuses[0]?.byExtensionName !== 'Motrix WebExtension';
+        statuses[0]?.byExtensionName !== browser.i18n.getMessage('appName');
 
       // Extension is disabled
       if (shouldCheck && !result.extensionStatus) return;
@@ -128,9 +129,38 @@ async function downloadAgent() {
         await downloader.handleStart(result, downloadItem, history);
       } catch {
         if (downloader instanceof AriaDownloader) {
-          await browser.downloads.resume(downloadItem.id);
-          downloader = new BrowserDownloader();
-          await downloader.handleStart(result, downloadItem, history);
+          if (
+            typeof result.downloadFallback === 'undefined' ||
+            result?.downloadFallback
+          ) {
+            await browser.downloads.resume(downloadItem.id);
+            downloader = new BrowserDownloader();
+            await downloader.handleStart(result, downloadItem, history);
+          } else {
+            await browser?.downloads
+              ?.removeFile(downloadItem.id)
+              .then()
+              .catch(onError);
+            await browser?.downloads
+              ?.cancel(downloadItem.id)
+              .then()
+              .catch(onError);
+            await browser?.downloads
+              ?.erase({ id: downloadItem.id })
+              .then()
+              .catch(onError);
+            const notificationOptions = {
+              type: 'basic',
+              iconUrl: '../images/icon-large.png',
+              title: 'Connection to motrix is not working',
+              message:
+                'Browser download fallback is also not enabled. Your download will be cancelled.',
+            };
+            const notificationId = Math.round(
+              new Date().getTime() / 1000
+            ).toString();
+            browser.notifications.create(notificationId, notificationOptions);
+          }
         }
       }
     }, onError);

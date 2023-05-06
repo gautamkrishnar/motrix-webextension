@@ -58,5 +58,9 @@
   "setPort": {
     "message": "设定埠",
     "description": "设定埠"
+  },
+  "downloadFallback": {
+    "message": "如果在 motrix 中启动失败，请使用浏览器的默认下载管理器",
+    "description": "如果在 motrix 中启动失败，请使用浏览器的默认下载管理器"
   }
 }

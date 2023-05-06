@@ -17,6 +17,7 @@ function ConfigView() {
   const [motrixAPIkey, setMotrixAPIkey] = useState('');
   const [extensionStatus, setExtensionStatus] = useState(false);
   const [enableNotifications, setEnableNotifications] = useState(false);
+  const [downloadFallback, setDownloadFallback] = useState(true);
   const [enableDownloadPrompt, setEnableDownloadPrompt] = useState(false);
   const [minFileSize, setMinFileSize] = useState('');
   const [blacklist, setBlacklist] = useState([]);
@@ -40,6 +41,7 @@ function ConfigView() {
         'hideChromeBar',
         'showContextOption',
         'motrixPort',
+        'downloadFallback',
       ])
       .then(
         (result) => {
@@ -64,6 +66,12 @@ function ConfigView() {
             setExtensionStatus(true);
           } else {
             setExtensionStatus(result.extensionStatus);
+          }
+          if (typeof result.downloadFallback === 'undefined') {
+            browser.storage.sync.set({ downloadFallback: true });
+            setDownloadFallback(true);
+          } else {
+            setDownloadFallback(result.downloadFallback);
           }
 
           if (typeof result.enableNotifications === 'undefined') {
@@ -204,6 +212,24 @@ function ConfigView() {
               onClick={() => {
                 browser.storage.sync.set({ extensionStatus: !extensionStatus });
                 setExtensionStatus((x) => !x);
+              }}
+            />
+          </Box>
+        </Grid>
+
+        {/* Fallback status switch */}
+        <Grid item xs={6}>
+          <FormLabel>__MSG_downloadFallback__</FormLabel>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
+            <Switch
+              checked={downloadFallback}
+              onClick={() => {
+                browser.storage.sync.set({
+                  downloadFallback: !downloadFallback,
+                });
+                setDownloadFallback((x) => !x);
               }}
             />
           </Box>
