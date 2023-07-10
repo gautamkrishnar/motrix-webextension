@@ -205,14 +205,14 @@ browser.runtime.onInstalled.addListener(function () {
 
 // create the offscreen document if it doesn't already exist
 async function createOffscreen() {
-  if (await chrome.offscreen.hasDocument?.()) return;
-  await chrome.offscreen.createDocument({
+  if (await browser.offscreen === undefined || await browser.offscreen.hasDocument?.()) return;
+  await browser.offscreen.createDocument({
     url: 'pages/offscreen.html',
     reasons: ['BLOBS'],
     justification: 'keep service worker running',
   });
 }
 // a message from an offscreen document every 20 second resets the inactivity timer
-chrome.runtime.onMessage.addListener((msg) => {
+browser.runtime.onMessage.addListener((msg) => {
   if (msg.keepAlive) console.log('keepAlive');
 });
