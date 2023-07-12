@@ -32,7 +32,7 @@
     "description": "设置密钥"
   },
   "setMinSize": {
-    "message": 设置最小下载文件 (mb)",
+    "message": "设置最小下载文件 (mb)",
     "description": "设置最小下载文件"
   },
   "setSize": {
