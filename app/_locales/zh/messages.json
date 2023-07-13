@@ -1,19 +1,19 @@
 {
   "appName": {
-    "message": "Motrix WebExtension",
-    "description": "The name of the application"
+    "message": "Motrix 网页扩展",
+    "description": "应用程序名称"
   },
   "appShortName": {
-    "message": "Motrix WebExt",
-    "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
+    "message": "Motrix 扩展",
+    "description": "应用程序缩略名称"
   },
   "appDescription": {
-    "message": "WebExtension for Motrix download manager",
-    "description": "The description of the application"
+    "message": "用于 Motrix 下载管理器的网页扩展",
+    "description": "应用程序描述"
   },
   "browserActionTitle": {
-    "message": "Motrix WebExtension",
-    "description": "The title of the browser action button"
+    "message": "Motrix 网页扩展",
+    "description": "浏览器操作按钮标题"
   },
   "extensionStatus": {
     "message": "扩展状态",
