@@ -1,30 +1,30 @@
 {
   "appName": {
-    "message": "Motrix WebExtension",
-    "description": "The name of the application"
+    "message": "Motrix 网页扩展",
+    "description": "应用程序名称"
   },
   "appShortName": {
-    "message": "Motrix WebExt",
-    "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
+    "message": "Motrix 扩展",
+    "description": "应用程序缩略名称"
   },
   "appDescription": {
-    "message": "WebExtension for Motrix download manager",
-    "description": "The description of the application"
+    "message": "用于 Motrix 下载管理器的网页扩展",
+    "description": "应用程序描述"
   },
   "browserActionTitle": {
-    "message": "Motrix WebExtension",
-    "description": "The title of the browser action button"
+    "message": "Motrix 网页扩展",
+    "description": "浏览器操作按钮标题"
   },
   "extensionStatus": {
-    "message": "扩展状态:",
+    "message": "扩展状态",
     "description": "扩展状态"
   },
   "enableNotifications": {
-    "message": "允许桌面通知:",
+    "message": "允许桌面通知",
     "description": "允许桌面通知"
   },
   "promptBeforeDownload": {
-    "message": "下载前确认:",
+    "message": "下载前确认",
     "description": "下载前确认"
   },
   "setKey": {
@@ -45,7 +45,7 @@
   },
   "blacklist": {
     "message": "黑名单",
-    "description": "不自动下载这些站点的链接"
+    "description": "黑名单"
   },
   "saveBlacklist": {
     "message": "保存黑名单",
@@ -55,12 +55,28 @@
     "message": "深色模式",
     "description": "深色模式"
   },
+  "showOnlyAria": {
+    "message": "在弹出窗口中仅显示 Motrix 下载",
+    "description": "在弹出窗口中仅显示 Motrix 下载"
+  },
+  "hideChromeBar": {
+    "message": "隐藏 Chrome 下载栏",
+    "description": "隐藏 Chrome 下载栏"
+  },
+  "showContextOption": {
+    "message": "显示“使用 Motrix 下载”右键选项",
+    "description": "显示“使用 Motrix 下载”右键选项"
+  },
+  "downloadWithMotrix": {
+    "message": "使用 Motrix 下载",
+    "description": "使用 Motrix 下载"
+  },
   "setPort": {
-    "message": "设定埠",
-    "description": "设定埠"
+    "message": "设置端口",
+    "description": "设置端口"
   },
   "downloadFallback": {
-    "message": "如果在 motrix 中启动失败，请使用浏览器的默认下载管理器",
-    "description": "如果在 motrix 中启动失败，请使用浏览器的默认下载管理器"
+    "message": "如果 Motrix 启动失败，则使用浏览器的默认下载管理器",
+    "description": "如果 Motrix 启动失败，则使用浏览器的默认下载管理器"
   }
 }
