@@ -176,15 +176,16 @@ export function createMenuItem() {
         browser.downloads.download({ url: data.linkUrl });
       };
       if (showContextOption) {
-        browser.contextMenus.removeAll();
-        browser.contextMenus.onClicked.removeListener(clickHandler);
-        browser.contextMenus.create({
-          id: menuId,
-          title: browser.i18n.getMessage('downloadWithMotrix'),
-          visible: showContextOption,
-          contexts: ['link'],
+        browser.contextMenus.removeAll().then(() => {
+          browser.contextMenus.onClicked.removeListener(clickHandler);
+          browser.contextMenus.create({
+            id: menuId,
+            title: browser.i18n.getMessage('downloadWithMotrix'),
+            visible: showContextOption,
+            contexts: ['link'],
+          });
+          browser.contextMenus.onClicked.addListener(clickHandler);
         });
-        browser.contextMenus.onClicked.addListener(clickHandler);
       } else {
         browser.contextMenus.onClicked.removeListener(clickHandler);
         browser.contextMenus.removeAll();
