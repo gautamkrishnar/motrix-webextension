@@ -100,6 +100,7 @@ function PopupView() {
 
   const onExtensionStatusChange = (status) => {
     browser.storage.sync.set({ extensionStatus: status });
+    if (!status) browser.downloads.setShelfEnabled?.(true);
     setExtensionStatus(status);
   };
 

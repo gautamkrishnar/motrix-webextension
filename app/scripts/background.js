@@ -9,8 +9,8 @@ async function downloadAgent() {
   const observable = new Observable((s) => subscribers.push(s));
   const history = new Map();
   // Hide bottom bar
-  browser.storage.sync.get(['hideChromeBar']).then(({ hideChromeBar }) => {
-    browser.downloads.setShelfEnabled?.(!hideChromeBar);
+  browser.storage.sync.get(['hideChromeBar', 'extensionStatus']).then(({ hideChromeBar, extensionStatus }) => {
+    if (extensionStatus) browser.downloads.setShelfEnabled?.(!hideChromeBar);
   });
   // Setup history
   const { oldHistory = [] } = await browser.storage.local.get(['history']);

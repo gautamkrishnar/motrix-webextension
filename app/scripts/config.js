@@ -317,7 +317,7 @@ function ConfigView() {
             <Switch
               checked={hideChromeBar}
               onClick={() => {
-                if (browser.downloads.setShelfEnabled) {
+                if (browser.downloads.setShelfEnabled && extensionStatus) {
                   browser.downloads.setShelfEnabled(!!hideChromeBar);
                 }
                 browser.storage.sync.set({
