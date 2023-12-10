@@ -8,27 +8,24 @@ on:
   workflow_dispatch: null
 jobs:
   Version:
-    outputs:
-      created: ${{ steps.daily-version.outputs.created }}
-      version: ${{ steps.daily-version.outputs.version }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 20
       - name: install
         run: yarn ci || yarn install
-      - uses: fregante/daily-version-action@v1
+      - uses: fregante/daily-version-action@v2
         name: Create tag if necessary
         id: daily-version
-      - uses: fregante/release-with-changelog@v3
-        if: steps.daily-version.outputs.created
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          exclude: true
+      - name: Create release
+        if: env.DAILY_VERSION_CREATED
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${{ env.DAILY_VERSION }}"
   Submit:
     needs: Version
-    if: github.event_name == 'workflow_dispatch' || needs.Version.outputs.created
+    if: github.event_name == 'workflow_dispatch' || env.DAILY_VERSION_CREATED
     strategy:
       fail-fast: false
       matrix:
@@ -43,8 +40,7 @@ jobs:
       - run: yarn run build ${{ matrix.command }}
       - name: Update extension’s meta
         run: >-
-          npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{
-          needs.Version.outputs.version }}
+          npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{ env.DAILY_VERSION }}
       - name: Submit
         run: |
           case ${{ matrix.command }} in
