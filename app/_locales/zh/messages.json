@@ -23,10 +23,6 @@
     "message": "允许桌面通知",
     "description": "允许桌面通知"
   },
-  "promptBeforeDownload": {
-    "message": "下载前确认",
-    "description": "下载前确认"
-  },
   "setKey": {
     "message": "设置密钥",
     "description": "设置密钥"

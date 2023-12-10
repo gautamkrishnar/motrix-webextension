@@ -18,7 +18,6 @@ function ConfigView() {
   const [extensionStatus, setExtensionStatus] = useState(false);
   const [enableNotifications, setEnableNotifications] = useState(false);
   const [downloadFallback, setDownloadFallback] = useState(true);
-  const [enableDownloadPrompt, setEnableDownloadPrompt] = useState(false);
   const [minFileSize, setMinFileSize] = useState('');
   const [blacklist, setBlacklist] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
@@ -33,7 +32,6 @@ function ConfigView() {
         'motrixAPIkey',
         'extensionStatus',
         'enableNotifications',
-        'enableDownloadPrompt',
         'minFileSize',
         'blacklist',
         'darkMode',
@@ -79,13 +77,6 @@ function ConfigView() {
             setEnableNotifications(true);
           } else {
             setEnableNotifications(result.enableNotifications);
-          }
-
-          if (typeof result.enableDownloadPrompt === 'undefined') {
-            browser.storage.sync.set({ enableDownloadPrompt: false });
-            setEnableDownloadPrompt(false);
-          } else {
-            setEnableDownloadPrompt(result.enableDownloadPrompt);
           }
 
           if (typeof result.blacklist === 'undefined') {
@@ -248,24 +239,6 @@ function ConfigView() {
                   enableNotifications: !enableNotifications,
                 });
                 setEnableNotifications((x) => !x);
-              }}
-            />
-          </Box>
-        </Grid>
-
-        {/* Prompt status switch */}
-        <Grid item xs={6}>
-          <FormLabel>__MSG_promptBeforeDownload__</FormLabel>
-        </Grid>
-        <Grid item xs={2}>
-          <Box display="flex" justifyContent="center">
-            <Switch
-              checked={enableDownloadPrompt}
-              onClick={() => {
-                browser.storage.sync.set({
-                  enableDownloadPrompt: !enableDownloadPrompt,
-                });
-                setEnableDownloadPrompt((x) => !x);
               }}
             />
           </Box>

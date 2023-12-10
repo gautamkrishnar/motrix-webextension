@@ -45,7 +45,6 @@ async function downloadAgent() {
       'motrixAPIkey',
       'extensionStatus',
       'enableNotifications',
-      'enableDownloadPrompt',
       'minFileSize',
       'blacklist',
       'motrixPort',

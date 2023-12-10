@@ -23,10 +23,6 @@
     "message": "Enable notifications:",
     "description": "Enable Notifications"
   },
-  "promptBeforeDownload": {
-    "message": "Prompt before download:",
-    "description": "Prompt before download"
-  },
   "setKey": {
     "message": "Set Key",
     "description": "Set Key"

@@ -60,18 +60,6 @@ async function onGot(result, downloadItem, history) {
       header: `Cookie: ${downloadItem.cookies}`,
     };
   }
-  if (result.enableDownloadPrompt) {
-    const newPath = prompt(`Do you want to download:`, downloadItem.filename);
-    if (newPath == null) {
-      return;
-    }
-
-    params = {
-      ...params,
-      ...parsePath(newPath),
-      'summary-interval': 1,
-    };
-  }
   let inter = null;
 
   await aria2
