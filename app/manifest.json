@@ -9,6 +9,7 @@
     }
   },
   "manifest_version": 3,
+  "__firefox__manifest_version": 2,
   "default_locale": "en",
   "homepage_url": "https://github.com/gautamkrishnar/motrix-webextension",
   "icons": {
@@ -21,12 +22,24 @@
     "service_worker": "scripts/background.js"
   },
   "__firefox__background":{
-    "scripts": ["scripts/background.js"]
-  },
-  "content_security_policy": {
+    "scripts": ["scripts/background.js"],
+    "persistent": true
+},
+  "__chrome__content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "action": {
+  "__firefox__content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'",
+  "__chrome__action": {
+    "default_icon": {
+      "16": "images/16.png",
+      "32": "images/32.png",
+      "48": "images/48.png",
+      "128": "images/128.png"
+    },
+    "default_title": "__MSG_browserActionTitle__",
+    "default_popup": "pages/popup.html"
+  },
+  "__firefox__browser_action": {
     "browser_style": true,
     "default_icon": {
       "16": "images/16.png",
@@ -37,7 +50,7 @@
     "default_title": "__MSG_browserActionTitle__",
     "default_popup": "pages/popup.html"
   },
-  "web_accessible_resources": [{
+  "__chrome__web_accessible_resources": [{
     "resources": ["images/*", "scripts/*",  "styles/*"],
     "matches": ["<all_urls>"]
   }],
@@ -50,7 +63,14 @@
     "offscreen",
     "cookies"
   ],
-  "host_permissions": [
+  "__firefox__permissions": [
+    "downloads",
+    "notifications",
+    "storage",
+    "contextMenus",
+    "cookies"
+  ],
+  "__chrome__host_permissions": [
     "<all_urls>"
   ]
 }

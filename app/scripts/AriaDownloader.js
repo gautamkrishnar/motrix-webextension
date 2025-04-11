@@ -1,5 +1,5 @@
 import Aria2 from 'aria2';
-import { historyToArray, parsePath } from './utils';
+import { historyToArray, parsePath, isFirefox } from './utils';
 import * as browser from 'webextension-polyfill';
 
 function validateUrl(value) {
@@ -66,7 +66,7 @@ async function onGot(result, downloadItem, history) {
     .call('addUri', [downloadUrl], params)
     .then(async (gid) => {
       inter = setInterval(async () => {
-        const status = null;
+        let status = null;
         try {
           status = await aria2.call('tellStatus', gid);
         } catch {
@@ -81,15 +81,21 @@ async function onGot(result, downloadItem, history) {
           path: params.dir ?? null,
           status: 'downloading',
           size: downloadItem.totalBytes,
-          downloaded: parseInt(status.completedLength),
+          downloaded: parseInt(status?.completedLength),
         });
         browser.storage.local.set({ history: historyToArray(history) });
       }, 1000);
 
       aria2.on('onDownloadStart', ([guid]) => {
-        browser.action.setIcon({
-          path: '../images/dwld.png',
-        });
+        if (isFirefox) {
+          browser.browserAction.setIcon({
+            path: '../images/dwld.png',
+          });
+        } else {
+          browser.action.setIcon({
+            path: '../images/dwld.png',
+          });
+        }
         history.set(guid.gid, {
           gid: guid.gid,
           downloader: 'aria',
@@ -105,7 +111,7 @@ async function onGot(result, downloadItem, history) {
       });
 
       aria2.on('onDownloadStop', async ([guid]) => {
-        const status = null;
+        let status = null;
         try {
           status = await aria2.call('tellStatus', guid.gid);
         } catch {}
@@ -125,7 +131,7 @@ async function onGot(result, downloadItem, history) {
       });
 
       aria2.on('onDownloadError', async ([guid]) => {
-        const status = null;
+        let status = null;
         try {
           status = await aria2.call('tellStatus', guid.gid);
         } catch {}
@@ -170,9 +176,15 @@ async function onGot(result, downloadItem, history) {
               [...history.values()].filter((x) => x.status === 'downloading')
                 .length === 0
             ) {
-              browser.action.setIcon({
-                path: '../images/32.png',
-              });
+              if (isFirefox) {
+                browser.browserAction.setIcon({
+                  path: '../images/32.png',
+                });
+              } else {
+                browser.action.setIcon({
+                  path: '../images/32.png',
+                });
+              }
             }
           }, 1000);
         }
