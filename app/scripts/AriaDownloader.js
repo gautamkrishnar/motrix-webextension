@@ -40,7 +40,9 @@ async function onGot(result, downloadItem, history) {
     return;
   }
 
-  let params = {};
+  let params = {
+    'remote-time': "false"
+  };
   // If the download have a specified path, ie user selected via file manager
   if (downloadItem.filename) {
     // Appends path to the options
