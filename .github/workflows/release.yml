@@ -13,19 +13,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 20
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "18"
       - name: install
-        run: yarn ci || yarn install
+        run: yarn install
       - uses: fregante/daily-version-action@v2
         name: Create tag if necessary
         id: daily-version
       - name: Create release
-        if: env.DAILY_VERSION_CREATED
+        if: steps.daily-version.outputs.created
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "${{ env.DAILY_VERSION }}"
+        run: gh release create "${{ steps.daily-version.outputs.version }}"
+    outputs:
+      created: ${{ steps.daily-version.outputs.created }}
+      version: ${{ steps.daily-version.outputs.version }}
   Submit:
     needs: Version
-    if: github.event_name == 'workflow_dispatch' || env.DAILY_VERSION_CREATED
+    if: needs.Version.outputs.created
     strategy:
       fail-fast: false
       matrix:
@@ -34,13 +40,19 @@ jobs:
           - chrome
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "18"
       - uses: actions/checkout@v2
       - name: install
-        run: yarn ci || yarn install
+        run: yarn install
       - run: yarn run build ${{ matrix.command }}
       - name: Update extension’s meta
         run: >-
-          npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{ env.DAILY_VERSION }}
+          npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{ needs.Version.outputs.version }}
       - name: Submit
         run: |
           case ${{ matrix.command }} in
