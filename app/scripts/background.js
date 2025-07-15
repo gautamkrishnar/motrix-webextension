@@ -4,14 +4,65 @@ import BrowserDownloader from './BrowserDownloader';
 import { historyToArray } from './utils';
 import * as browser from 'webextension-polyfill';
 
+// Track active downloads to keep service worker alive
+// Use storage to persist active downloads across service worker suspensions
+let activeDownloads = new Set();
+
 async function downloadAgent() {
   const subscribers = [];
   const observable = new Observable((s) => subscribers.push(s));
   const history = new Map();
+  
+  console.log('Motrix WebExtension: Service worker started - event-based system active');
+  
+  // Load active downloads from storage
+  const { activeDownloadsList = [] } = await browser.storage.local.get(['activeDownloadsList']);
+  activeDownloads = new Set(activeDownloadsList);
+  console.log(`Loaded ${activeDownloads.size} active downloads from storage`);
+  
+  // Clean up stale downloads from storage
+  if (activeDownloads.size > 0) {
+    console.log('Checking for stale downloads...');
+    const currentDownloads = await browser.dxownloads.search({});
+    const currentDownloadIds = new Set(currentDownloads.map(d => d.id));
+    
+    for (const downloadId of activeDownloads) {
+      if (!currentDownloadIds.has(downloadId)) {
+        console.log(`Removing stale download ${downloadId} from active list`);
+        activeDownloads.delete(downloadId);
+      }
+    }
+    
+    await saveActiveDownloads();
+    console.log(`Cleaned up - ${activeDownloads.size} active downloads remaining`);
+  }
+  
+  // Helper function to save active downloads to storage
+  const saveActiveDownloads = async () => {
+    await browser.storage.local.set({ 
+      activeDownloadsList: Array.from(activeDownloads) 
+    });
+  };
+  
+  // Helper function to add download to active list
+  const addActiveDownload = async (downloadId) => {
+    activeDownloads.add(downloadId);
+    await saveActiveDownloads();
+    console.log(`Download ${downloadId} added to active downloads - total: ${activeDownloads.size}`);
+  };
+  
+  // Helper function to remove download from active list
+  const removeActiveDownload = async (downloadId) => {
+    activeDownloads.delete(downloadId);
+    await saveActiveDownloads();
+    console.log(`Download ${downloadId} removed from active downloads - total: ${activeDownloads.size}`);
+  };
+  
   // Hide bottom bar
   browser.storage.sync.get(['hideChromeBar', 'extensionStatus']).then(({ hideChromeBar, extensionStatus }) => {
     if (extensionStatus) browser.downloads.setShelfEnabled?.(!hideChromeBar);
-  });
+  }); 
+  
   // Setup history
   const { oldHistory = [] } = await browser.storage.local.get(['history']);
   oldHistory.forEach((x) => {
@@ -24,20 +75,64 @@ async function downloadAgent() {
 
   browser.downloads.onChanged.addListener((delta) => {
     subscribers.forEach((s) => s.next(delta));
+    // Track download state changes
+    if (delta.state) {
+      if (delta.state.current === 'in_progress') {
+        addActiveDownload(delta.id);
+        console.log(`Download ${delta.id} started - keeping service worker alive`);
+        // Process download when it becomes in_progress
+        processDownload(delta.id);
+      } else if (delta.state.current === 'complete' || delta.state.current === 'interrupted') {
+        removeActiveDownload(delta.id);
+        console.log(`Download ${delta.id} finished - active downloads: ${activeDownloads.size}`);
+      }
+    }
   });
 
+  // Clean up when downloads are removed
+  browser.downloads.onErased.addListener((downloadId) => {
+    removeActiveDownload(downloadId);
+    console.log(`Download ${downloadId} removed - active downloads: ${activeDownloads.size}`);
+  });
+
+  // Track downloads that need processing
+  const pendingDownloads = new Map();
+
   browser.downloads.onCreated.addListener(async function (downloadItem) {
+    console.log(`New download detected: ${downloadItem.id} - ${downloadItem.url} - State: ${downloadItem.state}`);
+    
+    // Store download info for processing
+    pendingDownloads.set(downloadItem.id, downloadItem);
+    
+    // If download is already in progress, process it immediately
+    if (downloadItem.state === 'in_progress') {
+      processDownload(downloadItem.id);
+    }
+  });
+
+  async function processDownload(downloadId) {
+    const downloadItem = pendingDownloads.get(downloadId);
+    if (!downloadItem) {
+      console.log(`Download ${downloadId} not found in pending downloads`);
+      return;
+    }
+
+    console.log(`Processing download: ${downloadId} - ${downloadItem.url}`);
+    
+    // Remove from pending to avoid double processing
+    pendingDownloads.delete(downloadId);
+    
+    // Add to active downloads to keep service worker alive
+    addActiveDownload(downloadId);
+    
     const cookies = await browser.cookies.getAll({ url: downloadItem.url });
     downloadItem.cookies = cookies
       .map((cookie) => `${cookie.name}=${cookie.value}`)
       .join('; ');
 
-    if (downloadItem.state !== 'in_progress') {
-      return;
-    }
-
     async function onError(error) {
       console.log(`Error: ${error}`);
+      removeActiveDownload(downloadId);
     }
 
     // Triggered whenever a new download event fires
@@ -55,7 +150,7 @@ async function downloadAgent() {
       const result = options;
       // this will find item with by extension name set
       const statuses = await browser.downloads.search({
-        id: downloadItem.id,
+        id: downloadId,
       });
 
       const shouldCheck =
@@ -108,44 +203,68 @@ async function downloadAgent() {
     };
 
     getResult.then(async (result) => {
+      console.log('Extension configuration:', {
+        extensionStatus: result.extensionStatus,
+        hasAPIKey: !!result.motrixAPIkey,
+        motrixPort: result.motrixPort,
+        downloadFallback: result.downloadFallback,
+        minFileSize: result.minFileSize,
+        blacklist: result.blacklist
+      });
+      
       let downloader = await getDownloader(result);
+      
+      if (!downloader) {
+        console.log('No downloader available - skipping download');
+        removeActiveDownload(downloadId);
+        return;
+      }
+
+      console.log(`Using downloader: ${downloader.name}`);
 
       // wait for filename to be set
       if (!downloadItem.filename) {
+        console.log('Waiting for filename to be set...');
         const obs = observable.pipe(
-          filter((d) => d.id === downloadItem.id && d.filename),
+          filter((d) => d.id === downloadId && d.filename),
           take(1)
         );
 
         const delta = await lastValueFrom(obs);
         downloadItem.filename = delta.filename.current;
+        console.log('Filename set:', downloadItem.filename);
       }
 
       // get icon of the file
-      downloadItem.icon = await browser.downloads.getFileIcon(downloadItem.id);
+      downloadItem.icon = await browser.downloads.getFileIcon(downloadId);
 
       try {
+        console.log('Starting download with Motrix...');
         await downloader.handleStart(result, downloadItem, history);
-      } catch {
+        console.log('Download successfully sent to Motrix');
+      } catch (error) {
+        console.error('Error sending to Motrix:', error);
         if (downloader instanceof AriaDownloader) {
           if (
             typeof result.downloadFallback === 'undefined' ||
             result?.downloadFallback
           ) {
-            await browser.downloads.resume(downloadItem.id);
+            console.log('Falling back to browser download');
+            await browser.downloads.resume(downloadId);
             downloader = new BrowserDownloader();
             await downloader.handleStart(result, downloadItem, history);
           } else {
+            console.log('No fallback enabled - cancelling download');
             await browser?.downloads
-              ?.removeFile(downloadItem.id)
+              ?.removeFile(downloadId)
               .then()
               .catch(onError);
             await browser?.downloads
-              ?.cancel(downloadItem.id)
+              ?.cancel(downloadId)
               .then()
               .catch(onError);
             await browser?.downloads
-              ?.erase({ id: downloadItem.id })
+              ?.erase({ id: downloadId })
               .then()
               .catch(onError);
             const notificationOptions = {
@@ -163,7 +282,7 @@ async function downloadAgent() {
         }
       }
     }, onError);
-  });
+  }
 }
 
 export function createMenuItem() {
@@ -195,26 +314,18 @@ export function createMenuItem() {
 const loadExtension = () => {
   downloadAgent();
   createMenuItem();
-  createOffscreen();
 }
-browser.runtime.onStartup.addListener(function () {
-  loadExtension();
-});
 
 browser.runtime.onInstalled.addListener(function () {
   loadExtension();
 });
 
-// create the offscreen document if it doesn't already exist
-async function createOffscreen() {
-  if (await browser.offscreen === undefined || await browser.offscreen.hasDocument?.()) return;
-  await browser.offscreen.createDocument({
-    url: 'pages/offscreen.html',
-    reasons: ['BLOBS'],
-    justification: 'keep service worker running',
-  });
-}
-// a message from an offscreen document every 20 second resets the inactivity timer
-browser.runtime.onMessage.addListener((msg) => {
-  if (msg.keepAlive) console.log('keepAlive');
+// Log service worker lifecycle events
+browser.runtime.onSuspend.addListener(() => {
+  console.log('Motrix WebExtension: Service worker being suspended');
+});
+
+browser.runtime.onStartup.addListener(() => {
+  console.log('Motrix WebExtension: Service worker started on browser startup');
+  loadExtension();
 });
