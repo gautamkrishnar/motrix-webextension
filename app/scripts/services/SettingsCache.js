@@ -12,6 +12,7 @@ const DEFAULTS = {
   showContextOption: true,
   showOnlyAria: false,
   darkMode: false,
+  promptBeforeDownload: false,
 };
 
 class SettingsCache {

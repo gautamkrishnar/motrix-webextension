@@ -25,6 +25,7 @@ const DEFAULTS = {
   hideChromeBar: true,
   showContextOption: true,
   motrixPort: 16800,
+  promptBeforeDownload: false,
 };
 
 function save(patch) {
@@ -45,6 +46,7 @@ function ConfigView() {
   const [hideChromeBar, setHideChromeBar] = useState(DEFAULTS.hideChromeBar);
   const [showContextOption, setShowContextOption] = useState(DEFAULTS.showContextOption);
   const [motrixPort, setMotrixPort] = useState(DEFAULTS.motrixPort);
+  const [promptBeforeDownload, setPromptBeforeDownload] = useState(DEFAULTS.promptBeforeDownload);
 
   useEffect(() => {
     browser.storage.sync
@@ -62,6 +64,7 @@ function ConfigView() {
         setHideChromeBar(r.hideChromeBar);
         setShowContextOption(r.showContextOption);
         setMotrixPort(r.motrixPort);
+        setPromptBeforeDownload(r.promptBeforeDownload);
 
         // Persist defaults only for keys that were actually missing from storage
         const missing = Object.fromEntries(
@@ -243,6 +246,23 @@ function ConfigView() {
                 }
                 save({ hideChromeBar: next });
                 setHideChromeBar(next);
+              }}
+            />
+          </Box>
+        </Grid>
+
+        {/* Prompt before download */}
+        <Grid item xs={6}>
+          <FormLabel>__MSG_promptBeforeDownload__</FormLabel>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center">
+            <Switch
+              checked={promptBeforeDownload}
+              onClick={() => {
+                const next = !promptBeforeDownload;
+                save({ promptBeforeDownload: next });
+                setPromptBeforeDownload(next);
               }}
             />
           </Box>

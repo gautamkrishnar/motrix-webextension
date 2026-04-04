@@ -52,7 +52,9 @@ async function handleDownload(downloadItem) {
     }
 
     // Pause immediately — before any async work — to minimise bytes the browser downloads
-    await browser.downloads.pause(downloadItem.id).catch(() => {});
+    if (!settings.promptBeforeDownload) {
+      await browser.downloads.pause(downloadItem.id).catch(() => {});
+    }
 
     if (!settings.motrixAPIkey) {
       await notify(
@@ -78,6 +80,10 @@ async function handleDownload(downloadItem) {
         waitForFilename(downloadItem.id),
         browser.cookies.getAll({ url: downloadItem.url }),
       ]);
+
+      if (settings.promptBeforeDownload) {
+        await browser.downloads.pause(downloadItem.id).catch(() => {});
+      }
 
       const path = parsePath(filename);
       const cookieHeader = cookies.map((c) => `${c.name}=${c.value}`).join('; ');

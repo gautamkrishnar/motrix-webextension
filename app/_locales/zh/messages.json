@@ -74,5 +74,9 @@
   "downloadFallback": {
     "message": "如果 Motrix 启动失败，则使用浏览器的默认下载管理器",
     "description": "如果 Motrix 启动失败，则使用浏览器的默认下载管理器"
+  },
+  "promptBeforeDownload": {
+    "message": "下载前提示（"另存为"对话框）",
+    "description": "如果浏览器启用了"下载前提示"设置，请开启此选项"
   }
 }
