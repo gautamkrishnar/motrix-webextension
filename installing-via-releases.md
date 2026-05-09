@@ -9,8 +9,10 @@ Download the latest source code from [Github Releases](https://github.com/gautam
 yarn install
 ```
 
-#### Chrome
-* Open `chrome://extensions` in chrome
+#### Chrome / Edge / Opera
+> For Edge and Opera, use the same Chrome build since they are Chromium-based browsers.
+
+* Open `chrome://extensions` in chrome (or `edge://extensions` in Edge, `opera://extensions` in Opera)
 * Toggle the developer mode by clicking on the toggle button on the top right corner
 * Run `yarn run build chrome` in the extension's source code directory
 * Load extension in the browser using the **Load Unpacked** button. Point it to the `dist/chrome` folder
@@ -37,19 +39,3 @@ For more info see the video: [Motrix Download Manager chrome extension demo](htt
 * Click on the extension icon and use it
 
 For more info see the video: [Motrix Download Manager firefox extension demo](https://www.youtube.com/watch?v=SjpE840wms4)
-
-#### Edge
-
-* Open `edge://extensions` in edge
-* Toggle the developer mode by clicking on the toggle button on the left bottom corner
-* Run `yarn run build edge` in the extension's source code directory
-* Load extension in the browser using the **Load Unpacked** button. Point it to the `dist/edge` folder
-* Click on the extension icon and use it
-
-#### Opera
-
-* Open `opera://extensions` in opera
-* Toggle the developer mode by clicking on the toggle button on the top right corner
-* Run `yarn run build opera` in the extension's source code directory
-* Load extension in the browser using the **Load Unpacked** button. Point it to the `dist/edge` folder
-* Click on the extension icon and use it

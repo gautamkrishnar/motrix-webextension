@@ -47,16 +47,12 @@ yarn install
 ```shell
 yarn run dev chrome
 yarn run dev firefox
-yarn run dev opera
-yarn run dev edge
 ```
 
 ### Build
 ```shell
 yarn run build chrome
 yarn run build firefox
-yarn run build opera
-yarn run build edge
 ```
 
 ### Environment
