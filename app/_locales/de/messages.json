@@ -1,0 +1,102 @@
+{
+  "appName": {
+    "message": "Motrix Web-Erweiterung",
+    "description": "Der Name der Anwendung"
+  },
+  "appShortName": {
+    "message": "Motrix Erw.",
+    "description": "Kurzname der Anwendung"
+  },
+  "appDescription": {
+    "message": "Web-Erweiterung für den Motrix Download-Manager",
+    "description": "Beschreibung der Anwendung"
+  },
+  "browserActionTitle": {
+    "message": "Motrix Web-Erweiterung",
+    "description": "Titel der Browser-Aktionsschaltfläche"
+  },
+  "extensionStatus": {
+    "message": "Erweiterungsstatus:",
+    "description": "Erweiterungsstatus"
+  },
+  "enableNotifications": {
+    "message": "Benachrichtigungen aktivieren:",
+    "description": "Benachrichtigungen aktivieren"
+  },
+  "setKey": {
+    "message": "Schlüssel festlegen",
+    "description": "Schlüssel festlegen"
+  },
+  "setMinSize": {
+    "message": "Mindestdateigröße (MB)",
+    "description": "Mindestdateigröße festlegen"
+  },
+  "setSize": {
+    "message": "Größe festlegen",
+    "description": "Größe festlegen"
+  },
+  "keyInputPlaceholder": {
+    "message": "Motrix API-Schlüssel",
+    "description": "Motrix API-Schlüssel"
+  },
+  "blacklist": {
+    "message": "Sperrliste",
+    "description": "Sperrliste"
+  },
+  "saveBlacklist": {
+    "message": "Sperrliste speichern",
+    "description": "Sperrliste speichern"
+  },
+  "darkMode": {
+    "message": "Dunkelmodus",
+    "description": "Dunkelmodus"
+  },
+  "showOnlyAria": {
+    "message": "Nur Motrix-Downloads im Popup anzeigen",
+    "description": "Nur Motrix-Downloads im Popup anzeigen"
+  },
+  "hideChromeBar": {
+    "message": "Chrome-Downloadleiste ausblenden",
+    "description": "Chrome-Downloadleiste ausblenden"
+  },
+  "showContextOption": {
+    "message": "Option \"Mit Motrix herunterladen\" im Kontextmenü anzeigen",
+    "description": "Option \"Mit Motrix herunterladen\" im Kontextmenü anzeigen"
+  },
+  "downloadWithMotrix": {
+    "message": "Mit Motrix herunterladen",
+    "description": "Mit Motrix herunterladen"
+  },
+  "setPort": {
+    "message": "Port festlegen",
+    "description": "Port festlegen"
+  },
+  "downloadFallback": {
+    "message": "Bei fehlgeschlagenem Start in Motrix den Standard-Download-Manager des Browsers verwenden",
+    "description": "Bei fehlgeschlagenem Start in Motrix den Standard-Download-Manager verwenden"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix ist nicht erreichbar. Bitte öffne Motrix.",
+    "description": "Warnung, wenn Motrix nicht läuft"
+  },
+  "apiKeyNotSet": {
+    "message": "API-Schlüssel nicht gesetzt",
+    "description": "Benachrichtigungstitel bei fehlendem API-Schlüssel"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "Lege einen zufälligen API-Schlüssel in der Erweiterung und in Motrix Einstellungen > Erweitert > RPC-Geheimnis fest",
+    "description": "Benachrichtigungstext bei fehlendem API-Schlüssel"
+  },
+  "downloadStarted": {
+    "message": "Download in Motrix gestartet",
+    "description": "Benachrichtigung, wenn ein Download an Motrix gesendet wurde"
+  },
+  "blacklistHelperText": {
+    "message": "Sowohl URLs als auch Dateierweiterungen sind gültig. Gib bei Dateierweiterungen nur den Erweiterungstext ein (z. B. \"pdf\"). Ein Eintrag pro Zeile.",
+    "description": "Hilfetext für das Sperrlisten-Eingabefeld"
+  },
+  "unknownFilename": {
+    "message": "unbekannt",
+    "description": "Text, wenn der Dateiname nicht verfügbar ist"
+  }
+}

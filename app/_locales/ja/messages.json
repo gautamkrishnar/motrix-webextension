@@ -1,0 +1,102 @@
+{
+  "appName": {
+    "message": "Motrix ウェブ拡張機能",
+    "description": "アプリケーション名"
+  },
+  "appShortName": {
+    "message": "Motrix 拡張",
+    "description": "アプリケーションの短縮名"
+  },
+  "appDescription": {
+    "message": "Motrix ダウンロードマネージャー用ブラウザ拡張機能",
+    "description": "アプリケーションの説明"
+  },
+  "browserActionTitle": {
+    "message": "Motrix ウェブ拡張機能",
+    "description": "ブラウザアクションボタンのタイトル"
+  },
+  "extensionStatus": {
+    "message": "拡張機能の状態：",
+    "description": "拡張機能の状態"
+  },
+  "enableNotifications": {
+    "message": "通知を有効にする：",
+    "description": "通知を有効にする"
+  },
+  "setKey": {
+    "message": "キーを設定",
+    "description": "キーを設定"
+  },
+  "setMinSize": {
+    "message": "最小ファイルサイズ (MB)",
+    "description": "最小ファイルサイズを設定"
+  },
+  "setSize": {
+    "message": "サイズを設定",
+    "description": "サイズを設定"
+  },
+  "keyInputPlaceholder": {
+    "message": "Motrix API キー",
+    "description": "Motrix API キー"
+  },
+  "blacklist": {
+    "message": "ブラックリスト",
+    "description": "ブラックリスト"
+  },
+  "saveBlacklist": {
+    "message": "ブラックリストを保存",
+    "description": "ブラックリストを保存"
+  },
+  "darkMode": {
+    "message": "ダークモード",
+    "description": "ダークモード"
+  },
+  "showOnlyAria": {
+    "message": "ポップアップに Motrix のダウンロードのみ表示",
+    "description": "ポップアップに Motrix のダウンロードのみ表示"
+  },
+  "hideChromeBar": {
+    "message": "Chrome のダウンロードバーを非表示",
+    "description": "Chrome のダウンロードバーを非表示"
+  },
+  "showContextOption": {
+    "message": "コンテキストメニューに「Motrix でダウンロード」を表示",
+    "description": "コンテキストメニューに「Motrix でダウンロード」を表示"
+  },
+  "downloadWithMotrix": {
+    "message": "Motrix でダウンロード",
+    "description": "Motrix でダウンロード"
+  },
+  "setPort": {
+    "message": "ポートを設定",
+    "description": "ポートを設定"
+  },
+  "downloadFallback": {
+    "message": "Motrix での起動に失敗した場合、ブラウザの既定のダウンロードマネージャーを使用する",
+    "description": "Motrix での起動に失敗した場合、ブラウザの既定のダウンロードマネージャーを使用する"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix に接続できません。Motrix を起動してください。",
+    "description": "Motrix が実行されていない場合の警告"
+  },
+  "apiKeyNotSet": {
+    "message": "API キーが未設定",
+    "description": "API キーが未設定の場合の通知タイトル"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "拡張機能と Motrix の設定 > 詳細 > RPC シークレットにランダムな API キーを設定してください",
+    "description": "API キーが未設定の場合の通知本文"
+  },
+  "downloadStarted": {
+    "message": "Motrix でダウンロードを開始しました",
+    "description": "ダウンロードが Motrix に送信された時の通知"
+  },
+  "blacklistHelperText": {
+    "message": "URL とファイル拡張子の両方が有効です。ファイル拡張子の場合は拡張子のみを入力してください（例：「pdf」）。1行に1エントリ。",
+    "description": "ブラックリスト入力フィールドのヘルプテキスト"
+  },
+  "unknownFilename": {
+    "message": "不明",
+    "description": "ファイル名が不明な場合のテキスト"
+  }
+}

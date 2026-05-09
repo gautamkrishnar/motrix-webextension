@@ -1,0 +1,102 @@
+{
+  "appName": {
+    "message": "Motrix Веб-расширение",
+    "description": "Название приложения"
+  },
+  "appShortName": {
+    "message": "Motrix Расш.",
+    "description": "Сокращённое название приложения"
+  },
+  "appDescription": {
+    "message": "Расширение браузера для менеджера загрузок Motrix",
+    "description": "Описание приложения"
+  },
+  "browserActionTitle": {
+    "message": "Motrix Веб-расширение",
+    "description": "Заголовок кнопки действия браузера"
+  },
+  "extensionStatus": {
+    "message": "Состояние расширения:",
+    "description": "Состояние расширения"
+  },
+  "enableNotifications": {
+    "message": "Включить уведомления:",
+    "description": "Включить уведомления"
+  },
+  "setKey": {
+    "message": "Задать ключ",
+    "description": "Задать ключ"
+  },
+  "setMinSize": {
+    "message": "Минимальный размер файла (МБ)",
+    "description": "Установить минимальный размер файла"
+  },
+  "setSize": {
+    "message": "Задать размер",
+    "description": "Задать размер"
+  },
+  "keyInputPlaceholder": {
+    "message": "API-ключ Motrix",
+    "description": "API-ключ Motrix"
+  },
+  "blacklist": {
+    "message": "Чёрный список",
+    "description": "Чёрный список"
+  },
+  "saveBlacklist": {
+    "message": "Сохранить чёрный список",
+    "description": "Сохранить чёрный список"
+  },
+  "darkMode": {
+    "message": "Тёмная тема",
+    "description": "Тёмная тема"
+  },
+  "showOnlyAria": {
+    "message": "Показывать только загрузки Motrix во всплывающем окне",
+    "description": "Показывать только загрузки Motrix во всплывающем окне"
+  },
+  "hideChromeBar": {
+    "message": "Скрыть панель загрузок Chrome",
+    "description": "Скрыть панель загрузок Chrome"
+  },
+  "showContextOption": {
+    "message": "Показывать пункт «Скачать через Motrix» в контекстном меню",
+    "description": "Показывать пункт «Скачать через Motrix» в контекстном меню"
+  },
+  "downloadWithMotrix": {
+    "message": "Скачать через Motrix",
+    "description": "Скачать через Motrix"
+  },
+  "setPort": {
+    "message": "Задать порт",
+    "description": "Задать порт"
+  },
+  "downloadFallback": {
+    "message": "Если запуск в Motrix не удался, использовать стандартный менеджер загрузок браузера",
+    "description": "Если запуск в Motrix не удался, использовать стандартный менеджер загрузок браузера"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix недоступен. Пожалуйста, запустите Motrix.",
+    "description": "Предупреждение, когда Motrix не запущен"
+  },
+  "apiKeyNotSet": {
+    "message": "API-ключ не задан",
+    "description": "Заголовок уведомления при отсутствии API-ключа"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "Задайте случайный API-ключ в расширении и в Motrix Настройки > Дополнительно > RPC-секрет",
+    "description": "Текст уведомления при отсутствии API-ключа"
+  },
+  "downloadStarted": {
+    "message": "Загрузка начата в Motrix",
+    "description": "Уведомление при отправке загрузки в Motrix"
+  },
+  "blacklistHelperText": {
+    "message": "Допустимы как URL, так и расширения файлов. Для расширений укажите только текст расширения (например, «pdf»). Одна запись на строку.",
+    "description": "Подсказка для поля чёрного списка"
+  },
+  "unknownFilename": {
+    "message": "неизвестно",
+    "description": "Текст, когда имя файла недоступно"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "appName": {
+    "message": "Motrix Extension Web",
+    "description": "Le nom de l'application"
+  },
+  "appShortName": {
+    "message": "Motrix Ext.",
+    "description": "Nom abrégé de l'application"
+  },
+  "appDescription": {
+    "message": "Extension web pour le gestionnaire de téléchargements Motrix",
+    "description": "Description de l'application"
+  },
+  "browserActionTitle": {
+    "message": "Motrix Extension Web",
+    "description": "Titre du bouton d'action du navigateur"
+  },
+  "extensionStatus": {
+    "message": "État de l'extension :",
+    "description": "État de l'extension"
+  },
+  "enableNotifications": {
+    "message": "Activer les notifications :",
+    "description": "Activer les notifications"
+  },
+  "setKey": {
+    "message": "Définir la clé",
+    "description": "Définir la clé"
+  },
+  "setMinSize": {
+    "message": "Taille minimale de fichier (Mo)",
+    "description": "Définir la taille minimale de fichier"
+  },
+  "setSize": {
+    "message": "Définir la taille",
+    "description": "Définir la taille"
+  },
+  "keyInputPlaceholder": {
+    "message": "Clé API Motrix",
+    "description": "Clé API Motrix"
+  },
+  "blacklist": {
+    "message": "Liste noire",
+    "description": "Liste noire"
+  },
+  "saveBlacklist": {
+    "message": "Enregistrer la liste noire",
+    "description": "Enregistrer la liste noire"
+  },
+  "darkMode": {
+    "message": "Mode sombre",
+    "description": "Mode sombre"
+  },
+  "showOnlyAria": {
+    "message": "Afficher uniquement les téléchargements Motrix dans la fenêtre popup",
+    "description": "Afficher uniquement les téléchargements Motrix dans la fenêtre popup"
+  },
+  "hideChromeBar": {
+    "message": "Masquer la barre de téléchargements Chrome",
+    "description": "Masquer la barre de téléchargements Chrome"
+  },
+  "showContextOption": {
+    "message": "Afficher l'option « Télécharger avec Motrix » dans le menu contextuel",
+    "description": "Afficher l'option « Télécharger avec Motrix » dans le menu contextuel"
+  },
+  "downloadWithMotrix": {
+    "message": "Télécharger avec Motrix",
+    "description": "Télécharger avec Motrix"
+  },
+  "setPort": {
+    "message": "Définir le port",
+    "description": "Définir le port"
+  },
+  "downloadFallback": {
+    "message": "En cas d'échec de l'envoi à Motrix, utiliser le gestionnaire de téléchargements par défaut du navigateur",
+    "description": "En cas d'échec de l'envoi à Motrix, utiliser le gestionnaire de téléchargements par défaut"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix n'est pas accessible. Veuillez ouvrir Motrix.",
+    "description": "Avertissement affiché quand Motrix n'est pas en cours d'exécution"
+  },
+  "apiKeyNotSet": {
+    "message": "Clé API non définie",
+    "description": "Titre de notification quand la clé API est manquante"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "Définissez une clé API aléatoire dans l'extension et dans Motrix Préférences > Avancé > Secret RPC",
+    "description": "Corps de notification quand la clé API est manquante"
+  },
+  "downloadStarted": {
+    "message": "Téléchargement lancé dans Motrix",
+    "description": "Notification quand un téléchargement est envoyé à Motrix"
+  },
+  "blacklistHelperText": {
+    "message": "Les URL et les extensions de fichier sont acceptées. Pour les extensions, indiquez uniquement le texte de l'extension (ex. « pdf »). Une entrée par ligne.",
+    "description": "Texte d'aide du champ de liste noire"
+  },
+  "unknownFilename": {
+    "message": "inconnu",
+    "description": "Texte affiché quand le nom du fichier n'est pas disponible"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "appName": {
+    "message": "Motrix 웹 확장 프로그램",
+    "description": "애플리케이션 이름"
+  },
+  "appShortName": {
+    "message": "Motrix 확장",
+    "description": "애플리케이션 약칭"
+  },
+  "appDescription": {
+    "message": "Motrix 다운로드 관리자용 브라우저 확장 프로그램",
+    "description": "애플리케이션 설명"
+  },
+  "browserActionTitle": {
+    "message": "Motrix 웹 확장 프로그램",
+    "description": "브라우저 작업 버튼 제목"
+  },
+  "extensionStatus": {
+    "message": "확장 프로그램 상태:",
+    "description": "확장 프로그램 상태"
+  },
+  "enableNotifications": {
+    "message": "알림 활성화:",
+    "description": "알림 활성화"
+  },
+  "setKey": {
+    "message": "키 설정",
+    "description": "키 설정"
+  },
+  "setMinSize": {
+    "message": "최소 파일 크기 (MB)",
+    "description": "최소 파일 크기 설정"
+  },
+  "setSize": {
+    "message": "크기 설정",
+    "description": "크기 설정"
+  },
+  "keyInputPlaceholder": {
+    "message": "Motrix API 키",
+    "description": "Motrix API 키"
+  },
+  "blacklist": {
+    "message": "차단 목록",
+    "description": "차단 목록"
+  },
+  "saveBlacklist": {
+    "message": "차단 목록 저장",
+    "description": "차단 목록 저장"
+  },
+  "darkMode": {
+    "message": "다크 모드",
+    "description": "다크 모드"
+  },
+  "showOnlyAria": {
+    "message": "팝업에 Motrix 다운로드만 표시",
+    "description": "팝업에 Motrix 다운로드만 표시"
+  },
+  "hideChromeBar": {
+    "message": "Chrome 다운로드 바 숨기기",
+    "description": "Chrome 다운로드 바 숨기기"
+  },
+  "showContextOption": {
+    "message": "컨텍스트 메뉴에 \"Motrix로 다운로드\" 옵션 표시",
+    "description": "컨텍스트 메뉴에 \"Motrix로 다운로드\" 옵션 표시"
+  },
+  "downloadWithMotrix": {
+    "message": "Motrix로 다운로드",
+    "description": "Motrix로 다운로드"
+  },
+  "setPort": {
+    "message": "포트 설정",
+    "description": "포트 설정"
+  },
+  "downloadFallback": {
+    "message": "Motrix 실행에 실패하면 브라우저의 기본 다운로드 관리자를 사용",
+    "description": "Motrix 실행에 실패하면 브라우저의 기본 다운로드 관리자를 사용"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix에 연결할 수 없습니다. Motrix를 실행해 주세요.",
+    "description": "Motrix가 실행되지 않을 때 표시되는 경고"
+  },
+  "apiKeyNotSet": {
+    "message": "API 키 미설정",
+    "description": "API 키가 없을 때의 알림 제목"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "확장 프로그램과 Motrix 환경설정 > 고급 > RPC 비밀 키에 임의의 API 키를 설정하세요",
+    "description": "API 키가 없을 때의 알림 본문"
+  },
+  "downloadStarted": {
+    "message": "Motrix에서 다운로드가 시작되었습니다",
+    "description": "다운로드가 Motrix로 전송되었을 때의 알림"
+  },
+  "blacklistHelperText": {
+    "message": "URL과 파일 확장자 모두 사용할 수 있습니다. 파일 확장자의 경우 확장자 텍스트만 입력하세요 (예: \"pdf\"). 한 줄에 하나씩 입력합니다.",
+    "description": "차단 목록 입력 필드의 도움말 텍스트"
+  },
+  "unknownFilename": {
+    "message": "알 수 없음",
+    "description": "파일 이름을 알 수 없을 때의 텍스트"
+  }
+}

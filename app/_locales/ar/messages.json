@@ -1,0 +1,102 @@
+{
+  "appName": {
+    "message": "إضافة Motrix للويب",
+    "description": "اسم التطبيق"
+  },
+  "appShortName": {
+    "message": "إضافة Motrix",
+    "description": "الاسم المختصر للتطبيق"
+  },
+  "appDescription": {
+    "message": "إضافة متصفح لمدير التنزيلات Motrix",
+    "description": "وصف التطبيق"
+  },
+  "browserActionTitle": {
+    "message": "إضافة Motrix للويب",
+    "description": "عنوان زر إجراء المتصفح"
+  },
+  "extensionStatus": {
+    "message": "حالة الإضافة:",
+    "description": "حالة الإضافة"
+  },
+  "enableNotifications": {
+    "message": "تفعيل الإشعارات:",
+    "description": "تفعيل الإشعارات"
+  },
+  "setKey": {
+    "message": "تعيين المفتاح",
+    "description": "تعيين المفتاح"
+  },
+  "setMinSize": {
+    "message": "الحد الأدنى لحجم الملف (ميغابايت)",
+    "description": "تعيين الحد الأدنى لحجم الملف"
+  },
+  "setSize": {
+    "message": "تعيين الحجم",
+    "description": "تعيين الحجم"
+  },
+  "keyInputPlaceholder": {
+    "message": "مفتاح API لـ Motrix",
+    "description": "مفتاح API لـ Motrix"
+  },
+  "blacklist": {
+    "message": "القائمة السوداء",
+    "description": "القائمة السوداء"
+  },
+  "saveBlacklist": {
+    "message": "حفظ القائمة السوداء",
+    "description": "حفظ القائمة السوداء"
+  },
+  "darkMode": {
+    "message": "الوضع الداكن",
+    "description": "الوضع الداكن"
+  },
+  "showOnlyAria": {
+    "message": "إظهار تنزيلات Motrix فقط في النافذة المنبثقة",
+    "description": "إظهار تنزيلات Motrix فقط في النافذة المنبثقة"
+  },
+  "hideChromeBar": {
+    "message": "إخفاء شريط التنزيلات في Chrome",
+    "description": "إخفاء شريط التنزيلات في Chrome"
+  },
+  "showContextOption": {
+    "message": "إظهار خيار \"التنزيل باستخدام Motrix\" في قائمة السياق",
+    "description": "إظهار خيار \"التنزيل باستخدام Motrix\" في قائمة السياق"
+  },
+  "downloadWithMotrix": {
+    "message": "التنزيل باستخدام Motrix",
+    "description": "التنزيل باستخدام Motrix"
+  },
+  "setPort": {
+    "message": "تعيين المنفذ",
+    "description": "تعيين المنفذ"
+  },
+  "downloadFallback": {
+    "message": "في حالة فشل الإرسال إلى Motrix، استخدم مدير التنزيلات الافتراضي للمتصفح",
+    "description": "في حالة فشل الإرسال إلى Motrix، استخدم مدير التنزيلات الافتراضي للمتصفح"
+  },
+  "motrixNotReachable": {
+    "message": "لا يمكن الوصول إلى Motrix. يرجى فتح Motrix.",
+    "description": "تحذير يظهر عندما لا يكون Motrix قيد التشغيل"
+  },
+  "apiKeyNotSet": {
+    "message": "لم يتم تعيين مفتاح API",
+    "description": "عنوان الإشعار عند عدم وجود مفتاح API"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "عيّن مفتاح API عشوائيًا في الإضافة وفي إعدادات Motrix > متقدم > سر RPC",
+    "description": "نص الإشعار عند عدم وجود مفتاح API"
+  },
+  "downloadStarted": {
+    "message": "بدأ التنزيل في Motrix",
+    "description": "إشعار عند إرسال تنزيل إلى Motrix"
+  },
+  "blacklistHelperText": {
+    "message": "يمكن استخدام عناوين URL وامتدادات الملفات. لامتدادات الملفات، أدخل نص الامتداد فقط (مثل \"pdf\"). إدخال واحد لكل سطر.",
+    "description": "نص المساعدة لحقل القائمة السوداء"
+  },
+  "unknownFilename": {
+    "message": "غير معروف",
+    "description": "النص المعروض عندما يكون اسم الملف غير متاح"
+  }
+}
