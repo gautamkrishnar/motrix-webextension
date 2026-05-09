@@ -55,7 +55,7 @@ function PopupView() {
   };
 
   const parseName = (name) => {
-    if (name == null) return 'unknown';
+    if (name == null) return browser.i18n.getMessage('unknownFilename');
     if (name.length < 52) return name;
     return `${name.slice(0, 52)}...`;
   };
@@ -105,7 +105,7 @@ function PopupView() {
               backgroundColor: '#fff3e0',
             }}
           >
-            <span style={{ fontSize: '13px', color: '#e65100' }}>Motrix is not reachable. Please open Motrix.</span>
+            <span style={{ fontSize: '13px', color: '#e65100' }}>{browser.i18n.getMessage('motrixNotReachable')}</span>
             <IconButton size="small" onClick={() => browser.tabs.create({ url: 'motrix://' })} style={{ color: '#e65100' }}>
               <PowerSettingsNewIcon fontSize="small" />
             </IconButton>

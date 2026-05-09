@@ -60,7 +60,7 @@ async function handleDownload(downloadItem) {
     }
 
     if (!settings.motrixAPIkey) {
-      await notify('API key not set', 'Set a random API key in the extension and in Motrix Preferences > Advanced > RPC Secret', () => browser.tabs.create({ url: 'motrix://' }));
+      await notify(browser.i18n.getMessage('apiKeyNotSet'), browser.i18n.getMessage('apiKeyNotSetDesc'), () => browser.tabs.create({ url: 'motrix://' }));
       await browser.downloads.resume(downloadItem.id).catch(() => {});
       trackWithBrowser(downloadItem, downloadStore);
       return;
@@ -110,7 +110,7 @@ async function handleDownload(downloadItem) {
       trackWithAria2(gid, downloadItem.id, downloadStore, aria2Service);
 
       if (settings.enableNotifications) {
-        await notify('Motrix WebExtension', 'Download started in Motrix', () => browser.tabs.create({ url: 'motrix://' }));
+        await notify(browser.i18n.getMessage('appName'), browser.i18n.getMessage('downloadStarted'), () => browser.tabs.create({ url: 'motrix://' }));
       }
     } catch (error) {
       console.error('Motrix WebExtension: failed to send to Motrix:', error);

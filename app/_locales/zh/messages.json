@@ -74,5 +74,29 @@
   "downloadFallback": {
     "message": "如果 Motrix 启动失败，则使用浏览器的默认下载管理器",
     "description": "如果 Motrix 启动失败，则使用浏览器的默认下载管理器"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix 无法连接，请打开 Motrix。",
+    "description": "当 Motrix 未运行时在弹出窗口中显示的警告"
+  },
+  "apiKeyNotSet": {
+    "message": "未设置 API 密钥",
+    "description": "缺少 API 密钥时的通知标题"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "在扩展和 Motrix 偏好设置 > 高级 > RPC 密钥中设置一个随机 API 密钥",
+    "description": "缺少 API 密钥时的通知内容"
+  },
+  "downloadStarted": {
+    "message": "下载已在 Motrix 中开始",
+    "description": "下载发送到 Motrix 时的通知内容"
+  },
+  "blacklistHelperText": {
+    "message": "URL 和扩展名均有效。对于文件扩展名，只需输入扩展名文本（例如 \"pdf\"）。每行一个条目。",
+    "description": "黑名单输入框的帮助文本"
+  },
+  "unknownFilename": {
+    "message": "未知",
+    "description": "下载文件名不可用时的默认文本"
   }
 }

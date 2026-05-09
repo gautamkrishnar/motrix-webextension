@@ -220,7 +220,7 @@ function ConfigView() {
 
         {/* Blacklist */}
         <Grid item xs={8}>
-          <TextField label="__MSG_blacklist__" helperText='Both URLs and extensions are valid. For file extensions, only include the extension text (e.g. "pdf"). One entry per line.' multiline fullWidth rows={4} value={blacklist.join('\n')} onChange={(e) => setBlacklist(e.target.value.split('\n'))} />
+          <TextField label="__MSG_blacklist__" helperText={browser.i18n.getMessage('blacklistHelperText')} multiline fullWidth rows={4} value={blacklist.join('\n')} onChange={(e) => setBlacklist(e.target.value.split('\n'))} />
         </Grid>
         <Grid item xs={6} />
         <Grid item xs={2}>

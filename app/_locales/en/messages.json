@@ -74,5 +74,29 @@
   "downloadFallback": {
     "message": "If launching in Motrix fails, use the browser's default download manager",
     "description": "If launching in Motrix fails, use the browser's default download manager"
+  },
+  "motrixNotReachable": {
+    "message": "Motrix is not reachable. Please open Motrix.",
+    "description": "Warning shown in popup when Motrix is not running"
+  },
+  "apiKeyNotSet": {
+    "message": "API key not set",
+    "description": "Notification title when API key is missing"
+  },
+  "apiKeyNotSetDesc": {
+    "message": "Set a random API key in the extension and in Motrix Preferences > Advanced > RPC Secret",
+    "description": "Notification body when API key is missing"
+  },
+  "downloadStarted": {
+    "message": "Download started in Motrix",
+    "description": "Notification body when a download is sent to Motrix"
+  },
+  "blacklistHelperText": {
+    "message": "Both URLs and extensions are valid. For file extensions, only include the extension text (e.g. \"pdf\"). One entry per line.",
+    "description": "Helper text for the blacklist input field"
+  },
+  "unknownFilename": {
+    "message": "unknown",
+    "description": "Fallback text when a download filename is not available"
   }
 }

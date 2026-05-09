@@ -47,7 +47,7 @@ function HistoryView() {
                   justifyContent: 'center',
                 }}
               >
-                <div>{el.name ?? 'unknown'}</div>
+                <div>{el.name ?? browser.i18n.getMessage('unknownFilename')}</div>
                 {el.status === 'downloading' ? el.downloaded != null && el.size > 0 ? <LinearProgress style={{ margin: '4px' }} variant="determinate" value={Math.min((el.downloaded * 100) / el.size, 100)} /> : <LinearProgress style={{ margin: '4px' }} /> : null}
               </div>
               <div
