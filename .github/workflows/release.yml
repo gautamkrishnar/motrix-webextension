@@ -36,7 +36,7 @@ jobs:
     if: needs.Version.outputs.created
     permissions:
       id-token: write
-      contents: read
+      contents: write
       attestations: write
     strategy:
       fail-fast: false
@@ -64,6 +64,16 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: ${{ env.DIRECTORY }}/${{ matrix.command }}/**
+      - name: Zip build
+        run: cd $DIRECTORY/${{ matrix.command }} && zip -r ../../motrix-webextension-${{ matrix.command }}.zip .
+      - name: Attest zip provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: motrix-webextension-${{ matrix.command }}.zip
+      - name: Upload build to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ needs.Version.outputs.version }}" motrix-webextension-${{ matrix.command }}.zip
       - name: Submit
         run: |
           case ${{ matrix.command }} in

@@ -1,3 +1,29 @@
+## Installing from releases
+
+Download the pre-built extension zip for your browser from the [Github Releases](https://github.com/gautamkrishnar/motrix-webextension/releases/latest) page:
+- `motrix-webextension-chrome.zip` — for Chrome, Edge, and Opera
+- `motrix-webextension-firefox.zip` — for Firefox
+
+Extract the zip and follow the browser-specific instructions below to load it.
+
+#### Chrome / Edge / Opera
+> For Edge and Opera, use the same Chrome build since they are Chromium-based browsers.
+
+* Open `chrome://extensions` in chrome (or `edge://extensions` in Edge, `opera://extensions` in Opera)
+* Toggle the developer mode by clicking on the toggle button on the top right corner
+* Load extension in the browser using the **Load Unpacked** button. Point it to the extracted folder
+* Click on the extension icon and use it
+
+#### Firefox
+* Open `about:debugging` in firefox
+* Click on This firefox option on left
+* Click on **Load Temporary add-on...** button
+* Select the `manifest.json` file from the extracted folder
+* Once the extension is loaded you can see its icon in the toolbar
+* Click on the extension icon and use it
+
+---
+
 ## Building from sources
 
 Download the latest source code from [Github Releases](https://github.com/gautamkrishnar/motrix-webextension/releases/latest)
