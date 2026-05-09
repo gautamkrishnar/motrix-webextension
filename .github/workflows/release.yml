@@ -61,13 +61,13 @@ jobs:
         run: >-
           npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{ needs.Version.outputs.version }}
       - name: Attest build provenance
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: ${{ env.DIRECTORY }}/${{ matrix.command }}/**
       - name: Zip build
         run: cd $DIRECTORY/${{ matrix.command }} && zip -r ../../motrix-webextension-${{ matrix.command }}.zip .
       - name: Attest zip provenance
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: motrix-webextension-${{ matrix.command }}.zip
       - name: Upload build to release

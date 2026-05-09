@@ -12,7 +12,7 @@ export default function createThemed(Child) {
             mode,
           },
         }),
-      [mode]
+      [mode],
     );
 
     React.useEffect(() => {

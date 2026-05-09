@@ -21,7 +21,7 @@
       "jsx": true
     },
     "sourceType": "module",
-    "ecmaVersion": 2020
+    "ecmaVersion": 2022
   },
   "rules": {
     "linebreak-style": ["error", "unix"]

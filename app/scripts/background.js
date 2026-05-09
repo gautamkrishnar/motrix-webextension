@@ -131,21 +131,18 @@ async function handleDownload(downloadItem) {
   }
 }
 
-export function createMenuItem() {
+export async function createMenuItem() {
   const menuId = 'motrix-webextension-download-context-menu-option';
   const showContextOption = settingsCache.get('showContextOption') ?? true;
 
+  await browser.contextMenus.removeAll();
   if (showContextOption) {
-    browser.contextMenus.removeAll().then(() => {
-      browser.contextMenus.create({
-        id: menuId,
-        title: browser.i18n.getMessage('downloadWithMotrix'),
-        visible: true,
-        contexts: ['link'],
-      });
+    browser.contextMenus.create({
+      id: menuId,
+      title: browser.i18n.getMessage('downloadWithMotrix'),
+      visible: true,
+      contexts: ['link'],
     });
-  } else {
-    browser.contextMenus.removeAll();
   }
 }
 
@@ -212,6 +209,6 @@ browser.runtime.onStartup.addListener(ensureInitialized);
 
 browser.runtime.onMessage.addListener((message) => {
   if (message?.type === 'checkMotrixStatus') {
-    checkMotrixStatus();
+    return checkMotrixStatus();
   }
 });

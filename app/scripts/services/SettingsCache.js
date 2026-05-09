@@ -23,9 +23,7 @@ class SettingsCache {
     this.#data = { ...DEFAULTS, ...stored };
 
     // Persist any missing defaults to storage so config UI shows correct values
-    const missing = Object.fromEntries(
-      Object.entries(DEFAULTS).filter(([key]) => !(key in stored))
-    );
+    const missing = Object.fromEntries(Object.entries(DEFAULTS).filter(([key]) => !(key in stored)));
     if (Object.keys(missing).length > 0) {
       browser.storage.sync.set(missing).catch(() => {});
     }

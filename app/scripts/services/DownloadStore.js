@@ -33,9 +33,7 @@ class DownloadStore {
   }
 
   async #persist() {
-    const all = [...this.#map.entries()].sort(
-      ([, a], [, b]) => new Date(b.startTime) - new Date(a.startTime)
-    );
+    const all = [...this.#map.entries()].sort(([, a], [, b]) => new Date(b.startTime) - new Date(a.startTime));
 
     const active = all.filter(([, item]) => ACTIVE_STATUSES.has(item.status));
     const inactive = all.filter(([, item]) => !ACTIVE_STATUSES.has(item.status));

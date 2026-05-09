@@ -28,7 +28,7 @@
   "__chrome__content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "__firefox__content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'",
+  "__firefox__content_security_policy": "script-src 'self'; object-src 'self'",
   "__chrome__action": {
     "default_icon": {
       "16": "images/16.png",

@@ -38,5 +38,5 @@ document.addEventListener(
     l10n.updateDocument();
     document.getElementById('react-root').classList.remove('hidden');
   },
-  { once: true }
+  { once: true },
 );

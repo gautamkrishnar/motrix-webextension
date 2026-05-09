@@ -29,7 +29,6 @@ export function useBrowserStorage(area, keys) {
 
     browser.storage.onChanged.addListener(listener);
     return () => browser.storage.onChanged.removeListener(listener);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [area]);
 
   return values;
