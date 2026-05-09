@@ -60,10 +60,6 @@ jobs:
       - name: Update extension's meta
         run: >-
           npx dot-json@1 $DIRECTORY/${{ matrix.command }}/manifest.json version ${{ needs.Version.outputs.version }}
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@v4
-        with:
-          subject-path: ${{ env.DIRECTORY }}/${{ matrix.command }}/**
       - name: Zip build
         run: cd $DIRECTORY/${{ matrix.command }} && zip -r ../../motrix-webextension-${{ matrix.command }}.zip .
       - name: Attest zip provenance
@@ -74,21 +70,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload "${{ needs.Version.outputs.version }}" motrix-webextension-${{ matrix.command }}.zip
-      - name: Submit
-        run: |
-          case ${{ matrix.command }} in
-            chrome)
-              cd $DIRECTORY/${{ matrix.command }} && npx chrome-webstore-upload-cli@3 upload --auto-publish
-              ;;
-            firefox)
-              cd $DIRECTORY/${{ matrix.command }} && npx web-ext-submit@7
-              ;;
-          esac
+      - name: Submit to Chrome Web Store
+        if: matrix.command == 'chrome'
+        run: npx chrome-webstore-upload-cli@3 upload --source motrix-webextension-chrome.zip --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
-          WEB_EXT_ID: ${{ secrets.EXT_ID }}
+      - name: Submit to AMO
+        if: matrix.command == 'firefox'
+        uses: kewisch/action-web-ext@v2
+        with:
+          cmd: sign
+          source: motrix-webextension-firefox.zip
+          channel: listed
+          approvalTimeout: 0
+          license: GPL-3.0-only
+          approvalNotes: >
+            Source code is available at https://github.com/gautamkrishnar/motrix-webextension
+          apiKey: ${{ secrets.WEB_EXT_API_KEY }}
+          apiSecret: ${{ secrets.WEB_EXT_API_SECRET }}
