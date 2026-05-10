@@ -1,6 +1,8 @@
 import * as browser from 'webextension-polyfill';
 
 export function shouldIntercept(downloadItem, settings) {
+  if (!downloadItem.url || downloadItem.url === 'about:blank' || downloadItem.url.startsWith('blob:') || downloadItem.url.startsWith('data:')) return false;
+  if (downloadItem.state && downloadItem.state !== 'in_progress') return false;
   // Always intercept downloads explicitly triggered via the context menu ("Download with Motrix").
   // These bypass size/blacklist checks — the user made a deliberate choice.
   if (downloadItem.byExtensionName === browser.i18n.getMessage('appName')) return true;
@@ -17,7 +19,9 @@ export function shouldIntercept(downloadItem, settings) {
 
 export async function waitForFilename(downloadId, timeoutMs = 30000) {
   const [existing] = await browser.downloads.search({ id: downloadId });
-  if (existing?.filename) return existing.filename;
+  if (!existing) throw new Error(`Download ${downloadId} not found`);
+  if (existing.state === 'interrupted') throw new Error(`Download ${downloadId} was already cancelled`);
+  if (existing.filename) return existing.filename;
 
   return new Promise((resolve, reject) => {
     const cleanup = () => {
@@ -26,9 +30,15 @@ export async function waitForFilename(downloadId, timeoutMs = 30000) {
       browser.downloads.onErased.removeListener(erasedListener);
     };
     const changedListener = (delta) => {
-      if (delta.id === downloadId && delta.filename?.current) {
+      if (delta.id !== downloadId) return;
+      if (delta.filename?.current) {
         cleanup();
         resolve(delta.filename.current);
+        return;
+      }
+      if (delta.state?.current === 'interrupted') {
+        cleanup();
+        reject(new Error(`Download ${downloadId} was cancelled before filename was resolved`));
       }
     };
     const erasedListener = (id) => {

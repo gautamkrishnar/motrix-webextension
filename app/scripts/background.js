@@ -91,6 +91,7 @@ async function handleDownload(downloadItem) {
       };
 
       const downloadUrl = downloadItem.finalUrl || downloadItem.url;
+      if (!downloadUrl) throw new Error('No download URL available');
       const [gid, icon] = await Promise.all([aria2Service.addUri(downloadUrl, params), browser.downloads.getFileIcon(downloadItem.id).catch(() => '')]);
       browser.storage.local.set({ motrixReachable: true }).catch(() => {});
 
