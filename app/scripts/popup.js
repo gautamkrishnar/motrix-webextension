@@ -1,7 +1,7 @@
 'use strict';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Paper, IconButton, LinearProgress } from '@mui/material';
+import { Grid, Paper, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
 import HistoryIcon from '@mui/icons-material/History';
@@ -11,20 +11,7 @@ import createThemed from './createThemed';
 import PropTypes from 'prop-types';
 import * as browser from 'webextension-polyfill';
 import { useBrowserStorage } from './hooks/useBrowserStorage';
-
-function OptProgress({ status, downloaded, size }) {
-  if (status !== 'downloading') return null;
-  if (downloaded != null && size != null && size > 0) {
-    return <LinearProgress style={{ margin: '4px' }} variant="determinate" value={Math.min((downloaded * 100) / size, 100)} />;
-  }
-  return <LinearProgress style={{ margin: '4px' }} />;
-}
-
-OptProgress.propTypes = {
-  status: PropTypes.string,
-  downloaded: PropTypes.number,
-  size: PropTypes.number,
-};
+import DownloadProgress from './components/DownloadProgress';
 
 function FolderButton({ element }) {
   if (element.status !== 'completed') return null;
@@ -138,7 +125,7 @@ function PopupView() {
                 }}
               >
                 <div className="text">{parseName(el.name)}</div>
-                <OptProgress status={el.status} downloaded={el.downloaded} size={el.size} />
+                <DownloadProgress status={el.status} downloaded={el.downloaded} size={el.size} />
               </div>
               <div
                 style={{

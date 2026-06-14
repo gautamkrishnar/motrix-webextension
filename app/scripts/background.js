@@ -150,6 +150,7 @@ export async function createMenuItem() {
 async function init() {
   await settingsCache.init();
   await downloadStore.init();
+  await downloadStore.cleanupStale();
 
   syncAria2Config();
 

@@ -26,7 +26,13 @@ export function trackWithBrowser(downloadItem, store) {
       browser.downloads.onChanged.removeListener(listener);
       await store.upsert(downloadItem.id, { status: 'error' });
     } else if (delta.bytesReceived) {
-      await store.upsert(downloadItem.id, { downloaded: delta.bytesReceived.current });
+      const update = { downloaded: delta.bytesReceived.current };
+      if (delta.totalBytes?.current > 0) {
+        update.size = delta.totalBytes.current;
+      }
+      await store.upsert(downloadItem.id, update);
+    } else if (delta.totalBytes?.current > 0) {
+      await store.upsert(downloadItem.id, { size: delta.totalBytes.current });
     } else if (delta.filename?.current && !path.out) {
       const resolved = parsePath(delta.filename.current);
       await store.upsert(downloadItem.id, { name: resolved.out, path: resolved.dir });

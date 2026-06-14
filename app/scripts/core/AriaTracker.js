@@ -10,10 +10,13 @@ function setExtensionIcon(filename) {
   }
 }
 
+const MAX_POLL_FAILURES = 3;
+
 export function trackWithAria2(gid, browserDownloadId, store, aria2Service) {
   let cancelled = false;
   let polling = false;
   let progressInterval = null;
+  let consecutiveFailures = 0;
 
   const cleanup = () => {
     cancelled = true;
@@ -28,14 +31,23 @@ export function trackWithAria2(gid, browserDownloadId, store, aria2Service) {
     polling = true;
     try {
       const status = await aria2Service.getStatus(gid);
+      consecutiveFailures = 0;
       if (!cancelled) {
-        await store.upsert(browserDownloadId, {
-          downloaded: parseInt(status.completedLength, 10),
-          size: parseInt(status.totalLength, 10),
-        });
+        const downloaded = parseInt(status.completedLength, 10);
+        const size = parseInt(status.totalLength, 10);
+        const update = {};
+        if (Number.isFinite(downloaded)) update.downloaded = downloaded;
+        if (Number.isFinite(size) && size > 0) update.size = size;
+        if (Object.keys(update).length > 0) {
+          await store.upsert(browserDownloadId, update);
+        }
       }
     } catch {
-      cleanup();
+      consecutiveFailures++;
+      if (consecutiveFailures >= MAX_POLL_FAILURES) {
+        cleanup();
+        await store.upsert(browserDownloadId, { status: 'error' });
+      }
     } finally {
       polling = false;
     }

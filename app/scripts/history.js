@@ -1,10 +1,11 @@
 'use strict';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Paper, IconButton, LinearProgress, Container } from '@mui/material';
+import { Grid, Paper, IconButton, Container } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import createThemed from './createThemed';
 import * as browser from 'webextension-polyfill';
+import DownloadProgress from './components/DownloadProgress';
 
 function HistoryView() {
   const [downloadHistory, setDownloadHistory] = useState([]);
@@ -48,7 +49,7 @@ function HistoryView() {
                 }}
               >
                 <div>{el.name ?? browser.i18n.getMessage('unknownFilename')}</div>
-                {el.status === 'downloading' ? el.downloaded != null && el.size > 0 ? <LinearProgress style={{ margin: '4px' }} variant="determinate" value={Math.min((el.downloaded * 100) / el.size, 100)} /> : <LinearProgress style={{ margin: '4px' }} /> : null}
+                <DownloadProgress status={el.status} downloaded={el.downloaded} size={el.size} />
               </div>
               <div
                 style={{
