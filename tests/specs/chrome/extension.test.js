@@ -461,9 +461,7 @@ test.describe('Fallback Behaviour', () => {
   test('browser downloads file when Aria2 is unreachable and fallback is enabled', async () => {
     await configureExtension({ motrixPort: 19_999, downloadFallback: true });
 
-    // We verify the fallback via chrome.downloads API rather than the filesystem,
-    // because Chrome for Testing may route downloads to ~/Downloads regardless
-    // of the profile Preferences setting.
+    // We verify the fallback via chrome.downloads API and the filesystem.
     const configPage = await context.newPage();
     await configPage.goto(`chrome-extension://${extensionId}/pages/config.html`, {
       waitUntil: 'domcontentloaded',
@@ -479,13 +477,17 @@ test.describe('Fallback Behaviour', () => {
     const page = await openFileServerPage();
     await page.click('#mini-download');
 
-    // Wait for the download entry to appear in chrome.downloads (fallback resumed)
+    // Wait for the fallback download to complete (not just appear).
+    // chrome.downloads.search returns entries as soon as Chrome creates them —
+    // before the extension pauses, tries Aria2, and resumes.  Checking only for
+    // existence can race ahead of the actual file landing on disk.
     await waitFor(async () => {
-      const count = await configPage.evaluate(
-        (url) => new Promise((r) => chrome.downloads.search({ url }, (res) => r(res.length))),
+      const completed = await configPage.evaluate(
+        (url) => new Promise((r) =>
+          chrome.downloads.search({ url, state: 'complete' }, (res) => r(res.length))),
         miniUrl
       );
-      return count > countBefore;
+      return completed > countBefore;
     }, 30_000, 300);
 
     // Aria2 was unreachable — no addUri should have reached the mock
@@ -493,11 +495,10 @@ test.describe('Fallback Behaviour', () => {
     // Browser took over — a file should have landed in the download dir
     expect(countDownloads()).toBeGreaterThan(0);
 
-    // Cancel the lingering browser download
+    // Clean up completed download entries
     await configPage.evaluate(async (url) => {
       const items = await new Promise((r) => chrome.downloads.search({ url }, r));
-      for (const { id, state } of items) {
-        if (state === 'in_progress') await chrome.downloads.cancel(id).catch(() => {});
+      for (const { id } of items) {
         await chrome.downloads.erase({ id }).catch(() => {});
       }
     }, miniUrl);
