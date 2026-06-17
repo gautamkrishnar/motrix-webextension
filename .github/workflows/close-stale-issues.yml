@@ -1,0 +1,40 @@
+name: Close stale issues
+
+on:
+  schedule:
+    - cron: '23 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v10
+        with:
+          days-before-stale: 90
+          days-before-close: 7
+          stale-issue-label: stale
+          exempt-issue-labels: enhancement,help wanted,in-progress
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has not had
+            recent activity. The extension has received significant updates recently
+            including a full Manifest V3 rewrite. Please update to the latest version
+            and check if this issue still exists. If the problem persists, please open
+            a new issue with updated details. This issue will be closed in 7 days if
+            no further activity occurs.
+          close-issue-message: >
+            This issue has been automatically closed due to inactivity. If you are
+            still experiencing this problem with the latest version of the extension,
+            please open a new issue.
+          stale-pr-message: >
+            This pull request has been automatically marked as stale because it has
+            not had recent activity. It will be closed in 7 days if no further
+            activity occurs.
+          days-before-pr-stale: 90
+          days-before-pr-close: 7
+          stale-pr-label: stale
+          operations-per-run: 200
