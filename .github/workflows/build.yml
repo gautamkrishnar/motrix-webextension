@@ -61,12 +61,28 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      # Cache Playwright browser binaries (~600MB) to speed up CI runs.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-chromium-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            playwright-browsers-${{ runner.os }}-chromium-
+
       # Install Playwright's "Chrome for Testing" binary (chromium channel).
       # Unlike system Chrome stable, Chrome for Testing allows unpacked
       # extensions to register service workers via --load-extension.
       # --with-deps also installs all required Linux system libraries.
       - name: Install Playwright Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+
+      # On cache hit, still install system-level dependencies (libs, fonts, etc.)
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
 
       - name: Download Chrome extension build
         uses: actions/download-artifact@v8
@@ -82,6 +98,22 @@ jobs:
         uses: test-summary/action@v2
         with:
           paths: test-results/junit.xml
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-chrome
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-chrome
+          path: test-results/
+          retention-days: 7
 
   # ── 3. E2E tests — Firefox ─────────────────────────────────────────────────
   e2e-firefox:
@@ -103,8 +135,24 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      # Cache Playwright browser binaries (~600MB) to speed up CI runs.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-firefox-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            playwright-browsers-${{ runner.os }}-firefox-
+
       - name: Install Playwright Firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps firefox
+
+      # On cache hit, still install system-level dependencies (libs, fonts, etc.)
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps firefox
 
       - name: Download Firefox extension build
         uses: actions/download-artifact@v8
@@ -120,3 +168,19 @@ jobs:
         uses: test-summary/action@v2
         with:
           paths: test-results/junit.xml
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-firefox
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-firefox
+          path: test-results/
+          retention-days: 7

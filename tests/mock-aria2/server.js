@@ -73,6 +73,17 @@ class MockAria2Server {
   }
 
   /**
+   * Return a snapshot of the server's internal state for debugging.
+   */
+  getState() {
+    return {
+      calls: Object.fromEntries(this.#calls),
+      downloads: Object.fromEntries(this.#downloads),
+      rejectingConnections: this.#rejectConnections,
+    };
+  }
+
+  /**
    * When true, new WebSocket connections are immediately rejected.
    * Useful for simulating Aria2 being unreachable.
    */

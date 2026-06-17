@@ -5,22 +5,22 @@ const { defineConfig } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests/specs',
 
-  // 2-minute budget per test (extension interception + Aria2 round-trip can be slow)
   timeout: 120_000,
 
-  // Mock servers bind to fixed ports — run one file at a time to avoid conflicts.
-  workers: 1,
+  // Dynamic port allocation per worker (see fixtures/chrome-extension.js)
+  // allows parallel execution across test files.
+  // Tests within a file run sequentially (they share mock state).
+  workers: process.env.CI ? 2 : 4,
   fullyParallel: false,
-  retries: 0,
+  retries: process.env.CI ? 1 : 0,
 
   reporter: [
     ['list'],
-    // Native GitHub Actions annotations when running in CI
-    ...(process.env.CI ? [['github']] : []),
-    // JUnit XML consumed by test-summary/action in the workflow
-    ['junit', { outputFile: 'test-results/junit.xml' }],
-    // HTML report for local debugging (separate dir to avoid clashing with JUnit)
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ...(process.env.CI ? [
+      ['github'],
+      ['junit', { outputFile: 'test-results/junit.xml' }],
+      ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ] : []),
   ],
 
   projects: [

@@ -14,7 +14,7 @@ const DOWNLOAD_DIR = path.resolve(__dirname, '../downloads');
 function cleanupDownloads() {
   if (!fs.existsSync(DOWNLOAD_DIR)) return;
   for (const file of fs.readdirSync(DOWNLOAD_DIR)) {
-    fs.rmSync(path.join(DOWNLOAD_DIR, file), { force: true });
+    fs.rmSync(path.join(DOWNLOAD_DIR, file), { recursive: true, force: true });
   }
 }
 
@@ -22,7 +22,7 @@ function cleanupDownloads() {
  * Poll `condition` until it returns truthy or the timeout elapses.
  * Use this to wait for async side-effects (e.g. mock server receiving a call).
  */
-async function waitFor(condition, timeoutMs = 20_000, intervalMs = 200) {
+async function waitFor(condition, timeoutMs = 20_000, intervalMs = 200, description = '') {
   const deadline = Date.now() + timeoutMs;
   let lastErr;
   while (Date.now() < deadline) {
@@ -35,7 +35,7 @@ async function waitFor(condition, timeoutMs = 20_000, intervalMs = 200) {
     await new Promise((r) => setTimeout(r, intervalMs));
   }
   throw new Error(
-    `waitFor timed out after ${timeoutMs} ms` +
+    `waitFor${description ? `(${description})` : ''} timed out after ${timeoutMs} ms` +
       (lastErr ? `: ${lastErr.message}` : '')
   );
 }
