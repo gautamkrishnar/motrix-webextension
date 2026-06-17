@@ -7,6 +7,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import HistoryIcon from '@mui/icons-material/History';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import createThemed from './createThemed';
 import PropTypes from 'prop-types';
 import * as browser from 'webextension-polyfill';
@@ -113,7 +114,7 @@ function PopupView() {
                   justifyContent: 'center',
                 }}
               >
-                <img src={el.icon ?? ''} alt="icon" />
+                {el.icon ? <img src={el.icon} alt="icon" /> : <InsertDriveFileIcon />}
               </div>
               <div
                 style={{

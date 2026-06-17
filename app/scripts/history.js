@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Paper, IconButton, Container } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import createThemed from './createThemed';
 import * as browser from 'webextension-polyfill';
 import DownloadProgress from './components/DownloadProgress';
@@ -37,7 +38,7 @@ function HistoryView() {
                   justifyContent: 'center',
                 }}
               >
-                <img src={el.icon ?? ''} alt="icon" />
+                {el.icon ? <img src={el.icon} alt="icon" /> : <InsertDriveFileIcon />}
               </div>
               <div
                 style={{
