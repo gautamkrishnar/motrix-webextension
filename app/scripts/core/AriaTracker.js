@@ -1,13 +1,8 @@
 import * as browser from 'webextension-polyfill';
-import { isFirefox } from '../utils';
 
 function setExtensionIcon(filename) {
   const path = browser.runtime.getURL(`images/${filename}`);
-  if (isFirefox) {
-    browser.browserAction.setIcon({ path });
-  } else {
-    browser.action.setIcon({ path });
-  }
+  browser.action.setIcon({ path });
 }
 
 const MAX_POLL_FAILURES = 3;

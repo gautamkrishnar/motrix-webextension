@@ -13,7 +13,7 @@
  * Firefox behaviour with web-ext:
  *   • Extension loads in Firefox without console errors
  *   • Background script initializes (no crash)
- *   • MV2 manifest is accepted by Firefox (no parse errors)
+ *   • MV3 manifest is accepted by Firefox (no parse errors)
  *
  * Full Firefox behavioural e2e (download interception, settings, etc.) will
  * be added once Playwright exposes Firefox extension contexts.
@@ -49,13 +49,17 @@ test.describe('Firefox Extension Smoke Tests (web-ext)', () => {
     expect(fs.existsSync(manifestPath)).toBe(true);
 
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-    expect(manifest.manifest_version).toBe(2);
+    expect(manifest.manifest_version).toBe(3);
     expect(manifest.browser_specific_settings?.gecko?.id).toBe(
       '{9ce99d37-4a5e-409a-a04b-0f3f50491bc7}'
     );
     expect(manifest.background?.scripts).toContain('scripts/background.js');
+    expect(manifest.action).toBeDefined();
+    expect(manifest.browser_action).toBeUndefined();
+    expect(manifest.host_permissions).toContain('<all_urls>');
     expect(manifest.permissions).toContain('downloads');
     expect(manifest.permissions).toContain('storage');
+    expect(manifest.permissions).not.toContain('downloads.shelf');
   });
 
   test('web-ext lint passes with zero errors', async () => {

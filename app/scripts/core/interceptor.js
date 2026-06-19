@@ -20,8 +20,8 @@ export function shouldIntercept(downloadItem, settings) {
 export async function waitForFilename(downloadId, timeoutMs = 30000) {
   const [existing] = await browser.downloads.search({ id: downloadId });
   if (!existing) throw new Error(`Download ${downloadId} not found`);
-  if (existing.state === 'interrupted') throw new Error(`Download ${downloadId} was already cancelled`);
   if (existing.filename) return existing.filename;
+  if (existing.state === 'interrupted') throw new Error(`Download ${downloadId} was already cancelled`);
 
   return new Promise((resolve, reject) => {
     const cleanup = () => {

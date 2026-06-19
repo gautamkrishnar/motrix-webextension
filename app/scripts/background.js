@@ -95,10 +95,13 @@ async function handleDownload(downloadItem) {
       const [gid, icon] = await Promise.all([aria2Service.addUri(downloadUrl, params), browser.downloads.getFileIcon(downloadItem.id).catch(() => '')]);
       browser.storage.local.set({ motrixReachable: true }).catch(() => {});
 
-      // Mark before erasing so onErased doesn't delete the store entry
+      // Mark before erasing so onErased doesn't delete the store entry.
+      // Erase first to remove from Firefox's download panel before the
+      // cancel transitions the entry to "cancelled" state (Bug: Firefox
+      // won't erase an entry that was already cancelled by the time erase runs).
       redirectedToAria.add(downloadItem.id);
-      await browser.downloads.cancel(downloadItem.id).catch(() => {});
       await browser.downloads.erase({ id: downloadItem.id }).catch(() => {});
+      await browser.downloads.cancel(downloadItem.id).catch(() => {});
 
       await downloadStore.upsert(downloadItem.id, {
         ariaGid: gid,
@@ -122,8 +125,8 @@ async function handleDownload(downloadItem) {
         trackWithBrowser(downloadItem, downloadStore);
       } else {
         redirectedToAria.add(downloadItem.id);
-        await browser.downloads.cancel(downloadItem.id).catch(() => {});
         await browser.downloads.erase({ id: downloadItem.id }).catch(() => {});
+        await browser.downloads.cancel(downloadItem.id).catch(() => {});
         await downloadStore.delete(downloadItem.id);
       }
     }

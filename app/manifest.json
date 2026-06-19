@@ -12,7 +12,6 @@
     }
   },
   "manifest_version": 3,
-  "__firefox__manifest_version": 2,
   "default_locale": "en",
   "homepage_url": "https://github.com/gautamkrishnar/motrix-webextension",
   "icons": {
@@ -24,15 +23,13 @@
   "background": {
     "service_worker": "scripts/background.js"
   },
-  "__firefox__background":{
-    "scripts": ["scripts/background.js"],
-    "persistent": true
-},
-  "__chrome__content_security_policy": {
+  "__firefox__background": {
+    "scripts": ["scripts/background.js"]
+  },
+  "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "__firefox__content_security_policy": "script-src 'self'; object-src 'self'",
-  "__chrome__action": {
+  "action": {
     "default_icon": {
       "16": "images/16.png",
       "32": "images/32.png",
@@ -42,19 +39,8 @@
     "default_title": "__MSG_browserActionTitle__",
     "default_popup": "pages/popup.html"
   },
-  "__firefox__browser_action": {
-    "browser_style": true,
-    "default_icon": {
-      "16": "images/16.png",
-      "32": "images/32.png",
-      "48": "images/48.png",
-      "128": "images/128.png"
-    },
-    "default_title": "__MSG_browserActionTitle__",
-    "default_popup": "pages/popup.html"
-  },
-  "__chrome__web_accessible_resources": [{
-    "resources": ["images/*", "scripts/*",  "styles/*"],
+  "web_accessible_resources": [{
+    "resources": ["images/*", "scripts/*", "styles/*"],
     "matches": ["<all_urls>"]
   }],
   "permissions": [
@@ -72,7 +58,7 @@
     "contextMenus",
     "cookies"
   ],
-  "__chrome__host_permissions": [
+  "host_permissions": [
     "<all_urls>"
   ]
 }
