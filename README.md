@@ -79,5 +79,12 @@ Special thanks to these amazing people
   <img src="https://contrib.rocks/image?repo=gautamkrishnar/motrix-webextension" />
 </a>
 
+## Sponsors
+*  Thanks [Greptile]([https://greptile.com/](https://www.greptile.com/?utm_source=oss_badge&utm_medium=readme&utm_campaign=greptile_for_open_source) for sponsoring AI reviews:
+
+ <a href="https://www.greptile.com/?utm_source=oss_badge&utm_medium=readme&utm_campaign=greptile_for_open_source" target="_blank">
+ <img alt="tutanota.com" src="https://www.greptile.com/badge.svg" width="300">
+ </a>
+
 ### Liked it?
 Hope you liked this project, don't forget to give it a star ⭐
