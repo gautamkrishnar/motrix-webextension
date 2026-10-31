@@ -37,6 +37,15 @@ function syncAria2Config() {
   });
 }
 
+// Firefox's erase() only removes the list entry and leaves an in-progress transfer running
+// (the browser then downloads the file a second time, or leaves a .part file). Cancel first so
+// the transfer really stops, drop any partial file, and only then erase the entry.
+async function dropBrowserDownload(id) {
+  await browser.downloads.cancel(id).catch(() => {});
+  if (browser.downloads.removeFile) await browser.downloads.removeFile(id).catch(() => {});
+  await browser.downloads.erase({ id }).catch(() => {});
+}
+
 async function handleDownload(downloadItem) {
   await ensureInitialized();
 
@@ -96,12 +105,8 @@ async function handleDownload(downloadItem) {
       browser.storage.local.set({ motrixReachable: true }).catch(() => {});
 
       // Mark before erasing so onErased doesn't delete the store entry.
-      // Erase first to remove from Firefox's download panel before the
-      // cancel transitions the entry to "cancelled" state (Bug: Firefox
-      // won't erase an entry that was already cancelled by the time erase runs).
       redirectedToAria.add(downloadItem.id);
-      await browser.downloads.erase({ id: downloadItem.id }).catch(() => {});
-      await browser.downloads.cancel(downloadItem.id).catch(() => {});
+      await dropBrowserDownload(downloadItem.id);
 
       await downloadStore.upsert(downloadItem.id, {
         ariaGid: gid,
@@ -125,8 +130,7 @@ async function handleDownload(downloadItem) {
         trackWithBrowser(downloadItem, downloadStore);
       } else {
         redirectedToAria.add(downloadItem.id);
-        await browser.downloads.erase({ id: downloadItem.id }).catch(() => {});
-        await browser.downloads.cancel(downloadItem.id).catch(() => {});
+        await dropBrowserDownload(downloadItem.id);
         await downloadStore.delete(downloadItem.id);
       }
     }
