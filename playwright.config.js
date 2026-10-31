@@ -25,6 +25,10 @@ module.exports = defineConfig({
 
   projects: [
     {
+      name: 'unit',
+      testMatch: '**/unit/**/*.test.js',
+    },
+    {
       name: 'chrome',
       testMatch: '**/chrome/**/*.test.js',
       // Chrome binary is specified via executablePath in the test's beforeAll.

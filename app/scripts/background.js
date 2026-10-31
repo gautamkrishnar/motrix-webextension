@@ -6,6 +6,7 @@ import { notify } from './services/NotificationService';
 import { shouldIntercept, waitForFilename } from './core/interceptor';
 import { trackWithAria2 } from './core/AriaTracker';
 import { trackWithBrowser } from './core/BrowserTracker';
+import { dropDownload } from './core/dropDownload.mjs';
 import { parsePath } from './utils';
 
 // Defined at module level so removeListener works correctly across createMenuItem() calls
@@ -35,15 +36,6 @@ function syncAria2Config() {
     secret: settingsCache.get('motrixAPIkey') ?? '',
     path: '/jsonrpc',
   });
-}
-
-// Firefox's erase() only removes the list entry and leaves an in-progress transfer running
-// (the browser then downloads the file a second time, or leaves a .part file). Cancel first so
-// the transfer really stops, drop any partial file, and only then erase the entry.
-async function dropBrowserDownload(id) {
-  await browser.downloads.cancel(id).catch(() => {});
-  if (browser.downloads.removeFile) await browser.downloads.removeFile(id).catch(() => {});
-  await browser.downloads.erase({ id }).catch(() => {});
 }
 
 async function handleDownload(downloadItem) {
@@ -106,7 +98,7 @@ async function handleDownload(downloadItem) {
 
       // Mark before erasing so onErased doesn't delete the store entry.
       redirectedToAria.add(downloadItem.id);
-      await dropBrowserDownload(downloadItem.id);
+      await dropDownload(browser.downloads, downloadItem.id);
 
       await downloadStore.upsert(downloadItem.id, {
         ariaGid: gid,
@@ -130,7 +122,7 @@ async function handleDownload(downloadItem) {
         trackWithBrowser(downloadItem, downloadStore);
       } else {
         redirectedToAria.add(downloadItem.id);
-        await dropBrowserDownload(downloadItem.id);
+        await dropDownload(browser.downloads, downloadItem.id);
         await downloadStore.delete(downloadItem.id);
       }
     }
