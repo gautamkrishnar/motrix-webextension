@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "^1.65.0",
     "@types/webextension-polyfill": "^0.12.5",
     "@webextension-toolbox/webextension-toolbox": "^7.1.1",
     "eslint": "^8",
