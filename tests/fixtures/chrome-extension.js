@@ -30,7 +30,12 @@ function makeDefaultSettings(aria2Port) {
 
 function countDownloadsIn(dir) {
   if (!fs.existsSync(dir)) return 0;
-  return fs.readdirSync(dir).filter((f) => !f.startsWith('.')).length;
+  // Ignore dotfiles and Chrome's in-progress partial files (foo.crdownload / foo.part).
+  // A partial temp and its final file briefly coexist, which would otherwise double-count
+  // a single download and make the count-based assertions flaky.
+  return fs
+    .readdirSync(dir)
+    .filter((f) => !f.startsWith('.') && !f.endsWith('.crdownload') && !f.endsWith('.part')).length;
 }
 
 function cleanupDir(dir) {
@@ -38,6 +43,28 @@ function cleanupDir(dir) {
   for (const file of fs.readdirSync(dir)) {
     fs.rmSync(path.join(dir, file), { force: true });
   }
+}
+
+// Runs INSIDE the extension service worker. The extension's settingsCache updates
+// asynchronously via a storage.onChanged listener, so a download clicked right after
+// chrome.storage.sync.set() can be handled with stale settings. This mirrors the applied
+// sync settings into self.__appliedSettings: this listener and settingsCache's listener
+// run within the same synchronous onChanged dispatch, so once __appliedSettings reflects a
+// change the cache has too. Idempotent, and re-seeds from storage because the mirror is
+// lost whenever the MV3 service worker restarts.
+function installSettingsMirror() {
+  if (!self.__settingsMirrorReady) {
+    self.__settingsMirrorReady = true;
+    self.__appliedSettings = {};
+    chrome.storage.sync.get(null, (all) => Object.assign(self.__appliedSettings, all));
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area !== 'sync') return;
+      for (const key of Object.keys(changes)) {
+        self.__appliedSettings[key] = changes[key].newValue;
+      }
+    });
+  }
+  return self.__appliedSettings;
 }
 
 const test = base.extend({
@@ -92,7 +119,8 @@ const test = base.extend({
     if (!sw) sw = await context.waitForEvent('serviceworker');
     const extensionId = sw.url().split('/')[2];
 
-    // Suppress notifications and Finder-opening APIs in the service worker
+    // Suppress notifications and Finder-opening APIs in the service worker, and
+    // install a mirror of the applied sync settings (see installSettingsMirror).
     await sw.evaluate(() => {
       if (self.chrome?.notifications) {
         self.chrome.notifications.create = (_id, _opts, cb) => {
@@ -107,6 +135,7 @@ const test = base.extend({
         self.chrome.downloads.show = () => Promise.resolve();
       }
     });
+    await sw.evaluate(installSettingsMirror);
 
     // Persistent helper page for storage operations
     const helperPage = await context.newPage();
@@ -128,8 +157,22 @@ const test = base.extend({
       downloadDir,
       defaults,
 
+      // Wait until the service worker's settings cache has applied the given values, so a
+      // subsequent download isn't handled with stale settings. Self-heals the mirror if the
+      // MV3 service worker restarted and dropped it.
+      async waitForSettingsApplied(expected) {
+        await waitFor(async () => {
+          const liveSw = context.serviceWorkers()[0] || sw;
+          const applied = await liveSw.evaluate(installSettingsMirror);
+          return Object.entries(expected).every(
+            ([k, v]) => JSON.stringify(applied?.[k]) === JSON.stringify(v)
+          );
+        }, 5_000, 50, 'service worker to apply settings');
+      },
+
       async configureExtension(settings) {
         await helperPage.evaluate(async (s) => { await chrome.storage.sync.set(s); }, settings);
+        await this.waitForSettingsApplied(settings);
       },
 
       async readSetting(key) {
@@ -150,13 +193,27 @@ const test = base.extend({
         await helperPage.evaluate((o) => chrome.storage.local.set(o), obj);
       },
 
+      // Wait until the extension has finished processing any download still in flight. An
+      // intercepted download is held paused (state 'in_progress') while the extension resolves
+      // its filename and sends it to aria2, so waiting for no in-progress downloads ensures a
+      // previous test's addUri has already been sent — it can't bleed into the next test.
+      async waitForDownloadsIdle(timeoutMs = 4000) {
+        await waitFor(async () => {
+          const n = await helperPage.evaluate(
+            () => new Promise((r) => chrome.downloads.search({ state: 'in_progress' }, (res) => r(res.length)))
+          );
+          return n === 0;
+        }, timeoutMs, 100, 'browser downloads to be idle').catch(() => {});
+      },
+
       async cancelPendingBrowserDownloads() {
         await helperPage.evaluate(async () => {
-          const items = await new Promise((r) =>
-            chrome.downloads.search({ state: 'in_progress' }, r)
-          );
+          // Cancel/remove every download in any state so no in-flight transfer from a
+          // previous test can finalize a file into the shared download dir afterwards.
+          const items = await new Promise((r) => chrome.downloads.search({}, r));
           for (const { id } of items) {
             await chrome.downloads.cancel(id).catch(() => {});
+            if (chrome.downloads.removeFile) await chrome.downloads.removeFile(id).catch(() => {});
             await chrome.downloads.erase({ id }).catch(() => {});
           }
         });
@@ -172,6 +229,7 @@ const test = base.extend({
 
       async restoreDefaults() {
         await helperPage.evaluate(async (s) => { await chrome.storage.sync.set(s); }, defaults);
+        await this.waitForSettingsApplied(defaults);
       },
 
       countDownloads() {
@@ -192,6 +250,10 @@ const test = base.extend({
 
 // Auto-cleanup before each test
 test.beforeEach(async ({ ext }) => {
+  // Let any in-flight interception from the previous test finish (the extension holds the item
+  // paused while it resolves the filename and sends it to aria2) before clearing state, so a
+  // late addUri / downloaded file is less likely to leak into this test's assertions.
+  await ext.waitForDownloadsIdle();
   await ext.cancelPendingBrowserDownloads();
   ext.mockAria2.reset();
   cleanupDir(ext.downloadDir);
