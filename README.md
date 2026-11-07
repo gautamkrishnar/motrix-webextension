@@ -1,4 +1,7 @@
 # Motrix WebExtension
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This WebExtension allows you to automatically download all the files via [Motrix Download Manager](https://motrix.app/) instead of your browser's native download manager.
 
@@ -88,3 +91,25 @@ Special thanks to these amazing people
 
 ### Liked it?
 Hope you liked this project, don't forget to give it a star ⭐
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aayush2622"><img src="https://avatars.githubusercontent.com/u/99584765?v=4?s=100" width="100px;" alt="aayush262"/><br /><sub><b>aayush262</b></sub></a><br /><a href="https://github.com/gautamkrishnar/motrix-webextension/commits?author=aayush2622" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
