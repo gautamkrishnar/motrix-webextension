@@ -7,6 +7,7 @@
     "build": "webextension-toolbox build",
     "lint": "eslint --fix app",
     "test": "playwright test --project=chrome",
+    "test:unit": "playwright test --project=unit",
     "test:firefox": "playwright test --project=firefox",
     "test:all": "playwright test"
   },

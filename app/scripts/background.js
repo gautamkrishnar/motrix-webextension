@@ -6,6 +6,7 @@ import { notify } from './services/NotificationService';
 import { shouldIntercept, waitForFilename } from './core/interceptor';
 import { trackWithAria2 } from './core/AriaTracker';
 import { trackWithBrowser } from './core/BrowserTracker';
+import { dropDownload } from './core/dropDownload.mjs';
 import { parsePath } from './utils';
 
 // Defined at module level so removeListener works correctly across createMenuItem() calls
@@ -96,12 +97,8 @@ async function handleDownload(downloadItem) {
       browser.storage.local.set({ motrixReachable: true }).catch(() => {});
 
       // Mark before erasing so onErased doesn't delete the store entry.
-      // Erase first to remove from Firefox's download panel before the
-      // cancel transitions the entry to "cancelled" state (Bug: Firefox
-      // won't erase an entry that was already cancelled by the time erase runs).
       redirectedToAria.add(downloadItem.id);
-      await browser.downloads.erase({ id: downloadItem.id }).catch(() => {});
-      await browser.downloads.cancel(downloadItem.id).catch(() => {});
+      await dropDownload(browser.downloads, downloadItem.id);
 
       await downloadStore.upsert(downloadItem.id, {
         ariaGid: gid,
@@ -125,8 +122,7 @@ async function handleDownload(downloadItem) {
         trackWithBrowser(downloadItem, downloadStore);
       } else {
         redirectedToAria.add(downloadItem.id);
-        await browser.downloads.erase({ id: downloadItem.id }).catch(() => {});
-        await browser.downloads.cancel(downloadItem.id).catch(() => {});
+        await dropDownload(browser.downloads, downloadItem.id);
         await downloadStore.delete(downloadItem.id);
       }
     }
